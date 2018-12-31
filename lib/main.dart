@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mobileclient/ui/welcome/WelcomePage.dart';
+import 'package:flutter/rendering.dart';
 
-void main() => runApp(MyApp());
+void main(){ 
+  debugPaintSizeEnabled         = false;
+  debugPaintBaselinesEnabled    = false;
+  debugPaintLayerBordersEnabled = false;
+  
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -13,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        appBar: AppBar(title: Text("rotor client")),
+        appBar: AppBar(title: Text("rotor.ai")),
         body: WelcomePage(),
       )
     );

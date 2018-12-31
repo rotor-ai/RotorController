@@ -10,12 +10,12 @@ class WelcomePage extends StatefulWidget {
 class WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child:ListView.builder(itemBuilder: (BuildContext context, int index) {
-        ListTile(title: Text("Some device"),);
-      },
-      itemCount: 1,
-      )
-    );
+    return Column(children: <Widget>[
+      Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+        alignment: Alignment.center,
+        child: Text("Connect to a vehicle", textScaleFactor: 1.75,))
+      
+    ]);
   }
 }
