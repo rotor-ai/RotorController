@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobileclient/ui/welcome/WelcomePage.dart';
 import 'package:flutter/rendering.dart';
 
-void main(){ 
+void main(){
   debugPaintSizeEnabled         = false;
   debugPaintBaselinesEnabled    = false;
   debugPaintLayerBordersEnabled = false;
@@ -11,18 +11,16 @@ void main(){
 }
 
 class MyApp extends StatelessWidget {
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue
       ),
-      home: Scaffold(
-        appBar: AppBar(title: Text("rotor.ai")),
-        body: WelcomePage(),
-      )
+      home: WelcomePage()
     );
   }
 }
