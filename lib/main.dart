@@ -12,14 +12,15 @@ void main(){
 
 class MyApp extends StatelessWidget {
 
+  var _rotorAppTheme = ThemeData.dark();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue
-      ),
+      theme: _rotorAppTheme,
       home: WelcomePage()
     );
   }
