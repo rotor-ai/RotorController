@@ -12,7 +12,10 @@ void main(){
 
 class MyApp extends StatelessWidget {
 
-  var _rotorAppTheme = ThemeData.dark();
+  var _rotorAppTheme = ThemeData.dark().copyWith(
+    primaryColor: Colors.blue.shade500,
+    accentColor: Colors.blue.shade300
+  );
 
   // This widget is the root of your application.
   @override
