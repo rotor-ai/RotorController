@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mobileclient/data/GenericBTDevice.dart';
-import 'package:mobileclient/ui/devicelist/DeviceListPage.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
 class DeviceListPageContent extends StatefulWidget {
@@ -18,24 +16,27 @@ class DeviceListPageContent extends StatefulWidget {
 class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   var _devices = <GenericBTDevice>[];
-  FlutterBlue _flutterBlue;
+  FlutterBlue _flutterBlue = FlutterBlue.instance;
+  bool _bluetoothIsSupported = true;
 
   DeviceListPageContentState(List<GenericBTDevice> initialDevices){
     _devices.addAll(initialDevices);
-
-    _flutterBlue = FlutterBlue.instance;
-
-    _flutterBlue.isAvailable.then((bool value) => debugPrint("Bluetooth status: " + (value ? "true" : "false")));
+    _flutterBlue.isAvailable.then(
+        (bool value) {
+          setState(() {
+            _bluetoothIsSupported = false;
+          });
+          debugPrint("Bluetooth status: " + (value ? "true" : "false"));
+        });
   }
 
   @override
   Widget build(BuildContext context) {
 
-    // var _scan = _flutterBlue.scan().listen((result) {
-    //   print("lol we found something");
-    // });
+    //TODO Add some sort of "no bluetooth" indicator.
 
-    return ListView.builder(
+    return
+        ListView.builder(
           itemBuilder: (BuildContext c, int i) { return buildRow(c, i); },
           itemCount: _devices.length,);
   }

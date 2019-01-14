@@ -7,10 +7,11 @@ void main(){
   debugPaintBaselinesEnabled    = false;
   debugPaintLayerBordersEnabled = false;
   
-  runApp(MyApp());
+  runApp(RotorApp());
 }
 
-class MyApp extends StatelessWidget {
+// ignore: must_be_immutable
+class RotorApp extends StatelessWidget {
 
   var _rotorAppTheme = ThemeData.dark().copyWith(
     primaryColor: Colors.blue.shade500,
