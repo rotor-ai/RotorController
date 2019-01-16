@@ -8,6 +8,15 @@ class DeviceListPageContent extends StatefulWidget {
   State<StatefulWidget> createState() {
     return DeviceListPageContentState([
       GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
+      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
+      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
+      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
+      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
+      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
+      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
+      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
+      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
+
       GenericBTDevice("Some Other Device", "01:02:03:04:05:06", "4a14c657-e073-4432-a633-487233362fb2")
     ]);
   }
@@ -15,12 +24,11 @@ class DeviceListPageContent extends StatefulWidget {
 
 class DeviceListPageContentState extends State<DeviceListPageContent> {
 
-  var _devices = <GenericBTDevice>[];
+  final List<GenericBTDevice> _devices;
   FlutterBlue _flutterBlue = FlutterBlue.instance;
   bool _bluetoothIsSupported = true;
 
-  DeviceListPageContentState(List<GenericBTDevice> initialDevices){
-    _devices.addAll(initialDevices);
+  DeviceListPageContentState(this._devices){
     _flutterBlue.isAvailable.then(
         (bool value) {
           setState(() {
@@ -33,12 +41,19 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   @override
   Widget build(BuildContext context) {
 
-    //TODO Add some sort of "no bluetooth" indicator.
+    List<Widget> widgetColumn = <Widget>[];
+
+//    if (!_bluetoothIsSupported){
+//      widgetColumn.add(Container(child: Text("Bluetooth not available :(", textScaleFactor: 1.25,), color: Colors.red),);
+//    }
+    widgetColumn.add(Expanded(
+        child: ListView.builder(
+          itemBuilder: (BuildContext c, int i) { return buildRow(c, i); },
+          itemCount: _devices.length,)
+    ));
 
     return
-        ListView.builder(
-          itemBuilder: (BuildContext c, int i) { return buildRow(c, i); },
-          itemCount: _devices.length,);
+        Column(children: widgetColumn);
   }
 
   Widget buildRow(BuildContext context, int index) {
