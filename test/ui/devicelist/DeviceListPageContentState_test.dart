@@ -10,12 +10,11 @@ void main() {
 
     test("Should test something about the state??? idk", () {
       var mockFlutterBlue = MockFlutterBlue();
-      when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+      when(mockFlutterBlue.isAvailable).thenAnswer((_) => Future.value());
       var state = DeviceListPageContentState(mockFlutterBlue);
 
     });
 }
-
 
 //========== Mock definitions ==========
 
