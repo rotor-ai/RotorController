@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:mobileclient/RotorStrings.dart';
-import 'package:mobileclient/data/GenericBTDevice.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
 class DeviceListPageContent extends StatefulWidget {
@@ -18,29 +17,26 @@ class DeviceListPageContent extends StatefulWidget {
 
 class DeviceListPageContentState extends State<DeviceListPageContent> {
 
-  List<GenericBTDevice> _devices = [VehicleSimulator()];
-  List<GenericBTDevice> get devices => _devices;
+  List<BluetoothDevice> _devices = [BluetoothDevice(id: DeviceIdentifier("00:00:00:00:00:00"), name: "Vehicle Simulator", type: BluetoothDeviceType.unknown)];
+  List<BluetoothDevice> get devices => _devices;
 
   FlutterBlue _flutterBlue = FlutterBlue.instance;
   bool _bluetoothIsSupported = true;
+  bool get bluetoothIsSupported => _bluetoothIsSupported;
 
   DeviceListPageContentState(this._flutterBlue){
 
     _flutterBlue.isAvailable.then((bool value) {
       if (this.mounted) {//this check allows us to unit test the state
-        setState(() {
-          _bluetoothIsSupported = value;
-        });
+        onIsAvailableResult(value);
       }
     });
 
     _flutterBlue.scan();
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     List<Widget> widgetColumn = <Widget>[];
 
     if (!_bluetoothIsSupported){
@@ -56,6 +52,18 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   }
 
   Widget _buildRow(BuildContext context, int index) {
-    return ListTile(title: Text(_devices[index].name), subtitle: Text(_devices[index].address),);
+    return ListTile(title: Text(_devices[index].name), subtitle: Text(_devices[index].id.id),);
   }
+
+  void onScanResultReceived(ScanResult sr) {
+
+  }
+
+  @visibleForTesting
+  void onIsAvailableResult(bool result) {
+    setState(() {
+      _bluetoothIsSupported = result;
+    });
+  }
+
 }

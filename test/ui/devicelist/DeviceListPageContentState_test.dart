@@ -1,23 +1,40 @@
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:mobileclient/data/GenericBTDevice.dart';
 import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 
 void main() {
 
-    var _sampleDevice = GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2");
-
-    test("State should call scan on setup", () {
+    test("Should call scan on state construction", () {
       var mockFlutterBlue = MockFlutterBlue();
-      var isAvailableFuture = Future.value(true);
-      when(mockFlutterBlue.isAvailable).thenAnswer((_) => isAvailableFuture);//stubbing this out
+      when(mockFlutterBlue.isAvailable).thenAnswer((_) => Future.value());//stubbing this out
       var state = DeviceListPageContentState(mockFlutterBlue);
 
       verify(mockFlutterBlue.scan());
     });
+
+//    test("Should collect relevant info from FlutterBlue.Scan", () {
+//      var mockFlutterBlue = MockFlutterBlue();
+//      when(mockFlutterBlue.isAvailable).thenAnswer((_) => Future.value());//stubbing this out
+//
+//      var mockBTDeviceAlpha = MockBluetoothDevice();
+//      when(mockBTDeviceAlpha.name).thenReturn("");
+//      when(mockBTDeviceAlpha.id).thenReturn(DeviceIdentifier("00:00:00:00:00:00"));
+//      when(mockBTDeviceAlpha.services)
+//
+//      var state = DeviceListPageContentState(mockFlutterBlue);
+//
+//      state.onScanResultReceived(ScanResult());
+//
+//      var expectedDevices = [
+//        GenericBTDevice("DeviceAlpha",    "00:00:00:00:00:00", "some_random_uuid_a"),
+//        GenericBTDevice("DeviceBravo",    "11:11:11:11:11:11", "some_random_uuid_b"),
+//      ];
+//
+//    });
 }
 
 //========== Mock definitions ==========
 
-class MockFlutterBlue extends Mock implements FlutterBlue {}
+class MockFlutterBlue       extends Mock implements FlutterBlue       {}
+class MockBluetoothDevice   extends Mock implements BluetoothDevice   {}
