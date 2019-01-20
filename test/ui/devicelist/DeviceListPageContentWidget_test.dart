@@ -56,8 +56,29 @@ void main() {
     expect(find.widgetWithText(ListTile, "Vehicle Simulator"), findsOneWidget);
   });
 
+  testWidgets('Should show real device on list', (WidgetTester tester) async {
+
+    //ARRANGE
+    var device = MockBluetoothDevice();
+    when(device.name).thenReturn("Stus awesome car");
+    when(device.id).thenReturn(DeviceIdentifier("12:34:56:78:90:12"));
+
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.scan()).thenAnswer((_) => Stream.fromFuture(Future.value(ScanResult(device: device))));
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: deviceListPageContent,)));
+    await tester.pumpAndSettle();
+
+    //ASSERT
+    expect(find.widgetWithText(ListTile, "Stus awesome car"), findsOneWidget);
+  });
+
 }
 
 //========== Mock definitions ==========
 
-class MockFlutterBlue extends Mock implements FlutterBlue {}
+class MockFlutterBlue       extends Mock implements FlutterBlue       {}
+class MockBluetoothDevice   extends Mock implements BluetoothDevice   {}
