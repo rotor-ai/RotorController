@@ -60,8 +60,11 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   @visibleForTesting
   void onScanResultReceived(ScanResult sr) {
-    if (sr.device.name != null && sr.device.name.isNotEmpty){
-      _discoveredDevices.add(sr.device);
+    if (sr.device.name != null && sr.device.name.isNotEmpty) {
+      var alreadyExistsInList = (_discoveredDevices.fold(0, (acc, device) => acc + ((sr.device.id.id == device.id.id) ? 1 : 0) )) > 0;
+      if (!alreadyExistsInList) {
+        _discoveredDevices.add(sr.device);
+      }
     }
   }
 
