@@ -8,11 +8,13 @@ void main() {
 
     var _sampleDevice = GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2");
 
-    test("Should test something about the state??? idk", () {
+    test("State should call scan on setup", () {
       var mockFlutterBlue = MockFlutterBlue();
-      when(mockFlutterBlue.isAvailable).thenAnswer((_) => Future.value());
+      var isAvailableFuture = Future.value(true);
+      when(mockFlutterBlue.isAvailable).thenAnswer((_) => isAvailableFuture);//stubbing this out
       var state = DeviceListPageContentState(mockFlutterBlue);
 
+      verify(mockFlutterBlue.scan());
     });
 }
 

@@ -19,18 +19,22 @@ class DeviceListPageContent extends StatefulWidget {
 class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   List<GenericBTDevice> _devices = [VehicleSimulator()];
+  List<GenericBTDevice> get devices => _devices;
+
   FlutterBlue _flutterBlue = FlutterBlue.instance;
   bool _bluetoothIsSupported = true;
 
   DeviceListPageContentState(this._flutterBlue){
 
     _flutterBlue.isAvailable.then((bool value) {
-      if (this.mounted){
+      if (this.mounted) {//this check allows us to unit test the state
         setState(() {
           _bluetoothIsSupported = value;
         });
       }
     });
+
+    _flutterBlue.scan();
 
   }
 
