@@ -14,7 +14,6 @@ void main() {
 
     test("Should call scan on state construction", () {
       var mockFlutterBlue = MockFlutterBlue();
-      when(mockFlutterBlue.isAvailable).thenAnswer((_) => Future.value());//stubbing this out
       var state = DeviceListPageContentState(mockFlutterBlue);
 
       verify(mockFlutterBlue.scan());
@@ -23,8 +22,6 @@ void main() {
     test("Should collect relevant info from FlutterBlue.Scan()", () {
       //ARRANGE
       var mockFlutterBlue = MockFlutterBlue();
-      when(mockFlutterBlue.isAvailable).thenAnswer((_) => Future.value());//stubbing this out
-      when(mockFlutterBlue.scan()).thenAnswer((_) => Stream.empty());
 
       var mockBTDeviceAlpha = _buildMockDevice("DeviceAlpha", "00:00:00:00:00:00");
       var mockBTDeviceBravo = _buildMockDevice("DeviceBravo", "11:11:11:11:11:11");

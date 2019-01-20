@@ -27,14 +27,8 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   DeviceListPageContentState(this._flutterBlue) {
     _discoveredDevices = [];
-
-    _flutterBlue.isAvailable.then((bool value) {
-      if (this.mounted) {//this check allows us to unit test the state
-        onIsAvailableResult(value);
-      }
-    });
-
-    _flutterBlue.scan().listen((result) => onScanResultReceived(result));
+    _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
+    _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
   }
 
   @override
@@ -63,9 +57,11 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   @visibleForTesting
   void onIsAvailableResult(bool result) {
-    setState(() {
-      _bluetoothIsSupported = result;
-    });
+    if (this.mounted) {
+      setState(() {
+        _bluetoothIsSupported = result;
+      });
+    }
   }
 
 }
