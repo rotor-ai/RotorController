@@ -17,3 +17,8 @@ class GenericBTDevice {
   }
 
 }
+
+
+class VehicleSimulator extends GenericBTDevice {
+  VehicleSimulator() : super("Vehicle Simulator", "00:00:00:00:00:00", "1234");
+}

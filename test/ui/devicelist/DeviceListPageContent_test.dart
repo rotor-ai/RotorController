@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobileclient/RotorStrings.dart';
+import 'package:mobileclient/data/GenericBTDevice.dart';
 import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 import 'package:mockito/mockito.dart';
 
@@ -39,6 +40,21 @@ void main() {
 
     //ASSERT
     expect(btWarningFinder, findsNothing);
+  });
+
+  testWidgets('Should show simulator on list', (WidgetTester tester) async {
+
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: deviceListPageContent,)));
+    await tester.pumpAndSettle();
+
+    //ASSERT
+    expect(find.widgetWithText(ListTile, "Vehicle Simulator"), findsOneWidget);
   });
 
 }
