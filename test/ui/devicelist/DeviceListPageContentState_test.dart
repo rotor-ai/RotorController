@@ -47,6 +47,29 @@ void main() {
       expect(state.discoveredDevices[1].id.id, "11:11:11:11:11:11");
     });
 
+    test("Should not save devices without a name", () {
+      //ARRANGE
+      var mockFlutterBlue = MockFlutterBlue();
+
+      var mockBTDeviceAlpha = _buildMockDevice("", "00:00:00:00:00:00");
+      var mockBTDeviceBravo = _buildMockDevice(null, "11:11:11:11:11:11");
+
+      //ACT
+      var state = DeviceListPageContentState(mockFlutterBlue);
+
+      state.onScanResultReceived(ScanResult(device: mockBTDeviceAlpha, advertisementData: null, rssi: 1));
+
+      //ASSERT
+      expect(state.discoveredDevices.length, 0);
+
+      //ACT AGAIN
+      state.onScanResultReceived(ScanResult(device: mockBTDeviceBravo, advertisementData: null, rssi: 1));
+
+      //ASSERT AGAIN
+      expect(state.discoveredDevices.length, 0);
+    });
+
+
 }
 
 //========== Mock definitions ==========

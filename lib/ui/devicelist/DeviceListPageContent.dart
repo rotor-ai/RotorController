@@ -60,7 +60,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   @visibleForTesting
   void onScanResultReceived(ScanResult sr) {
-    _discoveredDevices.add(sr.device);
+    if (sr.device.name != null && sr.device.name.isNotEmpty){
+      _discoveredDevices.add(sr.device);
+    }
   }
 
   @visibleForTesting
