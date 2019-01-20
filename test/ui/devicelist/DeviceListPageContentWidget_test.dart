@@ -26,7 +26,7 @@ void main() {
     expect(btWarningFinder, findsOneWidget);
   });
 
-  testWidgets('Should not bluetooth warning when bt is available', (WidgetTester tester) async {
+  testWidgets('Should not show bluetooth warning when bt is available', (WidgetTester tester) async {
 
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();

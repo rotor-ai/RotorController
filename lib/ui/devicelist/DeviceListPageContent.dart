@@ -17,14 +17,16 @@ class DeviceListPageContent extends StatefulWidget {
 
 class DeviceListPageContentState extends State<DeviceListPageContent> {
 
-  List<BluetoothDevice> _devices = [BluetoothDevice(id: DeviceIdentifier("00:00:00:00:00:00"), name: "Vehicle Simulator", type: BluetoothDeviceType.unknown)];
-  List<BluetoothDevice> get devices => _devices;
-
-  FlutterBlue _flutterBlue = FlutterBlue.instance;
+  FlutterBlue _flutterBlue;
+  List<BluetoothDevice> _discoveredDevices;
   bool _bluetoothIsSupported = true;
-  bool get bluetoothIsSupported => _bluetoothIsSupported;
 
-  DeviceListPageContentState(this._flutterBlue){
+  List<BluetoothDevice> get _compatibleDevices    => _discoveredDevices;
+  List<BluetoothDevice> get discoveredDevices     => _discoveredDevices;
+  bool                  get bluetoothIsSupported  => _bluetoothIsSupported;
+
+  DeviceListPageContentState(this._flutterBlue) {
+    _discoveredDevices = [];
 
     _flutterBlue.isAvailable.then((bool value) {
       if (this.mounted) {//this check allows us to unit test the state
@@ -32,7 +34,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       }
     });
 
-    _flutterBlue.scan();
+    _flutterBlue.scan().listen((result) => onScanResultReceived(result));
   }
 
   @override
@@ -45,18 +47,18 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     widgetColumn.add(Expanded(
         child: ListView.builder(
           itemBuilder: (BuildContext c, int i) { return _buildRow(c, i); },
-          itemCount: _devices.length,)
+          itemCount: _discoveredDevices.length,)
     ));
 
     return Column(children: widgetColumn);
   }
 
   Widget _buildRow(BuildContext context, int index) {
-    return ListTile(title: Text(_devices[index].name), subtitle: Text(_devices[index].id.id),);
+    return ListTile(title: Text(_discoveredDevices[index].name), subtitle: Text(_discoveredDevices[index].id.id),);
   }
 
   void onScanResultReceived(ScanResult sr) {
-
+    _discoveredDevices.add(sr.device);
   }
 
   @visibleForTesting
