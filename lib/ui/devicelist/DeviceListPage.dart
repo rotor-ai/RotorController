@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 
 class DeviceListPage extends StatelessWidget {
@@ -6,7 +7,7 @@ class DeviceListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Connect to a Device"),),
-      body: DeviceListPageContent(),
+      body: DeviceListPageContent(FlutterBlue.instance),
     );
   }
 }
