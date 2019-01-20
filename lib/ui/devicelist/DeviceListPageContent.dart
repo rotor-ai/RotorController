@@ -17,13 +17,20 @@ class DeviceListPageContent extends StatefulWidget {
 
 class DeviceListPageContentState extends State<DeviceListPageContent> {
 
+  //Members
   FlutterBlue _flutterBlue;
   List<BluetoothDevice> _discoveredDevices;
   bool _bluetoothIsSupported = true;
+  final BluetoothDevice _simulatorDevice = BluetoothDevice(id: DeviceIdentifier("00:00:00:00:00:00"), name: "Vehicle Simulator", type: BluetoothDeviceType.unknown);
 
-  List<BluetoothDevice> get _compatibleDevices    => _discoveredDevices;
+  //Getters
   List<BluetoothDevice> get discoveredDevices     => _discoveredDevices;
   bool                  get bluetoothIsSupported  => _bluetoothIsSupported;
+  List<BluetoothDevice> get _compatibleDevices {
+    List<BluetoothDevice> result = [_simulatorDevice];
+    result.addAll(_discoveredDevices);
+    return result;
+  }
 
   DeviceListPageContentState(this._flutterBlue) {
     _discoveredDevices = [];
@@ -41,16 +48,17 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     widgetColumn.add(Expanded(
         child: ListView.builder(
           itemBuilder: (BuildContext c, int i) { return _buildRow(c, i); },
-          itemCount: _discoveredDevices.length,)
+          itemCount: _compatibleDevices.length,)
     ));
 
     return Column(children: widgetColumn);
   }
 
   Widget _buildRow(BuildContext context, int index) {
-    return ListTile(title: Text(_discoveredDevices[index].name), subtitle: Text(_discoveredDevices[index].id.id),);
+    return ListTile(title: Text(_compatibleDevices[index].name), subtitle: Text(_compatibleDevices[index].id.id),);
   }
 
+  @visibleForTesting
   void onScanResultReceived(ScanResult sr) {
     _discoveredDevices.add(sr.device);
   }
