@@ -12,30 +12,17 @@ class DeviceListPageContent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return DeviceListPageContentState([
-      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
-      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
-      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
-      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
-      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
-      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
-      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
-      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
-      GenericBTDevice("Some Device", "00:00:00:00:00:00", "4a14c657-e073-4432-a633-487233362fb2"),
-      GenericBTDevice("Some Other Device", "01:02:03:04:05:06", "4a14c657-e073-4432-a633-487233362fb2")
-    ],
-      _flutterBlueInstance
-      );
+    return DeviceListPageContentState(_flutterBlueInstance);
   }
 }
 
 class DeviceListPageContentState extends State<DeviceListPageContent> {
 
-  final List<GenericBTDevice> _devices;
+  List<GenericBTDevice> _devices = [];
   FlutterBlue _flutterBlue = FlutterBlue.instance;
   bool _bluetoothIsSupported = true;
 
-  DeviceListPageContentState(this._devices, this._flutterBlue){
+  DeviceListPageContentState(this._flutterBlue){
 
     _flutterBlue.isAvailable.then((bool value) {
       setState(() {

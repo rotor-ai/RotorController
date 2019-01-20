@@ -7,12 +7,15 @@ import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 import 'package:mockito/mockito.dart';
 
 void main() {
+
+  //finders
+  final btWarningFinder = find.text(RotorStrings.UI_BT_NOT_AVAILABLE);
+
   testWidgets('Should show bluetooth warning when bt is not available', (WidgetTester tester) async {
 
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
     when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(false));
-    final btWarningFinder = find.text(RotorStrings.UI_BT_NOT_AVAILABLE);
 
     //ACT
     var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
@@ -28,7 +31,6 @@ void main() {
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
     when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
-    final btWarningFinder = find.text(RotorStrings.UI_BT_NOT_AVAILABLE);
 
     //ACT
     var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
