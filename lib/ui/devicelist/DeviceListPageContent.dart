@@ -25,9 +25,11 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   DeviceListPageContentState(this._flutterBlue){
 
     _flutterBlue.isAvailable.then((bool value) {
-      setState(() {
-        _bluetoothIsSupported = value;
-      });
+      if (this.mounted){
+        setState(() {
+          _bluetoothIsSupported = value;
+        });
+      }
     });
 
   }
