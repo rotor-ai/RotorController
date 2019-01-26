@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 
+import '../../mocks/RotorMocks.dart';
+
 void main() {
 
     MockBluetoothDevice _buildMockDevice(String name, String id) {
@@ -12,9 +14,13 @@ void main() {
       return device;
     }
 
-    test("Should call scan on state construction", () {
+    test("Should call scan on initState", () {
       var mockFlutterBlue = MockFlutterBlue();
       var state = DeviceListPageContentState(mockFlutterBlue);
+
+      verifyNever(mockFlutterBlue.scan());
+
+      state.initState();
 
       verify(mockFlutterBlue.scan());
     });
@@ -78,11 +84,4 @@ void main() {
       expect(state.discoveredDevices[0].name, "DeviceAlpha");
       expect(state.discoveredDevices[0].id.id, "00:00:00:00:00:00");
     });
-
-
 }
-
-//========== Mock definitions ==========
-
-class MockFlutterBlue       extends Mock implements FlutterBlue       {}
-class MockBluetoothDevice   extends Mock implements BluetoothDevice   {}

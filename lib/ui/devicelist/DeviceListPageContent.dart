@@ -19,7 +19,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   //Members
   FlutterBlue _flutterBlue;
-  List<BluetoothDevice> _discoveredDevices;
+  List<BluetoothDevice> _discoveredDevices = [];
   bool _bluetoothIsSupported = true;
   final BluetoothDevice _simulatorDevice = BluetoothDevice(id: DeviceIdentifier("00:00:00:00:00:00"), name: "Vehicle Simulator", type: BluetoothDeviceType.unknown);
 
@@ -32,8 +32,12 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     return result;
   }
 
-  DeviceListPageContentState(this._flutterBlue) {
-    _discoveredDevices = [];
+  //Constructor
+  DeviceListPageContentState(this._flutterBlue) {}
+
+  @override
+  void initState() {
+    super.initState();
     _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
     _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
   }
@@ -54,6 +58,8 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     return Column(children: widgetColumn);
   }
 
+  //========== Helpers below this line ==========
+
   Widget _buildRow(BuildContext context, int index) {
     return ListTile(title: Text(_compatibleDevices[index].name), subtitle: Text(_compatibleDevices[index].id.id),);
   }
@@ -63,9 +69,16 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     if (sr.device.name != null && sr.device.name.isNotEmpty) {
       var alreadyExistsInList = (_discoveredDevices.fold(0, (acc, device) => acc + ((sr.device.id.id == device.id.id) ? 1 : 0) )) > 0;
       if (!alreadyExistsInList) {
-        setState(() {
-        _discoveredDevices.add(sr.device);
-        });
+
+        //This really sucks, but it's the only way I can think of to allow testing this method
+        //I have to check if the state is mounted before calling setState
+        if (this.mounted) {
+          setState(() {
+            _discoveredDevices.add(sr.device);
+          });
+        } else {
+          _discoveredDevices.add(sr.device);
+        }
       }
     }
   }

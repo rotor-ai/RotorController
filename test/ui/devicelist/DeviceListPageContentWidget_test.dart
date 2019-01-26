@@ -6,6 +6,8 @@ import 'package:mobileclient/RotorStrings.dart';
 import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../mocks/RotorMocks.dart';
+
 void main() {
 
   //finders
@@ -77,8 +79,3 @@ void main() {
   });
 
 }
-
-//========== Mock definitions ==========
-
-class MockFlutterBlue       extends Mock implements FlutterBlue       {}
-class MockBluetoothDevice   extends Mock implements BluetoothDevice   {}
