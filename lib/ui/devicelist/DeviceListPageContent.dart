@@ -52,11 +52,13 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     if (!_bluetoothIsSupported) {
       widgetColumn.add(
         Container(
-            child: Text(
-              RotorStrings.UI_BT_NOT_AVAILABLE,
-              textScaleFactor: 1.25,
-            ),
-            color: Colors.red),
+          child: Center(
+              child: Text(
+            RotorStrings.UI_BT_NOT_AVAILABLE,
+            textScaleFactor: 1.25,
+          )),
+          color: Colors.red,
+        ),
       );
     } else {
       widgetColumn.add(Padding(
@@ -82,7 +84,10 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       itemCount: _compatibleDevices.length,
     )));
 
-    return Column(children: widgetColumn);
+    return Column(
+      children: widgetColumn,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+    );
   }
 
   //========== Helpers below this line ==========
@@ -91,6 +96,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     return ListTile(
       title: Text(_compatibleDevices[index].name),
       subtitle: Text(_compatibleDevices[index].id.id),
+      onTap: () => Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text("Connecting..."),
+          )),
     );
   }
 
