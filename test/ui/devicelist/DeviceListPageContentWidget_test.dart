@@ -12,6 +12,7 @@ void main() {
 
   //finders
   final btWarningFinder = find.text(RotorStrings.UI_BT_NOT_AVAILABLE);
+  final btRadioOffFinder = find.text(RotorStrings.UI_BT_RADIO_IS_OFF);
 
   testWidgets('Should show bluetooth warning when bt is not available', (WidgetTester tester) async {
 
@@ -26,6 +27,22 @@ void main() {
 
     //ASSERT
     expect(btWarningFinder, findsOneWidget);
+  });
+
+  testWidgets('Should show bluetooth warning when bt is off', (WidgetTester tester) async {
+
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.state).thenAnswer((_) => new Future.value(BluetoothState.off));
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: deviceListPageContent,)));
+    await tester.pumpAndSettle();
+
+    //ASSERT
+    expect(btRadioOffFinder, findsOneWidget);
   });
 
   testWidgets('Should not show bluetooth warning when bt is available', (WidgetTester tester) async {

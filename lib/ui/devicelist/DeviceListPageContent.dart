@@ -21,6 +21,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   FlutterBlue _flutterBlue;
   List<BluetoothDevice> _discoveredDevices = [];
   bool _bluetoothIsSupported = true;
+  BluetoothState _btState = BluetoothState.unknown;
   final BluetoothDevice _simulatorDevice = BluetoothDevice(id: DeviceIdentifier("00:00:00:00:00:00"), name: "Vehicle Simulator", type: BluetoothDeviceType.unknown);
 
   //Getters
@@ -39,6 +40,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   void initState() {
     super.initState();
     _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
+    _flutterBlue.state?.then((value) => _onGetBluetoothState(value));
     _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
   }
 
@@ -48,6 +50,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
     if (!_bluetoothIsSupported){
       widgetColumn.add(Container(child: Text(RotorStrings.UI_BT_NOT_AVAILABLE, textScaleFactor: 1.25,), color: Colors.red),);
+    }
+    else if (_btState == BluetoothState.off){
+      widgetColumn.add(Container(child: Text(RotorStrings.UI_BT_RADIO_IS_OFF, textScaleFactor: 1.25,), color: Colors.orange),);
     }
     widgetColumn.add(Expanded(
         child: ListView.builder(
@@ -81,6 +86,12 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
         }
       }
     }
+  }
+
+  void _onGetBluetoothState(BluetoothState resultState){
+    setState(() {
+      _btState = resultState;
+    });
   }
 
   @visibleForTesting
