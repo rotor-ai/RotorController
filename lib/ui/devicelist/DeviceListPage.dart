@@ -6,7 +6,9 @@ class DeviceListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Connect to a Device"),),
+      appBar: AppBar(
+        title: Text("Connect to a Device"),
+      ),
       body: DeviceListPageContent(FlutterBlue.instance),
     );
   }
