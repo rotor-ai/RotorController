@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Notice extends StatelessWidget {
-  String _title = "";
-  Color _color;
+  final String _title;
+  final Color _color;
 
   Notice(this._title, this._color);
 

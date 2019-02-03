@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:mobileclient/Strings.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -38,7 +37,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   }
 
   //Constructor
-  DeviceListPageContentState(this._flutterBlue) {}
+  DeviceListPageContentState(this._flutterBlue);
 
   @override
   void initState() {
@@ -66,7 +65,10 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       itemCount: _compatibleDevices.length,
     )));
 
-    return Column(children: widgetColumn, crossAxisAlignment: CrossAxisAlignment.stretch,);
+    return Column(
+      children: widgetColumn,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+    );
   }
 
   //========== Helpers below this line ==========
