@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobileclient/Strings.dart';
 import 'package:mobileclient/ui/welcome/WelcomePage.dart';
 import 'package:flutter/rendering.dart';
 
@@ -18,6 +19,6 @@ class RotorApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: _rotorAppTheme, home: WelcomePage());
+    return MaterialApp(theme: _rotorAppTheme, home: WelcomePage(), title: Strings.APP_TITLE);
   }
 }

@@ -1,7 +1,8 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:mobileclient/RotorStrings.dart';
+import 'package:mobileclient/Strings.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:mobileclient/ui/common/Notice.dart';
 
 class DeviceListPageContent extends StatefulWidget {
   final FlutterBlue _flutterBlueInstance;
@@ -53,23 +54,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     List<Widget> widgetColumn = <Widget>[];
 
     if (!_bluetoothIsSupported) {
-      widgetColumn.add(
-        Container(
-            child: Text(
-              RotorStrings.UI_BT_NOT_AVAILABLE,
-              textScaleFactor: 1.25,
-            ),
-            color: Colors.red),
-      );
+      widgetColumn.add(Notice(Strings.UI_BT_NOT_AVAILABLE, Colors.red));
     } else if (_btState == BluetoothState.off) {
-      widgetColumn.add(
-        Container(
-            child: Text(
-              RotorStrings.UI_BT_RADIO_IS_OFF,
-              textScaleFactor: 1.25,
-            ),
-            color: Colors.orange),
-      );
+      widgetColumn.add(Notice(Strings.UI_BT_RADIO_IS_OFF, Colors.orange));
     }
     widgetColumn.add(Expanded(
         child: ListView.builder(
@@ -79,7 +66,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       itemCount: _compatibleDevices.length,
     )));
 
-    return Column(children: widgetColumn);
+    return Column(children: widgetColumn, crossAxisAlignment: CrossAxisAlignment.stretch,);
   }
 
   //========== Helpers below this line ==========

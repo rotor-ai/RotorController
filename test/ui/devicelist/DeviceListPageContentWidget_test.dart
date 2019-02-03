@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobileclient/RotorStrings.dart';
+import 'package:mobileclient/Strings.dart';
 import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 import 'package:mockito/mockito.dart';
 
@@ -11,8 +11,8 @@ import '../../mocks/RotorMocks.dart';
 
 void main() {
   //finders
-  final btWarningFinder = find.text(RotorStrings.UI_BT_NOT_AVAILABLE);
-  final btRadioOffFinder = find.text(RotorStrings.UI_BT_RADIO_IS_OFF);
+  final btWarningFinder = find.text(Strings.UI_BT_NOT_AVAILABLE);
+  final btRadioOffFinder = find.text(Strings.UI_BT_RADIO_IS_OFF);
 
   testWidgets('Should show bluetooth unsupported when bt is not available',
       (WidgetTester tester) async {
