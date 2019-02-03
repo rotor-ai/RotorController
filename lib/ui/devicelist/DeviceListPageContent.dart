@@ -42,6 +42,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
     _flutterBlue.state?.then((value) => _onGetBluetoothState(value));
     _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
+    _flutterBlue.onStateChanged()?.listen((v) => _onBTStateChanged(v));
   }
 
   @override
@@ -91,6 +92,12 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   void _onGetBluetoothState(BluetoothState resultState){
     setState(() {
       _btState = resultState;
+    });
+  }
+
+  void _onBTStateChanged(BluetoothState updatedState){
+    setState(() {
+      _btState = updatedState;
     });
   }
 

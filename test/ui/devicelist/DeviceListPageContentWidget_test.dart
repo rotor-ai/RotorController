@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,7 +16,7 @@ void main() {
   final btWarningFinder = find.text(RotorStrings.UI_BT_NOT_AVAILABLE);
   final btRadioOffFinder = find.text(RotorStrings.UI_BT_RADIO_IS_OFF);
 
-  testWidgets('Should show bluetooth warning when bt is not available', (WidgetTester tester) async {
+  testWidgets('Should show bluetooth unsupported when bt is not available', (WidgetTester tester) async {
 
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
@@ -43,6 +45,31 @@ void main() {
 
     //ASSERT
     expect(btRadioOffFinder, findsOneWidget);
+  });
+
+  testWidgets('Should show bluetooth warning when bt changes state', (WidgetTester tester) async {
+
+    //ARRANGE
+    var streamController = StreamController<BluetoothState>();
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.state).thenAnswer((_) => new Future.value(BluetoothState.on));
+    when(mockFlutterBlue.onStateChanged()).thenAnswer((_) => streamController.stream );
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: deviceListPageContent,)));
+    await tester.pumpAndSettle();
+
+    //ACT Send out a state change
+    streamController.add(BluetoothState.off);
+
+    await tester.pumpAndSettle();
+
+    //ASSERT
+    expect(streamController.hasListener, true);
+    expect(btRadioOffFinder, findsOneWidget);
+
   });
 
   testWidgets('Should not show bluetooth warning when bt is available', (WidgetTester tester) async {
