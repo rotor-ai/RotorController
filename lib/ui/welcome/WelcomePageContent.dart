@@ -23,7 +23,7 @@ class WelcomePageContentState extends State<WelcomePageContent> {
           padding: EdgeInsets.only(top: 0.0, bottom: 16.0),
         ),
         RaisedButton(
-          child: Text(Strings.UI_CONNECT_TO_VEHICLE_BTN),
+          child: Text(Strings.UI_CONNECT_TO_VEHICLE),
           onPressed: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (BuildContext c) {
