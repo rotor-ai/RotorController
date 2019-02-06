@@ -1,5 +1,6 @@
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobileclient/Strings.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 
@@ -93,4 +94,23 @@ void main() {
     expect(state.discoveredDevices[0].name, "DeviceAlpha");
     expect(state.discoveredDevices[0].id.id, "00:00:00:00:00:00");
   });
+
+  test("Should return appropriate Notice string based on BT state", () {
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+    var state = DeviceListPageContentState(mockFlutterBlue);
+
+    //ASSERT
+
+    expect(state.buildNoticeFromBluetoothState(BluetoothState.unknown), null);
+    expect(state.buildNoticeFromBluetoothState(BluetoothState.unavailable), Strings.UI_BT_NOT_AVAILABLE);
+    expect(state.buildNoticeFromBluetoothState(BluetoothState.unauthorized), Strings.UI_BT_NOT_AUTHORIZED);
+    expect(state.buildNoticeFromBluetoothState(BluetoothState.turningOn), null);
+    expect(state.buildNoticeFromBluetoothState(BluetoothState.on), null);
+    expect(state.buildNoticeFromBluetoothState(BluetoothState.turningOff), Strings.UI_BT_RADIO_IS_OFF);
+    expect(state.buildNoticeFromBluetoothState(BluetoothState.off), Strings.UI_BT_RADIO_IS_OFF);
+
+  });
+
+
 }

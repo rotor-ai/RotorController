@@ -114,6 +114,22 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     });
   }
 
+  String buildNoticeFromBluetoothState(BluetoothState state) {
+    switch(state){
+      case BluetoothState.unavailable:
+        return Strings.UI_BT_NOT_AVAILABLE;
+        break;
+      case BluetoothState.unauthorized:
+        return Strings.UI_BT_NOT_AUTHORIZED;
+        break;
+      case BluetoothState.off:
+      case BluetoothState.turningOff:
+        return Strings.UI_BT_RADIO_IS_OFF;
+      default:
+        break;
+    }
+  }
+
   @visibleForTesting
   void onIsAvailableResult(bool result) {
     if (this.mounted) {
