@@ -54,7 +54,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
     Notice headerNotice = buildListHeader(_btState);
     if (!_isBTSupported){
-      widgetColumn.add(Notice(Strings.UI_BT_NOT_AVAILABLE, Colors.orange));
+      widgetColumn.add(Notice(Strings.UI_BT_NOT_AVAILABLE, Colors.red));
     }
     else if (headerNotice != null){
       widgetColumn.add(headerNotice);
