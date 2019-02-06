@@ -149,6 +149,7 @@ void main() {
 
     var mockFlutterBlue = MockFlutterBlue();
     when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.state).thenAnswer((_) => new Future.value(BluetoothState.on));
     when(mockFlutterBlue.scan()).thenAnswer(
         (_) => Stream.fromFuture(Future.value(ScanResult(device: device))));
 

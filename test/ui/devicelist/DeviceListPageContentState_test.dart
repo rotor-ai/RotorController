@@ -14,13 +14,21 @@ void main() {
     return device;
   }
 
-  test("Should call scan on initState", () {
+  test("Should call scan when bt state changes to ON", () {
     var mockFlutterBlue = MockFlutterBlue();
     var state = DeviceListPageContentState(mockFlutterBlue);
 
     verifyNever(mockFlutterBlue.scan());
 
     state.initState();
+
+    verifyNever(mockFlutterBlue.scan());
+
+    state.onBTStateChanged(BluetoothState.off);
+
+    verifyNever(mockFlutterBlue.scan());
+
+    state.onBTStateChanged(BluetoothState.on);
 
     verify(mockFlutterBlue.scan());
   });

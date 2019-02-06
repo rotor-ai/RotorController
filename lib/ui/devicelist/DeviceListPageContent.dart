@@ -18,7 +18,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   //Members
   FlutterBlue _flutterBlue;
   List<BluetoothDevice> _discoveredDevices = [];
-  bool _bluetoothIsSupported = true;
+  bool _isBTSupported = true;
   BluetoothState _btState = BluetoothState.unknown;
 
   final BluetoothDevice _simulatorDevice = BluetoothDevice(
@@ -29,7 +29,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   //GETTERS
   List<BluetoothDevice> get discoveredDevices => _discoveredDevices;
 
-  bool get bluetoothIsSupported => _bluetoothIsSupported;
+  bool get bluetoothIsSupported => _isBTSupported;
 
   List<BluetoothDevice> get _compatibleDevices {
     List<BluetoothDevice> result = [_simulatorDevice];
@@ -44,9 +44,8 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   void initState() {
     super.initState();
     _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
-    _flutterBlue.state?.then((value) => _onGetBluetoothState(value));
-    _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
-    _flutterBlue.onStateChanged()?.listen((v) => _onBTStateChanged(v));
+    _flutterBlue.state?.then((value) => onBTStateChanged(value));
+    _flutterBlue.onStateChanged()?.listen((v) => onBTStateChanged(v));
   }
 
   @override
@@ -54,7 +53,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     List<Widget> widgetColumn = <Widget>[];
 
     Notice headerNotice = buildListHeader(_btState);
-    if (!_bluetoothIsSupported){
+    if (!_isBTSupported){
       widgetColumn.add(Notice(Strings.UI_BT_NOT_AVAILABLE, Colors.orange));
     }
     else if (headerNotice != null){
@@ -105,16 +104,18 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     }
   }
 
-  void _onGetBluetoothState(BluetoothState resultState) {
-    setState(() {
-      _btState = resultState;
-    });
-  }
-
-  void _onBTStateChanged(BluetoothState updatedState) {
-    setState(() {
+  void onBTStateChanged(BluetoothState updatedState) {
+    if (mounted) {
+      setState(() {
+        _btState = updatedState;
+      });
+    }
+    else {
       _btState = updatedState;
-    });
+    }
+    if (_btState == BluetoothState.on) {
+      _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
+    }
   }
 
   Notice buildListHeader(BluetoothState state) {
@@ -147,7 +148,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   void onIsAvailableResult(bool result) {
     if (this.mounted) {
       setState(() {
-        _bluetoothIsSupported = result;
+        _isBTSupported = result;
       });
     }
   }
