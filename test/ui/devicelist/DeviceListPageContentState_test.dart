@@ -95,20 +95,31 @@ void main() {
     expect(state.discoveredDevices[0].id.id, "00:00:00:00:00:00");
   });
 
-  test("Should return appropriate Notice string based on BT state", () {
+  test("Should return appropriate title based on BT state", () {
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
     var state = DeviceListPageContentState(mockFlutterBlue);
 
     //ASSERT
 
-    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.unknown), null);
-    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.unavailable), Strings.UI_BT_NOT_AVAILABLE);
-    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.unauthorized), Strings.UI_BT_NOT_AUTHORIZED);
-    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.turningOn), null);
-    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.on), null);
-    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.turningOff), Strings.UI_BT_RADIO_IS_OFF);
-    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.off), Strings.UI_BT_RADIO_IS_OFF);
+    expect(state.buildTitleFromBluetoothState(BluetoothState.unknown), isNull);
+    expect(state.buildTitleFromBluetoothState(BluetoothState.unavailable), Strings.UI_BT_NOT_AVAILABLE);
+    expect(state.buildTitleFromBluetoothState(BluetoothState.unauthorized), Strings.UI_BT_NOT_AUTHORIZED);
+    expect(state.buildTitleFromBluetoothState(BluetoothState.turningOn), isNull);
+    expect(state.buildTitleFromBluetoothState(BluetoothState.on), isNull);
+    expect(state.buildTitleFromBluetoothState(BluetoothState.turningOff), Strings.UI_BT_RADIO_IS_OFF);
+    expect(state.buildTitleFromBluetoothState(BluetoothState.off), Strings.UI_BT_RADIO_IS_OFF);
+
+  });
+
+  test("Should not return notice for null title", () {
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+    var state = DeviceListPageContentState(mockFlutterBlue);
+
+    //ASSERT
+    expect(state.buildListHeader(BluetoothState.unknown), isNull);
+    expect(state.buildListHeader(BluetoothState.unavailable), isNotNull);
 
   });
 

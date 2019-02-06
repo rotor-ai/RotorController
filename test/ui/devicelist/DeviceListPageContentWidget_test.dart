@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobileclient/Strings.dart';
+import 'package:mobileclient/ui/common/Notice.dart';
 import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 import 'package:mockito/mockito.dart';
 
@@ -11,10 +12,14 @@ import '../../mocks/RotorMocks.dart';
 
 void main() {
   //finders
-  final btWarningFinder = find.text(Strings.UI_BT_NOT_AVAILABLE);
-  final btRadioOffFinder = find.text(Strings.UI_BT_RADIO_IS_OFF);
+  final btNotAvailableFinder =
+      find.widgetWithText(Notice, Strings.UI_BT_NOT_AVAILABLE);
+  final btRadioOffFinder =
+      find.widgetWithText(Notice, Strings.UI_BT_RADIO_IS_OFF);
+  final btUnauthorizedFinder =
+      find.widgetWithText(Notice, Strings.UI_BT_NOT_AUTHORIZED);
 
-  testWidgets('Should show bluetooth unsupported when bt is not available',
+  testWidgets('Should show notice when bt is not available',
       (WidgetTester tester) async {
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
@@ -30,11 +35,10 @@ void main() {
     await tester.pumpAndSettle();
 
     //ASSERT
-    expect(btWarningFinder, findsOneWidget);
+    expect(btNotAvailableFinder, findsOneWidget);
   });
 
-  testWidgets('Should show bluetooth warning when bt is off',
-      (WidgetTester tester) async {
+  testWidgets('Should show notice when bt is off', (WidgetTester tester) async {
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
     when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
@@ -53,7 +57,27 @@ void main() {
     expect(btRadioOffFinder, findsOneWidget);
   });
 
-  testWidgets('Should show bluetooth warning when bt changes state',
+  testWidgets('Should show notice when bt permissions are not authorized',
+      (WidgetTester tester) async {
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.state)
+        .thenAnswer((_) => new Future.value(BluetoothState.unauthorized));
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+      body: deviceListPageContent,
+    )));
+    await tester.pumpAndSettle();
+
+    //ASSERT
+    expect(btUnauthorizedFinder, findsOneWidget);
+  });
+
+  testWidgets('Should show notice when bt changes state',
       (WidgetTester tester) async {
     //ARRANGE
     var streamController = StreamController<BluetoothState>();
@@ -82,7 +106,7 @@ void main() {
     expect(btRadioOffFinder, findsOneWidget);
   });
 
-  testWidgets('Should not show bluetooth warning when bt is available',
+  testWidgets('Should not show notice when bt is available',
       (WidgetTester tester) async {
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
@@ -97,7 +121,7 @@ void main() {
     await tester.pumpAndSettle();
 
     //ASSERT
-    expect(btWarningFinder, findsNothing);
+    expect(btNotAvailableFinder, findsNothing);
   });
 
   testWidgets('Should show simulator on list', (WidgetTester tester) async {

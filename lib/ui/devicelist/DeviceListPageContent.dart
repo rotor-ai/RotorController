@@ -20,12 +20,13 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   List<BluetoothDevice> _discoveredDevices = [];
   bool _bluetoothIsSupported = true;
   BluetoothState _btState = BluetoothState.unknown;
+
   final BluetoothDevice _simulatorDevice = BluetoothDevice(
       id: DeviceIdentifier("00:00:00:00:00:00"),
       name: "Vehicle Simulator",
       type: BluetoothDeviceType.unknown);
 
-  //Getters
+  //GETTERS
   List<BluetoothDevice> get discoveredDevices => _discoveredDevices;
 
   bool get bluetoothIsSupported => _bluetoothIsSupported;
@@ -52,10 +53,12 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   Widget build(BuildContext context) {
     List<Widget> widgetColumn = <Widget>[];
 
-    if (!_bluetoothIsSupported) {
-      widgetColumn.add(Notice(Strings.UI_BT_NOT_AVAILABLE, Colors.red));
-    } else if (_btState == BluetoothState.off) {
-      widgetColumn.add(Notice(Strings.UI_BT_RADIO_IS_OFF, Colors.orange));
+    Notice headerNotice = buildListHeader(_btState);
+    if (!_bluetoothIsSupported){
+      widgetColumn.add(Notice(Strings.UI_BT_NOT_AVAILABLE, Colors.orange));
+    }
+    else if (headerNotice != null){
+      widgetColumn.add(headerNotice);
     }
     widgetColumn.add(Expanded(
         child: ListView.builder(
@@ -114,9 +117,17 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     });
   }
 
+  Notice buildListHeader(BluetoothState state) {
+    String title = buildTitleFromBluetoothState(state);
+    if (title != null) {
+      return Notice(title, Colors.orange);
+    }
+    return null;
+  }
+
   @visibleForTesting
-  String buildNoticeStringFromBluetoothState(BluetoothState state) {
-    switch(state){
+  String buildTitleFromBluetoothState(BluetoothState state) {
+    switch (state) {
       case BluetoothState.unavailable:
         return Strings.UI_BT_NOT_AVAILABLE;
         break;
