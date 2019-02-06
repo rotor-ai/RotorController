@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobileclient/Strings.dart';
-import 'package:mobileclient/ui/common/Notice.dart';
+import 'package:mobileclient/ui/commonwidgets/Notice.dart';
 import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 import 'package:mockito/mockito.dart';
 
@@ -138,7 +138,7 @@ void main() {
     await tester.pumpAndSettle();
 
     //ASSERT
-    expect(find.widgetWithText(ListTile, "Vehicle Simulator"), findsOneWidget);
+    expect(find.widgetWithText(ListTile, Strings.UI_VEHICLE_SIMULATOR), findsOneWidget);
   });
 
   testWidgets('Should show real device on list', (WidgetTester tester) async {

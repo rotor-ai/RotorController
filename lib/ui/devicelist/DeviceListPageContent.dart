@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobileclient/Strings.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:mobileclient/ui/common/Notice.dart';
+import 'package:mobileclient/ui/commonwidgets/Notice.dart';
 
 class DeviceListPageContent extends StatefulWidget {
   final FlutterBlue _flutterBlueInstance;
@@ -23,7 +23,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   final BluetoothDevice _simulatorDevice = BluetoothDevice(
       id: DeviceIdentifier("00:00:00:00:00:00"),
-      name: "Vehicle Simulator",
+      name: Strings.UI_VEHICLE_SIMULATOR,
       type: BluetoothDeviceType.unknown);
 
   //GETTERS
@@ -53,10 +53,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     List<Widget> widgetColumn = <Widget>[];
 
     Notice headerNotice = buildListHeader(_btState);
-    if (!_isBTSupported){
+    if (!_isBTSupported) {
       widgetColumn.add(Notice(Strings.UI_BT_NOT_AVAILABLE, Colors.red));
-    }
-    else if (headerNotice != null){
+    } else if (headerNotice != null) {
       widgetColumn.add(headerNotice);
     }
     widgetColumn.add(Expanded(
@@ -109,8 +108,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       setState(() {
         _btState = updatedState;
       });
-    }
-    else {
+    } else {
       _btState = updatedState;
     }
     if (_btState == BluetoothState.on) {
