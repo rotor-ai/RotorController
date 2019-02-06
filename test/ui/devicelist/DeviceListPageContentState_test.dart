@@ -102,13 +102,13 @@ void main() {
 
     //ASSERT
 
-    expect(state.buildNoticeFromBluetoothState(BluetoothState.unknown), null);
-    expect(state.buildNoticeFromBluetoothState(BluetoothState.unavailable), Strings.UI_BT_NOT_AVAILABLE);
-    expect(state.buildNoticeFromBluetoothState(BluetoothState.unauthorized), Strings.UI_BT_NOT_AUTHORIZED);
-    expect(state.buildNoticeFromBluetoothState(BluetoothState.turningOn), null);
-    expect(state.buildNoticeFromBluetoothState(BluetoothState.on), null);
-    expect(state.buildNoticeFromBluetoothState(BluetoothState.turningOff), Strings.UI_BT_RADIO_IS_OFF);
-    expect(state.buildNoticeFromBluetoothState(BluetoothState.off), Strings.UI_BT_RADIO_IS_OFF);
+    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.unknown), null);
+    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.unavailable), Strings.UI_BT_NOT_AVAILABLE);
+    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.unauthorized), Strings.UI_BT_NOT_AUTHORIZED);
+    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.turningOn), null);
+    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.on), null);
+    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.turningOff), Strings.UI_BT_RADIO_IS_OFF);
+    expect(state.buildNoticeStringFromBluetoothState(BluetoothState.off), Strings.UI_BT_RADIO_IS_OFF);
 
   });
 

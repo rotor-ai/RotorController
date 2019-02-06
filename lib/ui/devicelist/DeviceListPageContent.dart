@@ -114,7 +114,8 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     });
   }
 
-  String buildNoticeFromBluetoothState(BluetoothState state) {
+  @visibleForTesting
+  String buildNoticeStringFromBluetoothState(BluetoothState state) {
     switch(state){
       case BluetoothState.unavailable:
         return Strings.UI_BT_NOT_AVAILABLE;
@@ -126,6 +127,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       case BluetoothState.turningOff:
         return Strings.UI_BT_RADIO_IS_OFF;
       default:
+        return null;
         break;
     }
   }
