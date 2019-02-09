@@ -58,6 +58,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     } else if (headerNotice != null) {
       widgetColumn.add(headerNotice);
     }
+    else if (_btState == BluetoothState.on){
+      widgetColumn.add(LinearProgressIndicator());
+    }
     widgetColumn.add(Expanded(
         child: ListView.builder(
       itemBuilder: (BuildContext c, int i) {
