@@ -32,7 +32,7 @@ void main() {
         home: Scaffold(
       body: deviceListPageContent,
     )));
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     //ASSERT
     expect(btNotAvailableFinder, findsOneWidget);
@@ -51,7 +51,7 @@ void main() {
         home: Scaffold(
       body: deviceListPageContent,
     )));
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     //ASSERT
     expect(btRadioOffFinder, findsOneWidget);
@@ -71,7 +71,7 @@ void main() {
         home: Scaffold(
       body: deviceListPageContent,
     )));
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     //ASSERT
     expect(btUnauthorizedFinder, findsOneWidget);
@@ -94,12 +94,11 @@ void main() {
         home: Scaffold(
       body: deviceListPageContent,
     )));
-    await tester.pumpAndSettle();
 
     //ACT Send out a state change
     streamController.add(BluetoothState.off);
 
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     //ASSERT
     expect(streamController.hasListener, true);
@@ -118,7 +117,7 @@ void main() {
         home: Scaffold(
       body: deviceListPageContent,
     )));
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     //ASSERT
     expect(btNotAvailableFinder, findsNothing);
@@ -135,7 +134,6 @@ void main() {
         home: Scaffold(
       body: deviceListPageContent,
     )));
-    await tester.pumpAndSettle();
 
     //ASSERT
     expect(find.widgetWithText(ListTile, Strings.UI_VEHICLE_SIMULATOR), findsOneWidget);
@@ -159,9 +157,45 @@ void main() {
         home: Scaffold(
       body: deviceListPageContent,
     )));
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     //ASSERT
     expect(find.widgetWithText(ListTile, "Stus awesome car"), findsOneWidget);
   });
+  
+//
+//  testWidgets('Should show activity spinner when scanning', (WidgetTester tester) async {
+//    //ARRANGE
+//    var mockFlutterBlue = MockFlutterBlue();
+//    var streamController = StreamController<BluetoothState>();
+//    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+//    when(mockFlutterBlue.state).thenAnswer((_) => new Future.value(BluetoothState.off));
+//    when(mockFlutterBlue.onStateChanged()).thenAnswer((_) => streamController.stream);
+//
+//    //ACT
+//    await tester.pumpWidget(MaterialApp(
+//        home: Scaffold(
+//          body: DeviceListPageContent(mockFlutterBlue),
+//        )));
+//
+//    //ASSERT
+//    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsNothing);
+//
+//    //ACT
+//    streamController.add(BluetoothState.on);
+//    await tester.pump();
+//
+//    //ASSERT
+//    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsOneWidget);
+//
+//    //ACT
+//    streamController.add(BluetoothState.off);
+//    await tester.pump();
+//
+//    //ASSERT
+//    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsNothing);
+//
+//  });
+
+  
 }
