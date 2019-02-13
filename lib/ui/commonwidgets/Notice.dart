@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Notice extends StatelessWidget {
-  final String _title;
-  final Color _color;
+  final String title;
+  final Color color;
 
-  Notice(this._title, this._color);
+  Notice({Key key, this.title, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +12,10 @@ class Notice extends StatelessWidget {
         child: Center(
             child: Padding(
                 child: Text(
-                  _title,
+                  title,
                   textScaleFactor: 1.25,
                 ),
                 padding: EdgeInsets.only(top: 4, bottom: 4))),
-        color: _color);
+        color: color);
   }
 }

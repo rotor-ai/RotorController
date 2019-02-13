@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobileclient/Strings.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:mobileclient/ui/commonwidgets/DeviceRow.dart';
 import 'package:mobileclient/ui/commonwidgets/Notice.dart';
 
 class DeviceListPageContent extends StatefulWidget {
@@ -54,11 +55,11 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
     Notice headerNotice = buildListHeader(_btState);
     if (!_isBTSupported) {
-      widgetColumn.add(Notice(Strings.UI_BT_NOT_AVAILABLE, Colors.red));
+      widgetColumn
+          .add(Notice(title: Strings.UI_BT_NOT_AVAILABLE, color: Colors.red));
     } else if (headerNotice != null) {
       widgetColumn.add(headerNotice);
-    }
-    else if (_btState == BluetoothState.on){
+    } else if (_btState == BluetoothState.on) {
       widgetColumn.add(LinearProgressIndicator());
     }
     widgetColumn.add(Expanded(
@@ -78,10 +79,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   //========== Helpers below this line ==========
 
   Widget _buildRow(BuildContext context, int index) {
-    return ListTile(
-      title: Text(_compatibleDevices[index].name),
-      subtitle: Text(_compatibleDevices[index].id.id),
-    );
+    return DeviceRow(
+        deviceName: _compatibleDevices[index].name,
+        mac: _compatibleDevices[index].id.id);
   }
 
   @visibleForTesting
@@ -122,7 +122,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   Notice buildListHeader(BluetoothState state) {
     String title = buildTitleFromBluetoothState(state);
     if (title != null) {
-      return Notice(title, Colors.orange);
+      return Notice(title: title, color: Colors.orange);
     }
     return null;
   }
