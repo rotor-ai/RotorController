@@ -4,8 +4,6 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/ui/commonwidgets/DeviceRow.dart';
 import 'package:mobileclient/ui/commonwidgets/Notice.dart';
 
-
-
 class DeviceListPageContent extends StatefulWidget {
   final FlutterBlue _flutterBlueInstance;
 
@@ -47,8 +45,16 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   void initState() {
     super.initState();
     _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
-    _flutterBlue.state?.then((value) => onBTStateChanged(value));
-    _flutterBlue.onStateChanged()?.listen((v) => onBTStateChanged(v));
+    _flutterBlue.state?.then((v) {
+      setState(() {
+        updateBluetoothState(v);
+      });
+    });
+    _flutterBlue.onStateChanged()?.listen((v) {
+      setState(() {
+        updateBluetoothState(v);
+      });
+    });
   }
 
   @override
@@ -86,6 +92,14 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
         mac: _compatibleDevices[index].id.id);
   }
 
+  Notice buildListHeader(BluetoothState state) {
+    String title = buildTitleFromBluetoothState(state);
+    if (title != null) {
+      return Notice(title: title, color: Colors.orange);
+    }
+    return null;
+  }
+
   @visibleForTesting
   void onScanResultReceived(ScanResult sr) {
     setState(() {
@@ -93,25 +107,13 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     });
   }
 
-  void onBTStateChanged(BluetoothState updatedState) {
-    if (mounted) {
-      setState(() {
-        _btState = updatedState;
-      });
-    } else {
-      _btState = updatedState;
-    }
+  @visibleForTesting
+  void updateBluetoothState(BluetoothState updatedState) {
+    _btState = updatedState;
+
     if (_btState == BluetoothState.on) {
       _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
     }
-  }
-
-  Notice buildListHeader(BluetoothState state) {
-    String title = buildTitleFromBluetoothState(state);
-    if (title != null) {
-      return Notice(title: title, color: Colors.orange);
-    }
-    return null;
   }
 
   @visibleForTesting
@@ -140,11 +142,15 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   }
 
   @visibleForTesting
-  List<BluetoothDevice> updatedDeviceList(List<BluetoothDevice> list, ScanResult sr) {
+  List<BluetoothDevice> updatedDeviceList(
+      List<BluetoothDevice> list, ScanResult sr) {
     List<BluetoothDevice> result = [];
     result.addAll(list);
 
-    bool alreadyContainsThisDevice = result.indexWhere((element) {return element.id.id == sr.device.id.id; }) != -1;
+    bool alreadyContainsThisDevice = result.indexWhere((element) {
+          return element.id.id == sr.device.id.id;
+        }) !=
+        -1;
     if (!alreadyContainsThisDevice) {
       if (sr.device.name != null && sr.device.name.isNotEmpty) {
         result.add(sr.device);

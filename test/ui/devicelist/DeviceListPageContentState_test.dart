@@ -24,11 +24,11 @@ void main() {
 
     verifyNever(mockFlutterBlue.scan());
 
-    state.onBTStateChanged(BluetoothState.off);
+    state.updateBluetoothState(BluetoothState.off);
 
     verifyNever(mockFlutterBlue.scan());
 
-    state.onBTStateChanged(BluetoothState.on);
+    state.updateBluetoothState(BluetoothState.on);
 
     verify(mockFlutterBlue.scan());
   });
