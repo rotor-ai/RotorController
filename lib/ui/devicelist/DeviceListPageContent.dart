@@ -46,14 +46,10 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     super.initState();
     _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
     _flutterBlue.state?.then((v) {
-      setState(() {
-        updateBluetoothState(v);
-      });
+      _onBTStateChanged(v);
     });
     _flutterBlue.onStateChanged()?.listen((v) {
-      setState(() {
-        updateBluetoothState(v);
-      });
+      _onBTStateChanged(v);
     });
   }
 
@@ -100,6 +96,15 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     return null;
   }
 
+  void _onBTStateChanged(updatedState) {
+    setState(() {
+      updateBluetoothState(updatedState);
+      if (_btState != BluetoothState.on) {
+        _discoveredDevices.clear();
+      }
+    });
+  }
+
   @visibleForTesting
   void onScanResultReceived(ScanResult sr) {
     setState(() {
@@ -141,6 +146,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     });
   }
 
+  //A pure function that builds a new device list, when provided a scan result
   @visibleForTesting
   List<BluetoothDevice> updatedDeviceList(
       List<BluetoothDevice> list, ScanResult sr) {

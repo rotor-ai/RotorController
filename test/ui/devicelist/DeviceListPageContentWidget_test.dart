@@ -162,7 +162,40 @@ void main() {
     //ASSERT
     expect(find.widgetWithText(ListTile, "Stus awesome car"), findsOneWidget);
   });
-  
+
+  testWidgets('Should clear discovered list when bt state changes to not be ON', (WidgetTester tester) async {
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+
+    var device = MockBluetoothDevice();
+    when(device.name).thenReturn("Stus awesome car");
+    when(device.id).thenReturn(DeviceIdentifier("12:34:56:78:90:12"));
+
+    var streamController = StreamController<BluetoothState>();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.state).thenAnswer((_) => new Future.value(BluetoothState.on));
+    when(mockFlutterBlue.onStateChanged()).thenAnswer((_) => streamController.stream);
+    when(mockFlutterBlue.scan()).thenAnswer(
+            (_) => Stream.fromFuture(Future.value(ScanResult(device: device))));
+
+    //ACT
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: DeviceListPageContent(mockFlutterBlue),
+        )));
+    await tester.pump();
+
+    //ASSERT
+    expect(find.widgetWithText(ListTile, "Stus awesome car"), findsOneWidget);
+
+    //ACT
+    streamController.add(BluetoothState.off);
+    await tester.pump();
+
+    //ASSERT
+    expect(find.widgetWithText(ListTile, "Stus awesome car"), findsNothing);
+
+  });
 
   testWidgets('Should show activity spinner when scanning', (WidgetTester tester) async {
     //ARRANGE
