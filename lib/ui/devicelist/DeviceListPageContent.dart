@@ -4,6 +4,8 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/ui/commonwidgets/DeviceRow.dart';
 import 'package:mobileclient/ui/commonwidgets/Notice.dart';
 
+
+
 class DeviceListPageContent extends StatefulWidget {
   final FlutterBlue _flutterBlueInstance;
 
@@ -86,24 +88,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   @visibleForTesting
   void onScanResultReceived(ScanResult sr) {
-    if (sr.device.name != null && sr.device.name.isNotEmpty) {
-      var alreadyExistsInList = (_discoveredDevices.fold(
-              0,
-              (acc, device) =>
-                  acc + ((sr.device.id.id == device.id.id) ? 1 : 0))) >
-          0;
-      if (!alreadyExistsInList) {
-        //This really sucks, but it's the only way I can think of to allow testing this method
-        //I have to check if the state is mounted before calling setState
-        if (this.mounted) {
-          setState(() {
-            _discoveredDevices.add(sr.device);
-          });
-        } else {
-          _discoveredDevices.add(sr.device);
-        }
-      }
-    }
+    setState(() {
+      _discoveredDevices = updatedDeviceList(_discoveredDevices, sr);
+    });
   }
 
   void onBTStateChanged(BluetoothState updatedState) {
@@ -150,5 +137,20 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     setState(() {
       _isBTSupported = result;
     });
+  }
+
+  @visibleForTesting
+  List<BluetoothDevice> updatedDeviceList(List<BluetoothDevice> list, ScanResult sr) {
+    List<BluetoothDevice> result = [];
+    result.addAll(list);
+
+    bool alreadyContainsThisDevice = result.indexWhere((element) {return element.id.id == sr.device.id.id; }) != -1;
+    if (!alreadyContainsThisDevice) {
+      if (sr.device.name != null && sr.device.name.isNotEmpty) {
+        result.add(sr.device);
+      }
+    }
+
+    return result;
   }
 }

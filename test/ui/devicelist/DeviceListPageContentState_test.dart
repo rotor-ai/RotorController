@@ -33,74 +33,42 @@ void main() {
     verify(mockFlutterBlue.scan());
   });
 
-  test("Should collect relevant info from FlutterBlue.Scan()", () {
-    //ARRANGE
-    var mockFlutterBlue = MockFlutterBlue();
-
-    var mockBTDeviceAlpha =
-        _buildMockDevice("DeviceAlpha", "00:00:00:00:00:00");
-    var mockBTDeviceBravo =
-        _buildMockDevice("DeviceBravo", "11:11:11:11:11:11");
-
-    //ACT
-    var state = DeviceListPageContentState(mockFlutterBlue);
-
-    state.onScanResultReceived(ScanResult(
-        device: mockBTDeviceAlpha, advertisementData: null, rssi: 1));
-
-    //ASSERT
-    expect(state.discoveredDevices.length, 1);
-    expect(state.discoveredDevices[0].name, "DeviceAlpha");
-    expect(state.discoveredDevices[0].id.id, "00:00:00:00:00:00");
-
-    //ACT AGAIN
-    state.onScanResultReceived(ScanResult(
-        device: mockBTDeviceBravo, advertisementData: null, rssi: 1));
-
-    //ASSERT AGAIN
-    expect(state.discoveredDevices.length, 2);
-    expect(state.discoveredDevices[0].name, "DeviceAlpha");
-    expect(state.discoveredDevices[0].id.id, "00:00:00:00:00:00");
-    expect(state.discoveredDevices[1].name, "DeviceBravo");
-    expect(state.discoveredDevices[1].id.id, "11:11:11:11:11:11");
-  });
-
   test("Should not save devices without a name", () {
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
-    var mockBTDeviceAlpha = _buildMockDevice("", "00:00:00:00:00:00");
-    var mockBTDeviceBravo = _buildMockDevice(null, "11:11:11:11:11:11");
+    var scanResultA = ScanResult(device: _buildMockDevice("", "00:00:00:00:00:00"), advertisementData: null, rssi: 0);
+    var scanResultB = ScanResult(device: _buildMockDevice(null, "11:11:11:11:11:11"), advertisementData: null, rssi: 0);
 
     //ACT
     var state = DeviceListPageContentState(mockFlutterBlue);
-    state.onScanResultReceived(ScanResult(
-        device: mockBTDeviceAlpha, advertisementData: null, rssi: 1));
-    state.onScanResultReceived(ScanResult(
-        device: mockBTDeviceBravo, advertisementData: null, rssi: 1));
+    List<BluetoothDevice> initList = [];
+    List<BluetoothDevice> updatedDiscoveryList = state.updatedDeviceList(initList, scanResultA);
+    updatedDiscoveryList = state.updatedDeviceList(updatedDiscoveryList, scanResultB);
 
     //ASSERT
-    expect(state.discoveredDevices.length, 0);
+    expect(initList.length, 0);
+    expect(updatedDiscoveryList.length, 0);
   });
 
   test("Should not save devices with the same MAC", () {
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
-    var mockBTDeviceAlpha =
-        _buildMockDevice("DeviceAlpha", "00:00:00:00:00:00");
-    var mockBTDeviceBravo =
-        _buildMockDevice("DeviceBravo", "00:00:00:00:00:00");
+    var scanResultA =
+        ScanResult(device: _buildMockDevice("DeviceAlpha", "00:00:00:00:00:00"), advertisementData: null, rssi: 1);
+    var scanResultB =
+        ScanResult(device: _buildMockDevice("DeviceBravo", "00:00:00:00:00:00"), advertisementData: null, rssi: 1);
 
     //ACT
     var state = DeviceListPageContentState(mockFlutterBlue);
-    state.onScanResultReceived(ScanResult(
-        device: mockBTDeviceAlpha, advertisementData: null, rssi: 1));
-    state.onScanResultReceived(ScanResult(
-        device: mockBTDeviceBravo, advertisementData: null, rssi: 1));
+    List<BluetoothDevice> initialList = [];
+    List<BluetoothDevice> updatedDeviceList = state.updatedDeviceList(initialList, scanResultA);
+    updatedDeviceList = state.updatedDeviceList(updatedDeviceList, scanResultB);
 
     //ASSERT
-    expect(state.discoveredDevices.length, 1);
-    expect(state.discoveredDevices[0].name, "DeviceAlpha");
-    expect(state.discoveredDevices[0].id.id, "00:00:00:00:00:00");
+    expect(initialList.length, 0);//ensure that updatedDeviceList is a pure function; that it doesn't change the parameter it's given
+    expect(updatedDeviceList.length, 1);
+    expect(updatedDeviceList[0].name, "DeviceAlpha");
+    expect(updatedDeviceList[0].id.id, "00:00:00:00:00:00");
   });
 
   test("Should return appropriate title based on BT state", () {
