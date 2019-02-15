@@ -147,10 +147,8 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   @visibleForTesting
   void onIsAvailableResult(bool result) {
-    if (this.mounted) {
-      setState(() {
-        _isBTSupported = result;
-      });
-    }
+    setState(() {
+      _isBTSupported = result;
+    });
   }
 }
