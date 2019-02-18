@@ -3,6 +3,7 @@ import 'package:mobileclient/Strings.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/ui/commonwidgets/DeviceRow.dart';
 import 'package:mobileclient/ui/commonwidgets/Notice.dart';
+import 'package:mobileclient/ui/vehiclemonitor/VehicleMonitorPage.dart';
 
 class DeviceListPageContent extends StatefulWidget {
   final FlutterBlue _flutterBlueInstance;
@@ -68,11 +69,11 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     }
     widgetColumn.add(Expanded(
         child: ListView.builder(
-      itemBuilder: (BuildContext c, int i) {
-        return _buildRow(c, i);
-      },
-      itemCount: _compatibleDevices.length,
-    )));
+          itemBuilder: (BuildContext c, int i) {
+            return _buildRow(c, i);
+          },
+          itemCount: _compatibleDevices.length,
+        )));
 
     return Column(
       children: widgetColumn,
@@ -84,8 +85,13 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   Widget _buildRow(BuildContext context, int index) {
     return DeviceRow(
-        deviceName: _compatibleDevices[index].name,
-        mac: _compatibleDevices[index].id.id);
+      deviceName: _compatibleDevices[index].name,
+      mac: _compatibleDevices[index].id.id,
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext bc) => VehicleMonitorPage(device: _compatibleDevices[index])));
+      },
+    );
   }
 
   Notice buildListHeader(BluetoothState state) {
@@ -148,14 +154,14 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   //A pure function that builds a new device list, when provided a scan result
   @visibleForTesting
-  List<BluetoothDevice> updatedDeviceList(
-      List<BluetoothDevice> list, ScanResult sr) {
+  List<BluetoothDevice> updatedDeviceList(List<BluetoothDevice> list,
+      ScanResult sr) {
     List<BluetoothDevice> result = [];
     result.addAll(list);
 
     bool alreadyContainsThisDevice = result.indexWhere((element) {
-          return element.id.id == sr.device.id.id;
-        }) !=
+      return element.id.id == sr.device.id.id;
+    }) !=
         -1;
     if (!alreadyContainsThisDevice) {
       if (sr.device.name != null && sr.device.name.isNotEmpty) {

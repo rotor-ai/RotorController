@@ -5,8 +5,9 @@ class DeviceRow extends StatelessWidget {
   final String deviceName;
   final String mac;
   final int signalStrength;
+  final Function onTap;
 
-  DeviceRow({Key key, this.deviceName, this.mac, this.signalStrength})
+  DeviceRow({Key key, this.deviceName, this.mac, this.signalStrength, this.onTap})
       :super(key: key);
 
   @override
@@ -14,6 +15,7 @@ class DeviceRow extends StatelessWidget {
     return ListTile(
       title: Text(deviceName),
       subtitle: Text(mac),
+      onTap: onTap,
     );
   }
 }
