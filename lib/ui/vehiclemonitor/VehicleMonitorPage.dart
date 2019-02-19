@@ -3,17 +3,15 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/ui/vehiclemonitor/VehicleMonitorPageContent.dart';
 
 class VehicleMonitorPage extends StatelessWidget {
-  final BluetoothDevice device;
+  final BluetoothDevice _device;
+  final FlutterBlue _flutterBlue;
 
-  VehicleMonitorPage({Key key, this.device}) : super(key: key);
+  VehicleMonitorPage(this._device, this._flutterBlue);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(device.id.id),
-      ),
-      body: VehicleMonitorPageContent(device: device,),
+      body: VehicleMonitorPageContent(_device, _flutterBlue),
     );
   }
 }

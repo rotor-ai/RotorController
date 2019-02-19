@@ -89,7 +89,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       mac: _compatibleDevices[index].id.id,
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext bc) => VehicleMonitorPage(device: _compatibleDevices[index])));
+            builder: (BuildContext bc) => VehicleMonitorPage(_compatibleDevices[index], _flutterBlue)));
       },
     );
   }
