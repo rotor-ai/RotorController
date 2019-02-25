@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -16,35 +18,42 @@ class VehicleMonitorPageContent extends StatefulWidget {
 }
 
 class VehicleMonitorPageContentState extends State<VehicleMonitorPageContent> {
+  BluetoothDeviceState _deviceState = BluetoothDeviceState.disconnected;
+  StreamSubscription<BluetoothDeviceState> _fbconnection;
+  List<BluetoothService> services = [];
+
+  @override
+  void initState() {
+    super.initState();
+    debugPrint("Setting up fb connection...");
+    _fbconnection = this
+        .widget
+        .flutterBlue
+        .connect(this.widget.device,
+            autoConnect: true, timeout: Duration(seconds: 60))
+        .listen((state) {
+      setState(() {
+        debugPrint("new state: " + state.toString());
+        this._deviceState = state;
+      });
+    });
+
+//    this.widget.device.discoverServices().then((s) {
+//      setState(() {
+//        services = s;
+//      });
+//    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Notice(
-          title: "Status",
-          color: Colors.green,
-        ),
-        Container(
-          padding: EdgeInsets.only(top: 4, bottom: 4),
-            child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Center(
-                  child: Text(
-                "0 Mph",
-                textScaleFactor: 2,
-              )),
-            ),
-            Expanded(
-                child: Center(
-                    child: Text(
-              "0% Acc",
-              textScaleFactor: 2,
-            )))
-          ],
-        ))
-      ],
-    );
+    debugPrint(_fbconnection.toString());
+
+    return Column(children: <Widget>[
+      Text(this.widget.device.name),
+      Text("MAC: " + this.widget.device.id.id),
+      Text(_deviceState.toString()),
+      Text("services: " + services.toString())
+    ], crossAxisAlignment: CrossAxisAlignment.stretch);
   }
 }
