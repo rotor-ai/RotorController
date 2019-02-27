@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mobileclient/Strings.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -32,6 +34,8 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   List<BluetoothDevice> get discoveredDevices => _discoveredDevices;
 
   bool get bluetoothIsSupported => _isBTSupported;
+
+  StreamSubscription<ScanResult> _btScanSubscription;
 
   List<BluetoothDevice> get _compatibleDevices {
     List<BluetoothDevice> result = [_simulatorDevice];
@@ -88,6 +92,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       deviceName: _compatibleDevices[index].name,
       mac: _compatibleDevices[index].id.id,
       onTap: () {
+        if (_btScanSubscription != null){
+          _btScanSubscription.cancel();
+        }
         Navigator.of(context).push(MaterialPageRoute(
             builder: (BuildContext bc) => VehicleMonitorPage(_compatibleDevices[index], _flutterBlue)));
       },
@@ -123,7 +130,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     _btState = updatedState;
 
     if (_btState == BluetoothState.on) {
-      _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
+      _btScanSubscription = _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
     }
   }
 

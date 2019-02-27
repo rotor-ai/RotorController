@@ -25,35 +25,39 @@ class VehicleMonitorPageContentState extends State<VehicleMonitorPageContent> {
   @override
   void initState() {
     super.initState();
-    debugPrint("Setting up fb connection...");
-    _fbconnection = this
-        .widget
-        .flutterBlue
-        .connect(this.widget.device,
-            autoConnect: true, timeout: Duration(seconds: 60))
-        .listen((state) {
-      setState(() {
-        debugPrint("new state: " + state.toString());
-        this._deviceState = state;
-      });
-    });
 
 //    this.widget.device.discoverServices().then((s) {
 //      setState(() {
 //        services = s;
 //      });
 //    });
+
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(_fbconnection.toString());
-
     return Column(children: <Widget>[
       Text(this.widget.device.name),
       Text("MAC: " + this.widget.device.id.id),
       Text(_deviceState.toString()),
-      Text("services: " + services.toString())
-    ], crossAxisAlignment: CrossAxisAlignment.stretch);
+      Text("services: " + services.toString()),
+      MaterialButton(
+          child: Text("Connect"),
+          onPressed: () {
+            debugPrint("Setting up fb connection...");
+            this.widget.flutterBlue.connect(this.widget.device, autoConnect: false, timeout: Duration(seconds: 15)).listen(null,
+                onError: (e) => Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text("onError: " + e.toString()))),
+                onDone: () => Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text("onDone"))));
+
+
+            this.widget.device.onStateChanged().listen((newState) {
+              setState(() {
+                _deviceState = newState;
+              });
+            });
+          })
+    ]);
   }
 }
