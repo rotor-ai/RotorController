@@ -11,8 +11,12 @@ class VehicleMonitorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Vehicle Monitor"),),
+      appBar: AppBar(title: Text(this._device.name),),
       body: VehicleMonitorPageContent(_device, _flutterBlue),
+      bottomNavigationBar: BottomNavigationBar(items: [
+        BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("yo")),
+        BottomNavigationBarItem(icon: Icon(Icons.list), title: Text("yo"))
+      ],),
     );
   }
 }

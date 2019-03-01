@@ -31,33 +31,38 @@ class VehicleMonitorPageContentState extends State<VehicleMonitorPageContent> {
 //        services = s;
 //      });
 //    });
+  }
 
+  void _initiateConnection() {
+    this
+        .widget
+        .flutterBlue
+        .connect(this.widget.device,
+            autoConnect: false, timeout: Duration(seconds: 15))
+        .listen(null,
+            onError: (e) => Scaffold.of(context).showSnackBar(
+                SnackBar(content: Text("onError: " + e.toString()))),
+            onDone: () => Scaffold.of(context)
+                .showSnackBar(SnackBar(content: Text("onDone"))));
+
+    this.widget.device.onStateChanged().listen((newState) {
+      setState(() {
+        _deviceState = newState;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      Text(this.widget.device.name),
-      Text("MAC: " + this.widget.device.id.id),
-      Text(_deviceState.toString()),
-      Text("services: " + services.toString()),
-      MaterialButton(
-          child: Text("Connect"),
-          onPressed: () {
-            debugPrint("Setting up fb connection...");
-            this.widget.flutterBlue.connect(this.widget.device, autoConnect: false, timeout: Duration(seconds: 15)).listen(null,
-                onError: (e) => Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text("onError: " + e.toString()))),
-                onDone: () => Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text("onDone"))));
-
-
-            this.widget.device.onStateChanged().listen((newState) {
-              setState(() {
-                _deviceState = newState;
-              });
-            });
-          })
-    ]);
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Text(_deviceState.toString()),
+          Padding(
+              padding: EdgeInsets.only(left: 8, right: 8),
+              child: FlatButton(
+                  child: Text("Connect"),
+                  onPressed: () => _initiateConnection()))
+        ]);
   }
 }
