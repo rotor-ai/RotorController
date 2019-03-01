@@ -5,19 +5,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/ui/commonwidgets/Notice.dart';
 
-class VehicleMonitorPageContent extends StatefulWidget {
+class VehicleControlsPageContent extends StatefulWidget {
   final BluetoothDevice device;
   final FlutterBlue flutterBlue;
 
-  VehicleMonitorPageContent(this.device, this.flutterBlue);
+  VehicleControlsPageContent(this.device, this.flutterBlue);
 
   @override
   State<StatefulWidget> createState() {
-    return VehicleMonitorPageContentState();
+    return VehicleControlsPageContentState();
   }
 }
 
-class VehicleMonitorPageContentState extends State<VehicleMonitorPageContent> {
+class VehicleControlsPageContentState extends State<VehicleControlsPageContent> {
   BluetoothDeviceState _deviceState = BluetoothDeviceState.disconnected;
   StreamSubscription<BluetoothDeviceState> _fbconnection;
   List<BluetoothService> services = [];
