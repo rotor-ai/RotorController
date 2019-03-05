@@ -16,22 +16,23 @@ class BTConnectionDialog extends StatefulWidget {
 class BTConnectionDialogState extends State<BTConnectionDialog> {
   BluetoothDevice _device;
   FlutterBlue _flutterBlue;
+  Function _connectionListener;
 
   BTConnectionDialogState(this._device, this._flutterBlue);
-
-  @visibleForTesting
-  void popNav() {
-
-  }
 
   @override
   void initState() {
     super.initState();
-    _flutterBlue.connect(_device, autoConnect: false, timeout: Duration(seconds: 15));
+    _flutterBlue.connect(_device, autoConnect: false, timeout: Duration(seconds: 15))?.listen((onData) {
+      if (onData == BluetoothDeviceState.connected){
+        _connectionListener();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    _connectionListener = () => Navigator.pop(context); //I think this is a closure???
 
     return AlertDialog(
         title: Text("Connecting..."),
@@ -41,4 +42,11 @@ class BTConnectionDialogState extends State<BTConnectionDialog> {
               Padding(padding:EdgeInsets.only(left: 8) ,child: Text("please wait"))
             ])));
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+  }
+
 }
