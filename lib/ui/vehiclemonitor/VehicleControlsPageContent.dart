@@ -25,12 +25,6 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
   @override
   void initState() {
     super.initState();
-
-//    this.widget.device.discoverServices().then((s) {
-//      setState(() {
-//        services = s;
-//      });
-//    });
   }
 
   void _initiateConnection() {

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mobileclient/RotorUtils.dart';
 import 'package:mobileclient/Strings.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/ui/commonwidgets/DeviceRow.dart';
@@ -20,25 +21,19 @@ class DeviceListPageContent extends StatefulWidget {
 
 class DeviceListPageContentState extends State<DeviceListPageContent> {
   //Members
-  FlutterBlue _flutterBlue;
   List<BluetoothDevice> _discoveredDevices = [];
   bool _isBTSupported = true;
+  FlutterBlue _flutterBlue;
   BluetoothState _btState = BluetoothState.unknown;
-
-  final BluetoothDevice _simulatorDevice = BluetoothDevice(
-      id: DeviceIdentifier("00:00:00:00:00:00"),
-      name: Strings.UI_VEHICLE_SIMULATOR,
-      type: BluetoothDeviceType.unknown);
+  StreamSubscription<ScanResult> _btScanSubscription;
 
   //GETTERS
   List<BluetoothDevice> get discoveredDevices => _discoveredDevices;
 
   bool get bluetoothIsSupported => _isBTSupported;
 
-  StreamSubscription<ScanResult> _btScanSubscription;
-
   List<BluetoothDevice> get _compatibleDevices {
-    List<BluetoothDevice> result = [_simulatorDevice];
+    List<BluetoothDevice> result = [RotorUtils.simulatorDevice];
     result.addAll(_discoveredDevices);
     return result;
   }
@@ -73,11 +68,11 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     }
     widgetColumn.add(Expanded(
         child: ListView.builder(
-          itemBuilder: (BuildContext c, int i) {
-            return _buildRow(c, i);
-          },
-          itemCount: _compatibleDevices.length,
-        )));
+      itemBuilder: (BuildContext c, int i) {
+        return _buildRow(c, i);
+      },
+      itemCount: _compatibleDevices.length,
+    )));
 
     return Column(
       children: widgetColumn,
@@ -92,11 +87,12 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       deviceName: _compatibleDevices[index].name,
       mac: _compatibleDevices[index].id.id,
       onTap: () {
-        if (_btScanSubscription != null){
+        if (_btScanSubscription != null) {
           _btScanSubscription.cancel();
         }
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext bc) => VehicleMonitorPage(_compatibleDevices[index], _flutterBlue)));
+            builder: (BuildContext bc) =>
+                VehicleMonitorPage(_compatibleDevices[index], _flutterBlue)));
       },
     );
   }
@@ -130,7 +126,8 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     _btState = updatedState;
 
     if (_btState == BluetoothState.on) {
-      _btScanSubscription = _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
+      _btScanSubscription =
+          _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
     }
   }
 
@@ -161,14 +158,14 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   //A pure function that builds a new device list, when provided a scan result
   @visibleForTesting
-  List<BluetoothDevice> updatedDeviceList(List<BluetoothDevice> list,
-      ScanResult sr) {
+  List<BluetoothDevice> updatedDeviceList(
+      List<BluetoothDevice> list, ScanResult sr) {
     List<BluetoothDevice> result = [];
     result.addAll(list);
 
     bool alreadyContainsThisDevice = result.indexWhere((element) {
-      return element.id.id == sr.device.id.id;
-    }) !=
+          return element.id.id == sr.device.id.id;
+        }) !=
         -1;
     if (!alreadyContainsThisDevice) {
       if (sr.device.name != null && sr.device.name.isNotEmpty) {
