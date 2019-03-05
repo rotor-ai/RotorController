@@ -7,12 +7,6 @@ import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 import '../../mocks/RotorMocks.dart';
 
 void main() {
-  MockBluetoothDevice _buildMockDevice(String name, String id) {
-    var device = MockBluetoothDevice();
-    when(device.name).thenReturn(name);
-    when(device.id).thenReturn(DeviceIdentifier(id));
-    return device;
-  }
 
   test("Should call scan when bt state changes to ON", () {
     var mockFlutterBlue = MockFlutterBlue();
@@ -36,8 +30,8 @@ void main() {
   test("Should not save devices without a name", () {
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
-    var scanResultA = ScanResult(device: _buildMockDevice("", "00:00:00:00:00:00"), advertisementData: null, rssi: 0);
-    var scanResultB = ScanResult(device: _buildMockDevice(null, "11:11:11:11:11:11"), advertisementData: null, rssi: 0);
+    var scanResultA = ScanResult(device: buildMockDevice("", "00:00:00:00:00:00"), advertisementData: null, rssi: 0);
+    var scanResultB = ScanResult(device: buildMockDevice(null, "11:11:11:11:11:11"), advertisementData: null, rssi: 0);
 
     //ACT
     var state = DeviceListPageContentState(mockFlutterBlue);
@@ -54,9 +48,9 @@ void main() {
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
     var scanResultA =
-        ScanResult(device: _buildMockDevice("DeviceAlpha", "00:00:00:00:00:00"), advertisementData: null, rssi: 1);
+        ScanResult(device: buildMockDevice("DeviceAlpha", "00:00:00:00:00:00"), advertisementData: null, rssi: 1);
     var scanResultB =
-        ScanResult(device: _buildMockDevice("DeviceBravo", "00:00:00:00:00:00"), advertisementData: null, rssi: 1);
+        ScanResult(device: buildMockDevice("DeviceBravo", "00:00:00:00:00:00"), advertisementData: null, rssi: 1);
 
     //ACT
     var state = DeviceListPageContentState(mockFlutterBlue);

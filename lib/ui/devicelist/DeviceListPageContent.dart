@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobileclient/RotorUtils.dart';
 import 'package:mobileclient/Strings.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:mobileclient/ui/commonwidgets/BTConnectionDialog.dart';
 import 'package:mobileclient/ui/commonwidgets/DeviceRow.dart';
 import 'package:mobileclient/ui/commonwidgets/Notice.dart';
 import 'package:mobileclient/ui/vehiclemonitor/VehicleMonitorPage.dart';
@@ -90,9 +91,15 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
         if (_btScanSubscription != null) {
           _btScanSubscription.cancel();
         }
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext bc) =>
-                VehicleMonitorPage(_compatibleDevices[index], _flutterBlue)));
+
+        var foo = showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (buildContext) =>
+                BTConnectionDialog(_compatibleDevices[index], _flutterBlue));
+//        Navigator.of(context).push(MaterialPageRoute(
+//            builder: (BuildContext bc) =>
+//                VehicleMonitorPage(_compatibleDevices[index], _flutterBlue)));
       },
     );
   }
