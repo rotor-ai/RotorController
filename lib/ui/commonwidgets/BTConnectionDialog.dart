@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:mobileclient/ui/vehiclemonitor/VehicleMonitorPage.dart';
 
 class BTConnectionDialog extends StatefulWidget {
   BluetoothDevice _device;
@@ -16,37 +17,37 @@ class BTConnectionDialog extends StatefulWidget {
 class BTConnectionDialogState extends State<BTConnectionDialog> {
   BluetoothDevice _device;
   FlutterBlue _flutterBlue;
-  Function _connectionListener;
+  Function _dismissDialog;
 
   BTConnectionDialogState(this._device, this._flutterBlue);
 
   @override
   void initState() {
     super.initState();
-    _flutterBlue.connect(_device, autoConnect: false, timeout: Duration(seconds: 15))?.listen((onData) {
-      if (onData == BluetoothDeviceState.connected){
-        _connectionListener();
+    _flutterBlue.connect(
+        _device, autoConnect: false, timeout: Duration(seconds: 15))?.listen((
+        onData) {
+      if (onData == BluetoothDeviceState.connected) {
+        _dismissDialog();
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _connectionListener = () => Navigator.pop(context); //I think this is a closure???
+    _dismissDialog = () {
+      Navigator.pop(context); //I think this is a closure???
+      Navigator.of(context).push(MaterialPageRoute(builder: (bc) => VehicleMonitorPage(_device, _flutterBlue)));
+    };
 
     return AlertDialog(
         title: Text("Connecting..."),
         content: Container(
             child: Row(children: <Widget>[
               CircularProgressIndicator(),
-              Padding(padding:EdgeInsets.only(left: 8) ,child: Text("please wait"))
+              Padding(
+                  padding: EdgeInsets.only(left: 8), child: Text("please wait"))
             ])));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-  }
-
+    }
 }
+

@@ -92,14 +92,11 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
           _btScanSubscription.cancel();
         }
 
-        var foo = showDialog(
+        showDialog(
             context: context,
             barrierDismissible: true,
             builder: (buildContext) =>
                 BTConnectionDialog(_compatibleDevices[index], _flutterBlue));
-//        Navigator.of(context).push(MaterialPageRoute(
-//            builder: (BuildContext bc) =>
-//                VehicleMonitorPage(_compatibleDevices[index], _flutterBlue)));
       },
     );
   }
