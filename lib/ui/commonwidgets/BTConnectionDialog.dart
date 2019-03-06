@@ -11,9 +11,14 @@ class BTConnectionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _device.state.then((currentDeviceState) {
-      if (currentDeviceState != BluetoothDeviceState.connected && currentDeviceState != BluetoothDeviceState.connecting) {
-        _flutterBlue.connect(_device,
-            timeout: Duration(seconds: 10), autoConnect: false);
+      if (currentDeviceState != BluetoothDeviceState.connected &&
+          currentDeviceState != BluetoothDeviceState.connecting) {
+        _flutterBlue
+            .connect(_device,
+                timeout: Duration(seconds: 10), autoConnect: false)
+            ?.listen((btDeviceState) {
+              Navigator.pop(context);
+        });
       }
     });
 
@@ -21,9 +26,8 @@ class BTConnectionDialog extends StatelessWidget {
         title: Text("Connecting..."),
         content: Container(
             child: Row(children: <Widget>[
-              CircularProgressIndicator(),
-              Padding(padding: EdgeInsets.only(left: 8), child: Text("please wait"))
-            ])));
+          CircularProgressIndicator(),
+          Padding(padding: EdgeInsets.only(left: 8), child: Text("please wait"))
+        ])));
   }
-
 }
