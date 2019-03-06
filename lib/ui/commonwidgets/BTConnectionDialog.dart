@@ -21,14 +21,9 @@ class BTConnectionDialogState extends State<BTConnectionDialog> {
   BTConnectionDialogState(this._device, this._flutterBlue);
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     _device.state.then((currentDeviceState) {
-      if (currentDeviceState != BluetoothDeviceState.connected) {
+      if (currentDeviceState != BluetoothDeviceState.connected && currentDeviceState != BluetoothDeviceState.connecting) {
         _flutterBlue.connect(_device,
             timeout: Duration(seconds: 15), autoConnect: false);
       }

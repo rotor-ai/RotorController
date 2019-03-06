@@ -22,10 +22,22 @@ void main() {
 
   });
 
-  testWidgets('Should not attempt connection on build if device is connecting or connected', (WidgetTester tester) async {
+  testWidgets('Should not attempt connection on build if device is connected', (WidgetTester tester) async {
     var mockDevice = MockBluetoothDevice();
     var mockFlutterBlue = MockFlutterBlue();
     when(mockDevice.state).thenAnswer((_) => Future.value(BluetoothDeviceState.connected));
+
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(body: BTConnectionDialog(mockDevice, mockFlutterBlue))));
+
+    verifyNever(mockFlutterBlue.connect(any, timeout: anyNamed('timeout'), autoConnect: anyNamed('autoConnect')));
+
+  });
+
+  testWidgets('Should not attempt connection on build if device is connecting', (WidgetTester tester) async {
+    var mockDevice = MockBluetoothDevice();
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockDevice.state).thenAnswer((_) => Future.value(BluetoothDeviceState.connecting));
 
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(body: BTConnectionDialog(mockDevice, mockFlutterBlue))));
