@@ -18,7 +18,7 @@ void main() {
     await tester.pumpWidget(MaterialApp(
       home: Scaffold(body: BTConnectionDialog(mockDevice, mockFlutterBlue))));
 
-    verify(mockFlutterBlue.connect(mockDevice,timeout: Duration(seconds: 15), autoConnect: false));
+    verify(mockFlutterBlue.connect(mockDevice,timeout: anyNamed('timeout'), autoConnect: false));
 
   });
 
