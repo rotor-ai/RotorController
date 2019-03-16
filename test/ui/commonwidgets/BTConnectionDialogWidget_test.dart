@@ -93,4 +93,3 @@ void main() {
 
 
 class MockNavigator extends Mock implements NavigatorObserver {}
-class MockBluetoothDeviceStateStream extends Mock implements Stream<BluetoothDeviceState> {}
