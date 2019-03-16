@@ -17,31 +17,17 @@ class VehicleControlsPageContent extends StatefulWidget {
   }
 }
 
-class VehicleControlsPageContentState extends State<VehicleControlsPageContent> {
+class VehicleControlsPageContentState
+    extends State<VehicleControlsPageContent> {
   BluetoothDeviceState _deviceState = BluetoothDeviceState.disconnected;
-  StreamSubscription<BluetoothDeviceState> _fbconnection;
   List<BluetoothService> services = [];
 
   @override
   void initState() {
     super.initState();
-  }
-
-  void _initiateConnection() {
-    this
-        .widget
-        .flutterBlue
-        .connect(this.widget.device,
-            autoConnect: false, timeout: Duration(seconds: 15))
-        .listen(null,
-            onError: (e) => Scaffold.of(context).showSnackBar(
-                SnackBar(content: Text("onError: " + e.toString()))),
-            onDone: () => Scaffold.of(context)
-                .showSnackBar(SnackBar(content: Text("onDone"))));
-
-    this.widget.device.onStateChanged().listen((newState) {
+    widget.device.state.then((v) {
       setState(() {
-        _deviceState = newState;
+        _deviceState = v;
       });
     });
   }
@@ -52,11 +38,6 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(_deviceState.toString()),
-          Padding(
-              padding: EdgeInsets.only(left: 8, right: 8),
-              child: FlatButton(
-                  child: Text("Connect"),
-                  onPressed: () => _initiateConnection()))
         ]);
   }
 }
