@@ -88,9 +88,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       deviceName: _compatibleDevices[index].name,
       mac: _compatibleDevices[index].id.id,
       onTap: () {
-        if (_btScanSubscription != null) {
-          _btScanSubscription.cancel();
-        }
+        _btScanSubscription?.cancel();
 
         var deviceToConnectTo = _compatibleDevices[index];
 
