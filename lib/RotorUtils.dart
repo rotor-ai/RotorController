@@ -4,8 +4,10 @@ import 'package:mobileclient/Strings.dart';
 class RotorUtils {
 
   static final BluetoothDevice simulatorDevice = BluetoothDevice(
-      id: DeviceIdentifier("00:00:00:00:00:00"),
+      id: DeviceIdentifier(simulatorId),
       name: Strings.UI_VEHICLE_SIMULATOR,
       type: BluetoothDeviceType.unknown);
+
+  static final String simulatorId = "00:00:00:00:00:00";
 
 }

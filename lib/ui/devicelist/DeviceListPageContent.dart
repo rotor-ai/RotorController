@@ -92,11 +92,21 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
           _btScanSubscription.cancel();
         }
 
-        showDialog(
-            context: context,
-            barrierDismissible: true,
-            builder: (buildContext) =>
-                BTConnectionDialog(_compatibleDevices[index], _flutterBlue));
+        var deviceToConnectTo = _compatibleDevices[index];
+
+        if (deviceToConnectTo.id.id == RotorUtils.simulatorId) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (bc) =>
+                      VehicleMonitorPage(deviceToConnectTo, _flutterBlue)));
+        } else {
+          showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (buildContext) =>
+                  BTConnectionDialog(deviceToConnectTo, _flutterBlue));
+        }
       },
     );
   }
