@@ -21,6 +21,7 @@ class VehicleControlsPageContentState
     extends State<VehicleControlsPageContent> {
   BluetoothDeviceState _deviceState = BluetoothDeviceState.disconnected;
   List<BluetoothService> services = [];
+  StreamSubscription<BluetoothDeviceState> BTDeviceStateSub;
 
   @override
   void initState() {
@@ -30,6 +31,13 @@ class VehicleControlsPageContentState
         _deviceState = v;
       });
     });
+
+    BTDeviceStateSub = widget.device.onStateChanged()?.listen((updatedState) {
+      setState(() {
+        _deviceState = updatedState;
+      });
+    });
+
   }
 
   @override
