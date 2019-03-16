@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:mobileclient/Strings.dart';
 import 'package:mobileclient/ui/welcome/WelcomePage.dart';
-import 'package:flutter/rendering.dart';
 
 void main() {
   debugPaintSizeEnabled = false;

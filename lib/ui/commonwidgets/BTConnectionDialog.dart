@@ -17,7 +17,14 @@ class BTConnectionDialog extends StatelessWidget {
             .connect(_device,
                 timeout: Duration(seconds: 10), autoConnect: false)
             ?.listen((btDeviceState) {
-              Navigator.pop(context);
+          if (btDeviceState == BluetoothDeviceState.connected) {
+            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (bc) =>
+                        VehicleMonitorPage(_device, _flutterBlue)));
+          }
         });
       }
     });
