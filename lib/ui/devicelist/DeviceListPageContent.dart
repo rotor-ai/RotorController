@@ -81,14 +81,19 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     );
   }
 
-  //========== Helpers below this line ==========
+
+  @override
+  void dispose() {
+    super.dispose();
+    _stopScanning();
+  } //========== Helpers below this line ==========
 
   Widget _buildRow(BuildContext context, int index) {
     return DeviceRow(
       deviceName: _compatibleDevices[index].name,
       mac: _compatibleDevices[index].id.id,
       onTap: () {
-        _btScanSubscription?.cancel();
+        _stopScanning();
 
         var deviceToConnectTo = _compatibleDevices[index];
 
@@ -115,6 +120,16 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       return Notice(title: title, color: Colors.orange);
     }
     return null;
+  }
+
+  void _stopScanning() {
+    _btScanSubscription?.cancel()?.then((v) {
+      if (mounted) {
+        setState(() {
+          _btScanSubscription = null;
+        });
+      }
+    });
   }
 
   void _onBTStateChanged(updatedState) {
