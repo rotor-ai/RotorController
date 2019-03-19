@@ -39,7 +39,6 @@ class VehicleControlsPageContentState
     });
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -49,9 +48,32 @@ class VehicleControlsPageContentState
   @override
   Widget build(BuildContext context) {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(_deviceState.toString()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Padding(
+                    child: RaisedButton(
+                      child: Text("<-"),
+                    ),
+                    padding: EdgeInsets.all(4),
+                  ),
+                  Padding(child: RaisedButton(child: Text("->")), padding: EdgeInsets.all(4),)
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(child:RaisedButton(
+                    child: Text("acc")), padding: EdgeInsets.all(4)),
+                  Padding(child: RaisedButton(child: Text("brake")), padding: EdgeInsets.all(4)),
+                ],
+              )
+            ],
+          )
         ]);
   }
 }

@@ -4,7 +4,7 @@ import 'package:mobileclient/Strings.dart';
 import 'package:mobileclient/ui/welcome/WelcomePage.dart';
 
 void main() {
-  debugPaintSizeEnabled = false;
+  debugPaintSizeEnabled = true;
   debugPaintBaselinesEnabled = false;
   debugPaintLayerBordersEnabled = false;
 
