@@ -51,7 +51,7 @@ class VehicleControlsPageContentState
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Notice(title: _deviceState.toString(), color: Colors.orange),
+          Notice(title: _deviceState.toString(), color: Colors.black),
           Expanded(
               child: Container(
                   color: Colors.black,
