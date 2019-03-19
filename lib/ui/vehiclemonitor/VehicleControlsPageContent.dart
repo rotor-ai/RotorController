@@ -48,32 +48,60 @@ class VehicleControlsPageContentState
   @override
   Widget build(BuildContext context) {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text(_deviceState.toString()),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Padding(
-                    child: RaisedButton(
-                      child: Text("<-"),
-                    ),
-                    padding: EdgeInsets.all(4),
-                  ),
-                  Padding(child: RaisedButton(child: Text("->")), padding: EdgeInsets.all(4),)
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  Padding(child:RaisedButton(
-                    child: Text("acc")), padding: EdgeInsets.all(4)),
-                  Padding(child: RaisedButton(child: Text("brake")), padding: EdgeInsets.all(4)),
-                ],
-              )
-            ],
-          )
+          Notice(title: _deviceState.toString(), color: Colors.orange),
+          Expanded(child:Container(
+              color: Colors.black,
+              child: ListView.builder(
+            itemBuilder: (BuildContext bc, int i) {
+              return Text("hi");
+            },
+            itemCount: 5,
+          ))),
+          _buildControlPanel()
         ]);
   }
+
+  Widget _buildControlPanel() {
+    return Container(
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            _buildControlPanelButton(
+                "left",
+                (pressingDown) =>
+                    debugPrint("Left " + pressingDown.toString())),
+            _buildControlPanelButton(
+                "right",
+                (pressingDown) =>
+                    debugPrint("Right " + pressingDown.toString()))
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _buildControlPanelButton("GO!",
+                (pressingDown) => debugPrint("GO! " + pressingDown.toString())),
+            _buildControlPanelButton(
+                "STOP!",
+                (pressingDown) =>
+                    debugPrint("STOP! " + pressingDown.toString()))
+          ],
+        )
+      ],
+    ));
+  }
+
+  Widget _buildControlPanelButton(
+          String actionTitle, Function highlightAction) =>
+      Padding(
+          child: RaisedButton(
+            child: Text(actionTitle),
+            onHighlightChanged: highlightAction,
+            onPressed: () {},
+          ),
+          padding: EdgeInsets.all(4));
 }
