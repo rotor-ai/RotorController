@@ -22,6 +22,7 @@ class VehicleControlsPageContentState
   BluetoothDeviceState _deviceState = BluetoothDeviceState.disconnected;
   List<BluetoothService> services = [];
   StreamSubscription<BluetoothDeviceState> btDeviceStateSub;
+  List<String> eventLog = [];
 
   @override
   void initState() {
@@ -51,14 +52,15 @@ class VehicleControlsPageContentState
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Notice(title: _deviceState.toString(), color: Colors.orange),
-          Expanded(child:Container(
-              color: Colors.black,
-              child: ListView.builder(
-            itemBuilder: (BuildContext bc, int i) {
-              return Text("hi");
-            },
-            itemCount: 5,
-          ))),
+          Expanded(
+              child: Container(
+                  color: Colors.black,
+                  child: ListView.builder(
+                    itemBuilder: (BuildContext bc, int i) {
+                      return Text(eventLog[i]);
+                    },
+                    itemCount: eventLog.length,
+                  ))),
           _buildControlPanel()
         ]);
   }
@@ -73,30 +75,34 @@ class VehicleControlsPageContentState
             _buildControlPanelButton(
                 "left",
                 (pressingDown) =>
-                    debugPrint("Left " + pressingDown.toString())),
+                    _executeCommand("Left " + pressingDown.toString())),
             _buildControlPanelButton(
                 "right",
                 (pressingDown) =>
-                    debugPrint("Right " + pressingDown.toString()))
+                    _executeCommand("Right " + pressingDown.toString()))
           ],
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _buildControlPanelButton("GO!",
-                (pressingDown) => debugPrint("GO! " + pressingDown.toString()), colorOverride: Colors.green),
+            _buildControlPanelButton(
+                "GO!",
+                (pressingDown) =>
+                    _executeCommand("GO! " + pressingDown.toString()),
+                colorOverride: Colors.green),
             _buildControlPanelButton(
                 "STOP!",
                 (pressingDown) =>
-                    debugPrint("STOP! " + pressingDown.toString()), colorOverride: Colors.red)
+                    _executeCommand("STOP! " + pressingDown.toString()),
+                colorOverride: Colors.red)
           ],
         )
       ],
     ));
   }
 
-  Widget _buildControlPanelButton(
-          String actionTitle, Function highlightAction, {Color colorOverride = RotorUtils.ROTOR_TEAL_COLOR}) =>
+  Widget _buildControlPanelButton(String actionTitle, Function highlightAction,
+          {Color colorOverride = RotorUtils.ROTOR_TEAL_COLOR}) =>
       Padding(
           child: RaisedButton(
             child: Text(actionTitle),
@@ -105,4 +111,10 @@ class VehicleControlsPageContentState
             color: colorOverride,
           ),
           padding: EdgeInsets.all(4));
+
+  _executeCommand(String s) {
+    setState(() {
+      eventLog.add(s);
+    });
+  }
 }

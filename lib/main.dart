@@ -5,7 +5,7 @@ import 'package:mobileclient/ui/welcome/WelcomePage.dart';
 import 'package:mobileclient/RotorUtils.dart';
 
 void main() {
-  debugPaintSizeEnabled = true;
+  debugPaintSizeEnabled = false;
   debugPaintBaselinesEnabled = false;
   debugPaintLayerBordersEnabled = false;
 
