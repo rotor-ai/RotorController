@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:mobileclient/RotorUtils.dart';
 import 'package:mobileclient/ui/commonwidgets/Notice.dart';
 
 class VehicleControlsPageContent extends StatefulWidget {
@@ -84,11 +84,11 @@ class VehicleControlsPageContentState
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _buildControlPanelButton("GO!",
-                (pressingDown) => debugPrint("GO! " + pressingDown.toString())),
+                (pressingDown) => debugPrint("GO! " + pressingDown.toString()), colorOverride: Colors.green),
             _buildControlPanelButton(
                 "STOP!",
                 (pressingDown) =>
-                    debugPrint("STOP! " + pressingDown.toString()))
+                    debugPrint("STOP! " + pressingDown.toString()), colorOverride: Colors.red)
           ],
         )
       ],
@@ -96,12 +96,13 @@ class VehicleControlsPageContentState
   }
 
   Widget _buildControlPanelButton(
-          String actionTitle, Function highlightAction) =>
+          String actionTitle, Function highlightAction, {Color colorOverride = RotorUtils.ROTOR_TEAL_COLOR}) =>
       Padding(
           child: RaisedButton(
             child: Text(actionTitle),
             onHighlightChanged: highlightAction,
             onPressed: () {},
+            color: colorOverride,
           ),
           padding: EdgeInsets.all(4));
 }
