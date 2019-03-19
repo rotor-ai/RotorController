@@ -17,7 +17,7 @@ class VehicleMonitorPage extends StatefulWidget {
 }
 
 class VehicleMonitorPageState extends State<VehicleMonitorPage> {
-  int _currentPage = 0;
+  int _currentPage = 1;
 
   @override
   Widget build(BuildContext context) {
