@@ -1,9 +1,11 @@
 
 class RotorCommand {
-  get throttleMag => 0;
-  get headingMag => 0;
-  get longitudinalDir => LongitudinalDirection.NEUTRAL;
-  get transverseDir => TransverseDirection.MIDDLE;
+  final int throttle;
+  final int heading;
+  final LongitudinalDirection longitudinalDir;
+  final TransverseDirection transverseDir;
+
+  RotorCommand({this.throttle = 0, this.heading = 0, this.longitudinalDir = LongitudinalDirection.NEUTRAL, this.transverseDir = TransverseDirection.MIDDLE});
 
 }
 
