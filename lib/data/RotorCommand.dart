@@ -2,14 +2,15 @@ import 'package:intl/intl.dart';
 import 'dart:math';
 
 class RotorCommand {
+  int _throttleVal;
+  int _headingVal;
+
+  final ThrottleDirection throttleDir;
+  final HeadingDirection headingDir;
+
   get throttleVal => _throttleVal;
 
   get headingVal => _headingVal;
-
-  int _throttleVal;
-  int _headingVal;
-  final ThrottleDirection throttleDir;
-  final HeadingDirection headingDir;
 
   RotorCommand(
       {throttleVal = 0,
@@ -21,39 +22,41 @@ class RotorCommand {
   }
 
   toShorthand() {
-    String throttleDirSymbol;
-    switch (throttleDir) {
-      case ThrottleDirection.FORWARD:
-        throttleDirSymbol = 'F';
-        break;
-      case ThrottleDirection.BACKWARD:
-        throttleDirSymbol = 'B';
-        break;
-      default:
-        throttleDirSymbol = 'N';
-    }
-
-    String headingDirSymbol;
-    switch (headingDir) {
-      case HeadingDirection.PORT:
-        headingDirSymbol = 'L';
-        break;
-      case HeadingDirection.MIDDLE:
-        headingDirSymbol = 'N';
-        break;
-      default:
-        headingDirSymbol = 'R';
-    }
-
     NumberFormat outputFormat = NumberFormat();
     outputFormat.maximumIntegerDigits = 3;
     outputFormat.minimumIntegerDigits = 3;
 
-    return throttleDirSymbol +
+    return _abbreviateThrottleDir(throttleDir) +
         outputFormat.format(throttleVal) +
         " " +
-        headingDirSymbol +
+        _abbreviateHeadingDir(headingDir) +
         outputFormat.format(headingVal);
+  }
+}
+
+String _abbreviateThrottleDir(ThrottleDirection td) {
+  switch (td) {
+    case ThrottleDirection.FORWARD:
+      return 'F';
+      break;
+    case ThrottleDirection.BACKWARD:
+      return 'B';
+      break;
+    default:
+      return 'N';
+  }
+}
+
+String _abbreviateHeadingDir(HeadingDirection hd) {
+  switch (hd) {
+    case HeadingDirection.PORT:
+      return 'L';
+      break;
+    case HeadingDirection.MIDDLE:
+      return 'N';
+      break;
+    default:
+      return 'R';
   }
 }
 
