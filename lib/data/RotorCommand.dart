@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-import 'dart:math';
 
 class RotorCommand {
   int _throttleVal;
