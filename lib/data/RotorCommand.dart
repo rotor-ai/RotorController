@@ -1,4 +1,6 @@
 
+import 'package:intl/intl.dart';
+
 class RotorCommand {
   final int throttleVal;
   final int headingVal;
@@ -32,7 +34,11 @@ class RotorCommand {
         headingDirSymbol = 'R';
     }
 
-    return throttleDirSymbol + "000 " + headingDirSymbol +"000";
+    NumberFormat outputFormat = NumberFormat();
+    outputFormat.maximumIntegerDigits = 3;
+    outputFormat.minimumIntegerDigits = 3;
+
+    return throttleDirSymbol + outputFormat.format(throttleVal) + " " + headingDirSymbol + outputFormat.format(headingVal);
   }
 
 }
