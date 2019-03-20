@@ -1,17 +1,28 @@
-
 import 'package:intl/intl.dart';
+import 'dart:math';
 
 class RotorCommand {
-  final int throttleVal;
-  final int headingVal;
+  get throttleVal => _throttleVal;
+
+  get headingVal => _headingVal;
+
+  int _throttleVal;
+  int _headingVal;
   final ThrottleDirection throttleDir;
   final HeadingDirection headingDir;
 
-  RotorCommand({this.throttleVal = 0, this.headingVal = 0, this.throttleDir = ThrottleDirection.NEUTRAL, this.headingDir = HeadingDirection.MIDDLE});
+  RotorCommand(
+      {throttleVal = 0,
+      headingVal = 0,
+      this.throttleDir = ThrottleDirection.NEUTRAL,
+      this.headingDir = HeadingDirection.MIDDLE}) {
+    _throttleVal = num.parse(throttleVal.toString()).clamp(0, 100).toInt();
+    _headingVal = num.parse(headingVal.toString()).clamp(0, 100).toInt();
+  }
 
   toShorthand() {
     String throttleDirSymbol;
-    switch(throttleDir){
+    switch (throttleDir) {
       case ThrottleDirection.FORWARD:
         throttleDirSymbol = 'F';
         break;
@@ -23,7 +34,7 @@ class RotorCommand {
     }
 
     String headingDirSymbol;
-    switch(headingDir){
+    switch (headingDir) {
       case HeadingDirection.PORT:
         headingDirSymbol = 'L';
         break;
@@ -38,9 +49,12 @@ class RotorCommand {
     outputFormat.maximumIntegerDigits = 3;
     outputFormat.minimumIntegerDigits = 3;
 
-    return throttleDirSymbol + outputFormat.format(throttleVal) + " " + headingDirSymbol + outputFormat.format(headingVal);
+    return throttleDirSymbol +
+        outputFormat.format(throttleVal) +
+        " " +
+        headingDirSymbol +
+        outputFormat.format(headingVal);
   }
-
 }
 
 enum ThrottleDirection { FORWARD, NEUTRAL, BACKWARD }

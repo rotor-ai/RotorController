@@ -37,7 +37,7 @@ void main() {
 
     expect(RotorCommand(throttleVal: 1).toShorthand(), "N001 N000");
     expect(RotorCommand(throttleVal: 12).toShorthand(), "N012 N000");
-    expect(RotorCommand(throttleVal: 123).toShorthand(), "N123 N000");
+    expect(RotorCommand(throttleVal: 100).toShorthand(), "N100 N000");
   });
 
   test("Should produce correct abbreviation for heading direction", () {
@@ -52,7 +52,23 @@ void main() {
 
     expect(RotorCommand(headingVal: 1).toShorthand(), "N000 N001");
     expect(RotorCommand(headingVal: 12).toShorthand(), "N000 N012");
-    expect(RotorCommand(headingVal: 123).toShorthand(), "N000 N123");
+    expect(RotorCommand(headingVal: 100).toShorthand(), "N000 N100");
+  });
+
+  test("Should truncate values outside of bounds", () {
+
+    RotorCommand negativeOOBThrottle = RotorCommand(throttleVal: -20);
+    RotorCommand positiveOOBThrottle = RotorCommand(throttleVal: 120);
+
+    RotorCommand negativeOOBHeading = RotorCommand(headingVal: -30);
+    RotorCommand positiveOOBHeading = RotorCommand(headingVal: 130);
+
+    expect(negativeOOBThrottle.throttleVal, 0);
+    expect(positiveOOBThrottle.throttleVal, 100);
+
+    expect(negativeOOBHeading.headingVal, 0);
+    expect(positiveOOBHeading.headingVal, 100);
+
   });
 
 
