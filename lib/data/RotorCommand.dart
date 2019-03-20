@@ -1,13 +1,13 @@
 
 class RotorCommand {
-  final int throttle;
-  final int heading;
-  final LongitudinalDirection longitudinalDir;
-  final TransverseDirection transverseDir;
+  final int throttleVal;
+  final int headingVal;
+  final ThrottleDirection throttleDir;
+  final HeadingDirection headingDir;
 
-  RotorCommand({this.throttle = 0, this.heading = 0, this.longitudinalDir = LongitudinalDirection.NEUTRAL, this.transverseDir = TransverseDirection.MIDDLE});
+  RotorCommand({this.throttleVal = 0, this.headingVal = 0, this.throttleDir = ThrottleDirection.NEUTRAL, this.headingDir = HeadingDirection.MIDDLE});
 
 }
 
-enum LongitudinalDirection { FORWARD, NEUTRAL, BACKWARD }
-enum TransverseDirection { PORT, MIDDLE, STARBOARD }
+enum ThrottleDirection { FORWARD, NEUTRAL, BACKWARD }
+enum HeadingDirection { PORT, MIDDLE, STARBOARD }

@@ -5,25 +5,25 @@ void main() {
   test("Should construct with default values", () {
     RotorCommand rotorCommand = RotorCommand();
 
-    expect(rotorCommand.throttle, 0);
-    expect(rotorCommand.heading, 0);
-    expect(rotorCommand.longitudinalDir, LongitudinalDirection.NEUTRAL);
-    expect(rotorCommand.transverseDir, TransverseDirection.MIDDLE);
+    expect(rotorCommand.throttleVal, 0);
+    expect(rotorCommand.headingVal, 0);
+    expect(rotorCommand.throttleDir, ThrottleDirection.NEUTRAL);
+    expect(rotorCommand.headingDir, HeadingDirection.MIDDLE);
   });
 
   //This is technically a constructor test... which is kinda stupid...
   test("Should construct with specified values", () {
     RotorCommand rotorCommand = RotorCommand(
-        throttle: 10,
-        heading: 20,
-        longitudinalDir: LongitudinalDirection.BACKWARD,
-        transverseDir: TransverseDirection.STARBOARD);
+        throttleVal: 10,
+        headingVal: 20,
+        throttleDir: ThrottleDirection.BACKWARD,
+        headingDir: HeadingDirection.STARBOARD);
 
 
-    expect(rotorCommand.throttle, 10);
-    expect(rotorCommand.heading, 20);
-    expect(rotorCommand.longitudinalDir, LongitudinalDirection.BACKWARD);
-    expect(rotorCommand.transverseDir, TransverseDirection.STARBOARD);
+    expect(rotorCommand.throttleVal, 10);
+    expect(rotorCommand.headingVal, 20);
+    expect(rotorCommand.throttleDir, ThrottleDirection.BACKWARD);
+    expect(rotorCommand.headingDir, HeadingDirection.STARBOARD);
   });
 
 
