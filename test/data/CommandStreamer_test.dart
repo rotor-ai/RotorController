@@ -76,6 +76,21 @@ void main() {
         ]));
   });
 
+  test("Should clear staged command after calling execute", () async {
+    //ARRANGE
+    CommandStreamer commandStreamer = CommandStreamer();
+    Stream<RotorCommand> cmdStream = commandStreamer.stream;
+
+    //ACT
+    commandStreamer.stageCommand(_arbitraryCommandA);
+    commandStreamer.execute();
+    commandStreamer.execute();
+
+    //ASSERT
+    commandStreamer.closeStream();
+    await cmdStream.length.then((i) => expect(i, 2));
+  });
+
   test("Should send two commands", () async {
     //ARRANGE
     CommandStreamer commandStreamer = CommandStreamer();

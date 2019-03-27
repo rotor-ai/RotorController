@@ -21,6 +21,7 @@ class CommandStreamer {
   void execute() {
     if (_stagedCommand != null) {
       _streamController.add(_stagedCommand);
+      _stagedCommand = null;
     }
   }
 
