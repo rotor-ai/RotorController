@@ -1,15 +1,30 @@
-
 import 'dart:async';
 
 import 'package:mobileclient/data/RotorCommand.dart';
 
 class CommandStreamer {
-  StreamController<RotorCommand> streamController = StreamController<RotorCommand>();
+  StreamController<RotorCommand> _streamController =
+      StreamController<RotorCommand>();
+  RotorCommand _stagedCommand = null;
 
-  get stream => streamController.stream;
+  get stream => _streamController.stream;
 
-  CommandStreamer(){
-    streamController.add(RotorCommand());
+  CommandStreamer() {
+    _streamController.add(RotorCommand());
   }
 
+  void stageCommand(RotorCommand rotorCommand) {
+
+    _stagedCommand = rotorCommand;
+  }
+
+  void execute() {
+    if (_stagedCommand != null) {
+      _streamController.add(_stagedCommand);
+    }
+  }
+
+  void closeStream() {
+    _streamController.close();
+  }
 }
