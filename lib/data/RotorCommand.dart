@@ -31,31 +31,31 @@ class RotorCommand {
         _abbreviateHeadingDir(headingDir) +
         outputFormat.format(headingVal);
   }
-}
 
-String _abbreviateThrottleDir(ThrottleDirection td) {
-  switch (td) {
-    case ThrottleDirection.FORWARD:
-      return 'F';
-      break;
-    case ThrottleDirection.BACKWARD:
-      return 'B';
-      break;
-    default:
-      return 'N';
+  String _abbreviateThrottleDir(ThrottleDirection td) {
+    switch (td) {
+      case ThrottleDirection.FORWARD:
+        return 'F';
+        break;
+      case ThrottleDirection.BACKWARD:
+        return 'B';
+        break;
+      default:
+        return 'N';
+    }
   }
-}
 
-String _abbreviateHeadingDir(HeadingDirection hd) {
-  switch (hd) {
-    case HeadingDirection.PORT:
-      return 'L';
-      break;
-    case HeadingDirection.MIDDLE:
-      return 'N';
-      break;
-    default:
-      return 'R';
+  String _abbreviateHeadingDir(HeadingDirection hd) {
+    switch (hd) {
+      case HeadingDirection.PORT:
+        return 'L';
+        break;
+      case HeadingDirection.MIDDLE:
+        return 'N';
+        break;
+      default:
+        return 'R';
+    }
   }
 }
 
