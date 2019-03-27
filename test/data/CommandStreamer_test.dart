@@ -72,7 +72,7 @@ void main() {
         cmdStream,
         emitsInOrder([
           RotorCommandMatcher("N000 N000"),
-          RotorCommandMatcher(_arbitraryCommandA.toShorthand())
+          _arbitraryCommandA
         ]));
   });
 
@@ -107,8 +107,8 @@ void main() {
         cmdStream,
         emitsInOrder([
           RotorCommandMatcher("N000 N000"),
-          RotorCommandMatcher(_arbitraryCommandA.toShorthand()),
-          RotorCommandMatcher(_arbitraryCommandB.toShorthand())
+          _arbitraryCommandA,
+          _arbitraryCommandB
         ]));
   });
 }
