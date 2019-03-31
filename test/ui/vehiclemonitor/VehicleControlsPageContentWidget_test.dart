@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobileclient/data/RotorCommand.dart';
 import 'package:mobileclient/ui/vehiclemonitor/VehicleControlsPageContent.dart';
 import 'package:mockito/mockito.dart';
 
@@ -70,6 +71,25 @@ void main() {
 
     //ASSERT
     expect(find.text(BluetoothDeviceState.connected.toString()), findsOneWidget);
+  });
+
+  testWidgets("should run default command on startup", (WidgetTester tester) async {
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+    var mockDevice = MockBluetoothDevice();
+    StreamController<BluetoothDeviceState> streamController = StreamController<BluetoothDeviceState>();
+    when(mockDevice.state).thenAnswer((_) => Future.value(BluetoothDeviceState.connecting));
+    when(mockDevice.onStateChanged()).thenAnswer((_) => streamController.stream);
+
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: VehicleControlsPageContent(mockDevice, mockFlutterBlue),
+      )
+    ));
+
+    //ASSERT
+    expect(find.text(RotorCommand().toShorthand()), findsOneWidget);
+
   });
 
 }

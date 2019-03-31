@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/RotorUtils.dart';
+import 'package:mobileclient/data/RotorCommand.dart';
 import 'package:mobileclient/ui/commonwidgets/Notice.dart';
 
 class VehicleControlsPageContent extends StatefulWidget {
@@ -38,6 +39,8 @@ class VehicleControlsPageContentState
         _deviceState = updatedState;
       });
     });
+
+    eventLog.add(RotorCommand().toShorthand());
   }
 
   @override
