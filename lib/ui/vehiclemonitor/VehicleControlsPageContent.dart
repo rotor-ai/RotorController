@@ -24,6 +24,8 @@ class VehicleControlsPageContentState
   List<BluetoothService> services = [];
   StreamSubscription<BluetoothDeviceState> btDeviceStateSub;
   List<String> eventLog = [];
+  BluetoothService rotorBTService;
+  BluetoothCharacteristic rotorBTCharacteristic;
 
   @override
   void initState() {
@@ -38,6 +40,18 @@ class VehicleControlsPageContentState
       setState(() {
         _deviceState = updatedState;
       });
+    });
+
+    widget.device.discoverServices().then((result) {
+      rotorBTService = result.firstWhere((btService) =>
+          btService.uuid.toString() == "10101010-1234-5678-90ab-101010101010");
+
+      if (rotorBTService != null) {
+        rotorBTCharacteristic = rotorBTService.characteristics.firstWhere(
+            (characteristic) =>
+                characteristic.uuid.toString() ==
+                "10101010-1234-5678-90ab-202020202020");
+      }
     });
 
     eventLog.add(RotorCommand().toShorthand());
@@ -78,11 +92,11 @@ class VehicleControlsPageContentState
             _buildControlPanelButton(
                 "left",
                 (pressingDown) =>
-                    _executeCommand("Left " + pressingDown.toString())),
+                    _executeCommand(RotorCommand(throttleVal: 0, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.PORT, headingVal: 50))),
             _buildControlPanelButton(
                 "right",
                 (pressingDown) =>
-                    _executeCommand("Right " + pressingDown.toString()))
+                    _executeCommand(RotorCommand(throttleVal: 0, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.STARBOARD, headingVal: 50)))
           ],
         ),
         Column(
@@ -91,12 +105,12 @@ class VehicleControlsPageContentState
             _buildControlPanelButton(
                 "GO!",
                 (pressingDown) =>
-                    _executeCommand("GO! " + pressingDown.toString()),
+                    _executeCommand(RotorCommand(throttleVal: 50, throttleDir: ThrottleDirection.FORWARD, headingDir: HeadingDirection.MIDDLE, headingVal: 0)),
                 colorOverride: Colors.green),
             _buildControlPanelButton(
                 "STOP!",
                 (pressingDown) =>
-                    _executeCommand("STOP! " + pressingDown.toString()),
+                    _executeCommand(RotorCommand(throttleVal: 0, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.MIDDLE, headingVal: 0)),
                 colorOverride: Colors.red)
           ],
         )
@@ -115,9 +129,17 @@ class VehicleControlsPageContentState
           ),
           padding: EdgeInsets.all(4));
 
-  _executeCommand(String s) {
-    setState(() {
-      eventLog.add(s);
-    });
+  _executeCommand(RotorCommand rc) {
+    if (rotorBTCharacteristic != null) {
+
+      this
+          .widget
+          .device
+          .writeCharacteristic(rotorBTCharacteristic, rc.toShorthand().codeUnits);
+
+      setState(() {
+        eventLog.add(rc.toShorthand());
+      });
+    }
   }
 }

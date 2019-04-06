@@ -20,7 +20,7 @@ class RotorCommand {
     _headingVal = num.parse(headingVal.toString()).clamp(0, 100).toInt();
   }
 
-  toShorthand() {
+  String toShorthand() {
     NumberFormat outputFormat = NumberFormat();
     outputFormat.maximumIntegerDigits = 3;
     outputFormat.minimumIntegerDigits = 3;
