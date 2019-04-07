@@ -92,11 +92,11 @@ class VehicleControlsPageContentState
             _buildControlPanelButton(
                 "left",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 0, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.PORT, headingVal: 50))),
+                    _executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.PORT, headingVal: 50))),
             _buildControlPanelButton(
                 "right",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 0, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.STARBOARD, headingVal: 50)))
+                    _executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.STARBOARD, headingVal: 50)))
           ],
         ),
         Column(
@@ -105,7 +105,7 @@ class VehicleControlsPageContentState
             _buildControlPanelButton(
                 "GO!",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 50, throttleDir: ThrottleDirection.FORWARD, headingDir: HeadingDirection.MIDDLE, headingVal: 0)),
+                    _executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.FORWARD, headingDir: HeadingDirection.MIDDLE, headingVal: 0)),
                 colorOverride: Colors.green),
             _buildControlPanelButton(
                 "STOP!",
