@@ -44,13 +44,13 @@ class VehicleControlsPageContentState
 
     widget.device.discoverServices().then((result) {
       rotorBTService = result.firstWhere((btService) =>
-          btService.uuid.toString() == "10101010-1234-5678-90ab-101010101010");
+          btService.uuid.toString() == RotorUtils.GATT_SERVICE_UUID);
 
       if (rotorBTService != null) {
         rotorBTCharacteristic = rotorBTService.characteristics.firstWhere(
             (characteristic) =>
                 characteristic.uuid.toString() ==
-                "10101010-1234-5678-90ab-202020202020");
+                RotorUtils.GATT_CHARACTERISTIC_UUID);
       }
     });
 
