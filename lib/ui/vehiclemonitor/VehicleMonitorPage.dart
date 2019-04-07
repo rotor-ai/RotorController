@@ -18,6 +18,14 @@ class VehicleMonitorPage extends StatefulWidget {
 
 class VehicleMonitorPageState extends State<VehicleMonitorPage> {
   int _currentPage = 1;
+  
+  VehicleControlsPageContent vehicleControlsPageContent;
+
+  @override
+  void initState() {
+    super.initState();
+    vehicleControlsPageContent = VehicleControlsPageContent(this.widget._device, this.widget._flutterBlue);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +59,7 @@ class VehicleMonitorPageState extends State<VehicleMonitorPage> {
         return VehicleMetricsPageContent();
         break;
       case 1:
-        return VehicleControlsPageContent(this.widget._device, this.widget._flutterBlue);
+        return vehicleControlsPageContent;
         break;
       case 2:
         return VehicleInfoPageContent();
