@@ -7,6 +7,8 @@ class MockFlutterBlue extends Mock implements FlutterBlue {}
 
 class MockBluetoothDevice extends Mock implements BluetoothDevice {}
 
+class MockBluetoothDeviceStateStream extends Mock implements Stream<BluetoothDeviceState> {}
+
 MockBluetoothDevice buildMockDevice(String name, String id) {
   var device = MockBluetoothDevice();
   when(device.name).thenReturn(name);

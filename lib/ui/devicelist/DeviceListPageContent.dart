@@ -81,22 +81,35 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     );
   }
 
-  //========== Helpers below this line ==========
+
+  @override
+  void dispose() {
+    super.dispose();
+    _stopScanning();
+  } //========== Helpers below this line ==========
 
   Widget _buildRow(BuildContext context, int index) {
     return DeviceRow(
       deviceName: _compatibleDevices[index].name,
       mac: _compatibleDevices[index].id.id,
       onTap: () {
-        if (_btScanSubscription != null) {
-          _btScanSubscription.cancel();
-        }
+        _stopScanning();
 
-        showDialog(
-            context: context,
-            barrierDismissible: true,
-            builder: (buildContext) =>
-                BTConnectionDialog(_compatibleDevices[index], _flutterBlue));
+        var deviceToConnectTo = _compatibleDevices[index];
+
+        if (deviceToConnectTo.id.id == RotorUtils.simulatorId) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (bc) =>
+                      VehicleMonitorPage(deviceToConnectTo, _flutterBlue)));
+        } else {
+          showDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (buildContext) =>
+                  BTConnectionDialog(deviceToConnectTo, _flutterBlue));
+        }
       },
     );
   }
@@ -107,6 +120,16 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
       return Notice(title: title, color: Colors.orange);
     }
     return null;
+  }
+
+  void _stopScanning() {
+    _btScanSubscription?.cancel()?.then((v) {
+      if (mounted) {
+        setState(() {
+          _btScanSubscription = null;
+        });
+      }
+    });
   }
 
   void _onBTStateChanged(updatedState) {
