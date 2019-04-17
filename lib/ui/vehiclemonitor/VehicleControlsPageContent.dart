@@ -42,7 +42,7 @@ class VehicleControlsPageContentState
       });
     });
 
-    widget.device.discoverServices().then((result) {
+    widget.device.discoverServices()?.then((result) {
       rotorBTService = result.firstWhere((btService) =>
           btService.uuid.toString() == RotorUtils.GATT_SERVICE_UUID);
 
