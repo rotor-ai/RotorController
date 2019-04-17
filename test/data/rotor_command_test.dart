@@ -45,4 +45,21 @@ void main() {
 
   });
 
+  test("Should produce correct shorthand for heading direction", () {
+
+    expect(RotorCommand(headingDir: HeadingDirection.PORT).headingToShorthand(), 'L000');
+    expect(RotorCommand(headingDir: HeadingDirection.NEUTRAL).headingToShorthand(), 'N000');
+    expect(RotorCommand(headingDir: HeadingDirection.STARBOARD).headingToShorthand(), 'R000');
+
+  });
+
+  test("Should produce correct shorthand for heading value", () {
+
+    expect(RotorCommand(headingVal: 0).headingToShorthand(), 'N000');
+    expect(RotorCommand(headingVal: 1).headingToShorthand(), 'N001');
+    expect(RotorCommand(headingVal: 12).headingToShorthand(), 'N012');
+    expect(RotorCommand(headingVal: 100).headingToShorthand(), 'N100');
+
+  });
+
 }

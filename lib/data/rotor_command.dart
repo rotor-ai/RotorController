@@ -33,6 +33,23 @@ class RotorCommand {
     return abv +_formatInt(throttleVal);
   }
 
+  String headingToShorthand() {
+    String abv = '';
+    switch(this.headingDir) {
+      case HeadingDirection.PORT:
+        abv = 'L';
+        break;
+      case HeadingDirection.STARBOARD:
+        abv = 'R';
+        break;
+      default:
+        abv = 'N';
+        break;
+    }
+    
+    return abv + _formatInt(headingVal);
+  }
+
   String _formatInt(int i) {
     NumberFormat numberFormat = NumberFormat();
     numberFormat.minimumIntegerDigits = 3;
