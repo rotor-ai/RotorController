@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class RotorCommand {
   int throttleVal = 2;
   int headingVal = 2;
@@ -13,6 +15,31 @@ class RotorCommand {
   String toShorthand() {
     return ' ';
   }
+
+  String throttleToShorthand() {
+    String abv = '';
+    switch(this.throttleDir){
+      case ThrottleDirection.FORWARD:
+        abv = 'F';
+        break;
+      case ThrottleDirection.BACKWARD:
+        abv = 'B';
+        break;
+      default:
+        abv = 'N';
+        break;
+    }
+
+    return abv +_formatInt(throttleVal);
+  }
+
+  String _formatInt(int i) {
+    NumberFormat numberFormat = NumberFormat();
+    numberFormat.minimumIntegerDigits = 3;
+    numberFormat.maximumIntegerDigits = 3;
+    return numberFormat.format(i);
+  }
+
 }
 
 enum ThrottleDirection { FORWARD, NEUTRAL, BACKWARD }

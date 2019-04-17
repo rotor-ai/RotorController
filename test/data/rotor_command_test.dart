@@ -27,4 +27,22 @@ void main() {
     expect(rotorCommand.throttleDir, ThrottleDirection.BACKWARD);
     expect(rotorCommand.headingDir, HeadingDirection.STARBOARD);
   });
+
+  test("Should produce correct shorthand for throttle direction", () {
+    
+    expect(RotorCommand(throttleDir: ThrottleDirection.FORWARD).throttleToShorthand(), 'F000');
+    expect(RotorCommand(throttleDir: ThrottleDirection.NEUTRAL).throttleToShorthand(), 'N000');
+    expect(RotorCommand(throttleDir: ThrottleDirection.BACKWARD).throttleToShorthand(), 'B000');
+
+  });
+
+  test("Should produce correct shorthand for throttle value", () {
+
+    expect(RotorCommand(throttleVal: 0).throttleToShorthand(), 'N000');
+    expect(RotorCommand(throttleVal: 1).throttleToShorthand(), 'N001');
+    expect(RotorCommand(throttleVal: 12).throttleToShorthand(), 'N012');
+    expect(RotorCommand(throttleVal: 100).throttleToShorthand(), 'N100');
+
+  });
+
 }
