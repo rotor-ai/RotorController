@@ -12,4 +12,19 @@ void main() {
     expect(rotorCommand.throttleDir, ThrottleDirection.NEUTRAL);
     expect(rotorCommand.headingDir, HeadingDirection.NEUTRAL);
   });
+
+  test("Should construct with specified values", () {
+    //ARRANGE
+    var rotorCommand = RotorCommand(
+        throttleVal: 10,
+        headingVal: 20,
+        throttleDir: ThrottleDirection.BACKWARD,
+        headingDir: HeadingDirection.STARBOARD);
+
+    //ACT & ASSERT
+    expect(rotorCommand.throttleVal, 10);
+    expect(rotorCommand.headingVal, 20);
+    expect(rotorCommand.throttleDir, ThrottleDirection.BACKWARD);
+    expect(rotorCommand.headingDir, HeadingDirection.STARBOARD);
+  });
 }
