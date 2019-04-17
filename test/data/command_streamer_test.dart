@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobileclient/data/CommandStreamer.dart';
-import 'package:mobileclient/data/RotorCommand.dart';
+import 'package:mobileclient/data/command_streamer.dart';
+import 'package:mobileclient/data/rotor_command.dart';
 
 void main() {
   RotorCommand _arbitraryCommandA = RotorCommand(

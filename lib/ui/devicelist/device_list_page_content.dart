@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mobileclient/RotorUtils.dart';
-import 'package:mobileclient/Strings.dart';
+import 'package:mobileclient/rotor_utils.dart';
+import 'package:mobileclient/strings.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:mobileclient/ui/commonwidgets/BTConnectionDialog.dart';
-import 'package:mobileclient/ui/commonwidgets/DeviceRow.dart';
-import 'package:mobileclient/ui/commonwidgets/Notice.dart';
-import 'package:mobileclient/ui/vehiclemonitor/VehicleMonitorPage.dart';
+import 'package:mobileclient/ui/commonwidgets/bt_connection_dialog.dart';
+import 'package:mobileclient/ui/commonwidgets/device_row.dart';
+import 'package:mobileclient/ui/commonwidgets/notice.dart';
+import 'package:mobileclient/ui/vehiclemonitor/vehicle_monitor_page.dart';
 
 class DeviceListPageContent extends StatefulWidget {
   final FlutterBlue _flutterBlueInstance;

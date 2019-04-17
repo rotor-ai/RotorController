@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:mobileclient/ui/vehiclemonitor/VehicleControlsPageContent.dart';
-import 'package:mobileclient/ui/vehiclemonitor/VehicleInfoPageContent.dart';
-import 'package:mobileclient/ui/vehiclemonitor/VehicleMetricsPageContent.dart';
+import 'package:mobileclient/ui/vehiclemonitor/vehicle_controls_page_content.dart';
+import 'package:mobileclient/ui/vehiclemonitor/vehicle_info_page_content.dart';
+import 'package:mobileclient/ui/vehiclemonitor/vehicle_metrics_page_content.dart';
 
 class VehicleMonitorPage extends StatefulWidget {
   final BluetoothDevice _device;

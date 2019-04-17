@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobileclient/ui/devicelist/DeviceListPage.dart';
-import 'package:mobileclient/Strings.dart';
+import 'package:mobileclient/ui/devicelist/device_list_page.dart';
+import 'package:mobileclient/strings.dart';
 
 class WelcomePageContent extends StatefulWidget {
   @override

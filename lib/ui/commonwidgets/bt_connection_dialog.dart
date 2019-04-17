@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:mobileclient/ui/vehiclemonitor/VehicleMonitorPage.dart';
+import 'package:mobileclient/ui/vehiclemonitor/vehicle_monitor_page.dart';
 
 class BTConnectionDialog extends StatelessWidget {
   BluetoothDevice _device;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:mobileclient/Strings.dart';
-import 'package:mobileclient/ui/welcome/WelcomePage.dart';
-import 'package:mobileclient/RotorUtils.dart';
+import 'package:mobileclient/strings.dart';
+import 'package:mobileclient/ui/welcome/welcome_page.dart';
+import 'package:mobileclient/rotor_utils.dart';
 
 void main() {
   debugPaintSizeEnabled = false;

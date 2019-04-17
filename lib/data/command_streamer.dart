@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:mobileclient/data/RotorCommand.dart';
+import 'package:mobileclient/data/rotor_command.dart';
 
 class CommandStreamer {
   StreamController<RotorCommand> _streamController =

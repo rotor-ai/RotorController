@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobileclient/data/RotorCommand.dart';
+import 'package:mobileclient/data/rotor_command.dart';
 
 void main() {
   test("Should construct with default values", () {

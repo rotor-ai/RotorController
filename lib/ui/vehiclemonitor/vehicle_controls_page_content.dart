@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:mobileclient/RotorUtils.dart';
-import 'package:mobileclient/data/RotorCommand.dart';
-import 'package:mobileclient/ui/commonwidgets/Notice.dart';
+import 'package:mobileclient/rotor_utils.dart';
+import 'package:mobileclient/data/rotor_command.dart';
+import 'package:mobileclient/ui/commonwidgets/notice.dart';
 
 class VehicleControlsPageContent extends StatefulWidget {
   final BluetoothDevice device;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:mobileclient/Strings.dart';
-import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
+import 'package:mobileclient/strings.dart';
+import 'package:mobileclient/ui/devicelist/device_list_page_content.dart';
 
 class DeviceListPage extends StatelessWidget {
   @override
