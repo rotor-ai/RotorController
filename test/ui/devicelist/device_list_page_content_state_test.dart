@@ -4,7 +4,7 @@ import 'package:mobileclient/Strings.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 
-import '../../mocks/RotorMocks.dart';
+import '../../mocks/rotor_mocks.dart';
 
 void main() {
 

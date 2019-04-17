@@ -8,7 +8,7 @@ import 'package:mobileclient/ui/commonwidgets/Notice.dart';
 import 'package:mobileclient/ui/devicelist/DeviceListPageContent.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../mocks/RotorMocks.dart';
+import '../../mocks/rotor_mocks.dart';
 
 void main() {
   //finders

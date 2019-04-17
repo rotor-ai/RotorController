@@ -7,7 +7,7 @@ import 'package:mobileclient/data/RotorCommand.dart';
 import 'package:mobileclient/ui/vehiclemonitor/VehicleControlsPageContent.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../mocks/RotorMocks.dart';
+import '../../mocks/rotor_mocks.dart';
 
 
 void main() {

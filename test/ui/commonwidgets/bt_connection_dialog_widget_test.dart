@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobileclient/ui/commonwidgets/BTConnectionDialog.dart';
 
-import '../../mocks/RotorMocks.dart';
+import '../../mocks/rotor_mocks.dart';
 
 void main() {
 
