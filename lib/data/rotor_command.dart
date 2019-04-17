@@ -21,7 +21,7 @@ class RotorCommand {
   }
 
   String toShorthand() {
-    return ' ';
+    return throttleToShorthand() + ' ' + headingToShorthand();
   }
 
   String throttleToShorthand() {

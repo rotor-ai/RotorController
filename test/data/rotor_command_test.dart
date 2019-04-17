@@ -62,6 +62,31 @@ void main() {
 
   });
 
+  test("Should produce complete shorthand", () {
+
+    //ARRANGE
+    var cmdA = RotorCommand(
+      throttleDir: ThrottleDirection.FORWARD, 
+      throttleVal: 77,
+      headingDir: HeadingDirection.PORT,
+      headingVal: 55);
+
+    var cmdB = RotorCommand(
+      throttleDir: ThrottleDirection.BACKWARD,
+      throttleVal: 100,
+      headingDir: HeadingDirection.STARBOARD,
+      headingVal: 33);
+    
+    //ACT
+    var resultA = cmdA.toShorthand();
+    var resultB = cmdB.toShorthand();
+
+    //ASSERT
+    expect(resultA, 'F077 L055');
+    expect(resultB, 'B100 R033');
+
+  });
+
   test("Should truncate values outside of bounds", () {
 
     expect(RotorCommand(throttleVal: -10).throttleVal, 0);
