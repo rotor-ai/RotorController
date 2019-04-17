@@ -24,6 +24,10 @@ void main() {
     expect(cmdStream, isInstanceOf<Stream<RotorCommand>>());
     await cmdStream.first.then((firstItem) {
       expect(firstItem, isNotNull);
+      expect(firstItem.throttleDir, ThrottleDirection.NEUTRAL);
+      expect(firstItem.throttleVal, 0);
+      expect(firstItem.headingDir, HeadingDirection.NEUTRAL);
+      expect(firstItem.headingVal, 0);
     });
   });
 
