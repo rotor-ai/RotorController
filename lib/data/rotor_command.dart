@@ -1,16 +1,24 @@
 import 'package:intl/intl.dart';
 
 class RotorCommand {
-  int throttleVal = 2;
-  int headingVal = 2;
+  int _throttleVal = 2;
+  get throttleVal => _throttleVal;
+
+  int _headingVal = 2;
+  get headingVal => _headingVal;
+  
   final ThrottleDirection throttleDir;
   final HeadingDirection headingDir;
 
   RotorCommand(
-      {this.throttleVal = 0,
-      this.headingVal = 0,
+      {int throttleVal = 0,
+      int headingVal = 0,
       this.throttleDir = ThrottleDirection.NEUTRAL,
-      this.headingDir = HeadingDirection.NEUTRAL});
+      this.headingDir = HeadingDirection.NEUTRAL}){
+    
+    this._throttleVal = throttleVal.clamp(0, 100);
+    this._headingVal = headingVal.clamp(0, 100);
+  }
 
   String toShorthand() {
     return ' ';

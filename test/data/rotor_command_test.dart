@@ -62,4 +62,14 @@ void main() {
 
   });
 
+  test("Should truncate values outside of bounds", () {
+
+    expect(RotorCommand(throttleVal: -10).throttleVal, 0);
+    expect(RotorCommand(throttleVal: 111).throttleVal, 100);
+
+    expect(RotorCommand(headingVal: -20).headingVal, 0);
+    expect(RotorCommand(headingVal: 222).headingVal, 100);
+
+  });
+
 }
