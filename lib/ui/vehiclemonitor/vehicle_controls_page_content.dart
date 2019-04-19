@@ -105,12 +105,12 @@ class VehicleControlsPageContentState
             _buildControlPanelButton(
                 "GO!",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.FORWARD, headingDir: HeadingDirection.MIDDLE, headingVal: 0)),
+                    _executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.FORWARD, headingDir: HeadingDirection.NEUTRAL, headingVal: 0)),
                 colorOverride: Colors.green),
             _buildControlPanelButton(
                 "STOP!",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 0, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.MIDDLE, headingVal: 0)),
+                    _executeCommand(RotorCommand(throttleVal: 0, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.NEUTRAL, headingVal: 0)),
                 colorOverride: Colors.red)
           ],
         )

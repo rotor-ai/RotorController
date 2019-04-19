@@ -1,63 +1,71 @@
 import 'package:intl/intl.dart';
 
 class RotorCommand {
-  int _throttleVal;
-  int _headingVal;
+  int _throttleVal = 2;
+  get throttleVal => _throttleVal;
 
+  int _headingVal = 2;
+  get headingVal => _headingVal;
+  
   final ThrottleDirection throttleDir;
   final HeadingDirection headingDir;
 
-  get throttleVal => _throttleVal;
-
-  get headingVal => _headingVal;
-
   RotorCommand(
-      {throttleVal = 0,
-      headingVal = 0,
+      {int throttleVal = 0,
+      int headingVal = 0,
       this.throttleDir = ThrottleDirection.NEUTRAL,
-      this.headingDir = HeadingDirection.MIDDLE}) {
-    _throttleVal = num.parse(throttleVal.toString()).clamp(0, 100).toInt();
-    _headingVal = num.parse(headingVal.toString()).clamp(0, 100).toInt();
+      this.headingDir = HeadingDirection.NEUTRAL}){
+    
+    this._throttleVal = throttleVal.clamp(0, 100);
+    this._headingVal = headingVal.clamp(0, 100);
   }
 
   String toShorthand() {
-    NumberFormat outputFormat = NumberFormat();
-    outputFormat.maximumIntegerDigits = 3;
-    outputFormat.minimumIntegerDigits = 3;
-
-    return _abbreviateThrottleDir(throttleDir) +
-        outputFormat.format(throttleVal) +
-        " " +
-        _abbreviateHeadingDir(headingDir) +
-        outputFormat.format(headingVal);
+    return throttleToShorthand() + ' ' + headingToShorthand();
   }
 
-  String _abbreviateThrottleDir(ThrottleDirection td) {
-    switch (td) {
+  String throttleToShorthand() {
+    String abv = '';
+    switch(this.throttleDir){
       case ThrottleDirection.FORWARD:
-        return 'F';
+        abv = 'F';
         break;
       case ThrottleDirection.BACKWARD:
-        return 'B';
+        abv = 'B';
         break;
       default:
-        return 'N';
+        abv = 'N';
+        break;
     }
+
+    return abv +_formatInt(throttleVal);
   }
 
-  String _abbreviateHeadingDir(HeadingDirection hd) {
-    switch (hd) {
+  String headingToShorthand() {
+    String abv = '';
+    switch(this.headingDir) {
       case HeadingDirection.PORT:
-        return 'L';
+        abv = 'L';
         break;
-      case HeadingDirection.MIDDLE:
-        return 'N';
+      case HeadingDirection.STARBOARD:
+        abv = 'R';
         break;
       default:
-        return 'R';
+        abv = 'N';
+        break;
     }
+    
+    return abv + _formatInt(headingVal);
   }
+
+  String _formatInt(int i) {
+    NumberFormat numberFormat = NumberFormat();
+    numberFormat.minimumIntegerDigits = 3;
+    numberFormat.maximumIntegerDigits = 3;
+    return numberFormat.format(i);
+  }
+
 }
 
 enum ThrottleDirection { FORWARD, NEUTRAL, BACKWARD }
-enum HeadingDirection { PORT, MIDDLE, STARBOARD }
+enum HeadingDirection { PORT, NEUTRAL, STARBOARD }
