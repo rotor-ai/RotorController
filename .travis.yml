@@ -56,7 +56,7 @@ matrix:
     # Job 2.1) Build APK and run Java tests, shard 1/1
     - os: linux
       env:
-        - SHARD="Build example apks 1/2"
+        - SHARD="Build apk 1/1"
         - PLUGIN_SHARDING="--shardIndex 0 --shardCount 1"
       jdk: oraclejdk8
       sudo: false
@@ -74,7 +74,7 @@ matrix:
         - export ANDROID_HOME=`pwd`/android-sdk
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
       script:
-        - ./script/build.sh
+        - ./script/build_apk.sh
 
 cache:
   directories:

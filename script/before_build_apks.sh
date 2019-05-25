@@ -55,4 +55,3 @@ gradle -v
 git clone https://github.com/flutter/flutter.git
 export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
 flutter doctor
-pub global activate flutter_plugin_tools
