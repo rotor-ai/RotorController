@@ -2,6 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobileclient/data/rotor_command.dart';
 
 void main() {
+
+  test("lmao", () {
+    expect(true, false);
+  });
+
   test("Should construct with default values", () {
     //ARRANGE
     var rotorCommand = RotorCommand();
