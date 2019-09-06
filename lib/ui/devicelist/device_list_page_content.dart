@@ -34,7 +34,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   bool get bluetoothIsSupported => _isBTSupported;
 
   List<BluetoothDevice> get _compatibleDevices {
-    List<BluetoothDevice> result = [RotorUtils.simulatorDevice];
+    List<BluetoothDevice> result = [];
     result.addAll(_discoveredDevices);
     return result;
   }
@@ -46,12 +46,13 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   void initState() {
     super.initState();
     _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
-    _flutterBlue.state?.then((v) {
-      _onBTStateChanged(v);
-    });
-    _flutterBlue.onStateChanged()?.listen((v) {
-      _onBTStateChanged(v);
-    });
+    //TODO STU FIX THIS
+//    _flutterBlue.state?.then((v) {
+//      _onBTStateChanged(v);
+//    });
+//    _flutterBlue.onStateChanged()?.listen((v) {
+//      _onBTStateChanged(v);
+//    });
   }
 
   @override
@@ -97,19 +98,12 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
         var deviceToConnectTo = _compatibleDevices[index];
 
-        if (deviceToConnectTo.id.id == RotorUtils.simulatorId) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (bc) =>
-                      VehicleMonitorPage(deviceToConnectTo, _flutterBlue)));
-        } else {
-          showDialog(
-              context: context,
-              barrierDismissible: true,
-              builder: (buildContext) =>
-                  BTConnectionDialog(deviceToConnectTo, _flutterBlue));
-        }
+        showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (buildContext) =>
+                BTConnectionDialog(deviceToConnectTo, _flutterBlue));
+
       },
     );
   }

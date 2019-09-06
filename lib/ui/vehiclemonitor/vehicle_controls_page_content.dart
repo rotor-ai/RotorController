@@ -30,17 +30,18 @@ class VehicleControlsPageContentState
   @override
   void initState() {
     super.initState();
-    widget.device.state.then((v) {
-      setState(() {
-        _deviceState = v;
-      });
-    });
-
-    btDeviceStateSub = widget.device.onStateChanged()?.listen((updatedState) {
-      setState(() {
-        _deviceState = updatedState;
-      });
-    });
+    //TODO STU FIX THIS
+//    widget.device.state.then((v) {
+//      setState(() {
+//        _deviceState = v;
+//      });
+//    });
+////
+//    btDeviceStateSub = widget.device.onStateChanged()?.listen((updatedState) {
+//      setState(() {
+//        _deviceState = updatedState;
+//      });
+//    });
 
     widget.device.discoverServices()?.then((result) {
       rotorBTService = result.firstWhere((btService) =>
@@ -132,10 +133,11 @@ class VehicleControlsPageContentState
   _executeCommand(RotorCommand rc) {
     if (rotorBTCharacteristic != null) {
 
-      this
-          .widget
-          .device
-          .writeCharacteristic(rotorBTCharacteristic, rc.toShorthand().codeUnits);
+      //TODO STU FIX THIS
+//      this
+//          .widget
+//          .device
+//          .writeCharacteristic(rotorBTCharacteristic, rc.toShorthand().codeUnits);
 
       setState(() {
         eventLog.add(rc.toShorthand());
