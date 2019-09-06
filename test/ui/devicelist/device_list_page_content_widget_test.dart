@@ -1,43 +1,43 @@
-//import 'dart:async';
-//
-//import 'package:flutter/material.dart';
-//import 'package:flutter_blue/flutter_blue.dart';
-//import 'package:flutter_test/flutter_test.dart';
-//import 'package:mobileclient/strings.dart';
-//import 'package:mobileclient/ui/commonwidgets/notice.dart';
-//import 'package:mobileclient/ui/devicelist/device_list_page_content.dart';
-//import 'package:mockito/mockito.dart';
-//
-//import '../../mocks/rotor_mocks.dart';
-//
-//void main() {
-//  //finders
-//  final btNotAvailableFinder =
-//      find.widgetWithText(Notice, Strings.UI_BT_NOT_AVAILABLE);
-//  final btRadioOffFinder =
-//      find.widgetWithText(Notice, Strings.UI_BT_RADIO_IS_OFF);
-//  final btUnauthorizedFinder =
-//      find.widgetWithText(Notice, Strings.UI_BT_NOT_AUTHORIZED);
-//
-//  testWidgets('Should show notice when bt is not available',
-//      (WidgetTester tester) async {
-//    //ARRANGE
-//    var mockFlutterBlue = MockFlutterBlue();
-//    when(mockFlutterBlue.isAvailable)
-//        .thenAnswer((_) => new Future.value(false));
-//
-//    //ACT
-//    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
-//    await tester.pumpWidget(MaterialApp(
-//        home: Scaffold(
-//      body: deviceListPageContent,
-//    )));
-//    await tester.pump();
-//
-//    //ASSERT
-//    expect(btNotAvailableFinder, findsOneWidget);
-//  });
-//
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mobileclient/strings.dart';
+import 'package:mobileclient/ui/commonwidgets/notice.dart';
+import 'package:mobileclient/ui/devicelist/device_list_page_content.dart';
+import 'package:mockito/mockito.dart';
+
+import '../../mocks/rotor_mocks.dart';
+
+void main() {
+  //finders
+  final btNotAvailableFinder =
+      find.widgetWithText(Notice, Strings.UI_BT_NOT_AVAILABLE);
+  final btRadioOffFinder =
+      find.widgetWithText(Notice, Strings.UI_BT_RADIO_IS_OFF);
+  final btUnauthorizedFinder =
+      find.widgetWithText(Notice, Strings.UI_BT_NOT_AUTHORIZED);
+
+  testWidgets('Should show notice when bt is not available',
+      (WidgetTester tester) async {
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable)
+        .thenAnswer((_) => new Future.value(false));
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+      body: deviceListPageContent,
+    )));
+    await tester.pump();
+
+    //ASSERT
+    expect(btNotAvailableFinder, findsOneWidget);
+  });
+
 //  testWidgets('Should show notice when bt is off', (WidgetTester tester) async {
 //    //ARRANGE
 //    var mockFlutterBlue = MockFlutterBlue();
@@ -56,7 +56,7 @@
 //    //ASSERT
 //    expect(btRadioOffFinder, findsOneWidget);
 //  });
-//
+
 //  testWidgets('Should show notice when bt permissions are not authorized',
 //      (WidgetTester tester) async {
 //    //ARRANGE
@@ -76,7 +76,7 @@
 //    //ASSERT
 //    expect(btUnauthorizedFinder, findsOneWidget);
 //  });
-//
+
 //  testWidgets('Should show notice when bt changes state',
 //      (WidgetTester tester) async {
 //    //ARRANGE
@@ -104,41 +104,25 @@
 //    expect(streamController.hasListener, true);
 //    expect(btRadioOffFinder, findsOneWidget);
 //  });
-//
-//  testWidgets('Should not show notice when bt is available',
-//      (WidgetTester tester) async {
-//    //ARRANGE
-//    var mockFlutterBlue = MockFlutterBlue();
-//    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
-//
-//    //ACT
-//    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
-//    await tester.pumpWidget(MaterialApp(
-//        home: Scaffold(
-//      body: deviceListPageContent,
-//    )));
-//    await tester.pump();
-//
-//    //ASSERT
-//    expect(btNotAvailableFinder, findsNothing);
-//  });
-//
-//  testWidgets('Should show simulator on list', (WidgetTester tester) async {
-//    //ARRANGE
-//    var mockFlutterBlue = MockFlutterBlue();
-//    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
-//
-//    //ACT
-//    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
-//    await tester.pumpWidget(MaterialApp(
-//        home: Scaffold(
-//      body: deviceListPageContent,
-//    )));
-//
-//    //ASSERT
-//    expect(find.widgetWithText(ListTile, Strings.UI_VEHICLE_SIMULATOR), findsOneWidget);
-//  });
-//
+
+  testWidgets('Should not show notice when bt is available',
+      (WidgetTester tester) async {
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+      body: deviceListPageContent,
+    )));
+    await tester.pump();
+
+    //ASSERT
+    expect(btNotAvailableFinder, findsNothing);
+  });
+
 //  testWidgets('Should show real device on list', (WidgetTester tester) async {
 //    //ARRANGE
 //    var device = MockBluetoothDevice();
@@ -162,7 +146,7 @@
 //    //ASSERT
 //    expect(find.widgetWithText(ListTile, "Stus awesome car"), findsOneWidget);
 //  });
-//
+
 //  testWidgets('Should clear discovered list when bt state changes to not be ON', (WidgetTester tester) async {
 //    //ARRANGE
 //    var mockFlutterBlue = MockFlutterBlue();
@@ -196,7 +180,7 @@
 //    expect(find.widgetWithText(ListTile, "Stus awesome car"), findsNothing);
 //
 //  });
-//
+
 //  testWidgets('Should show activity spinner when scanning', (WidgetTester tester) async {
 //    //ARRANGE
 //    var mockFlutterBlue = MockFlutterBlue();
@@ -229,6 +213,6 @@
 //    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsNothing);
 //
 //  });
-//
-//
-//}
+
+
+}
