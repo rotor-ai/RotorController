@@ -45,13 +45,6 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     super.initState();
     _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
     _flutterBlue.state?.listen((btState) => setState( (){ _btState = btState; }));
-    //TODO STU FIX THIS
-//    _flutterBlue.state?.then((v) {
-//      _onBTStateChanged(v);
-//    });
-//    _flutterBlue.onStateChanged()?.listen((v) {
-//      _onBTStateChanged(v);
-//    });
   }
 
   @override
