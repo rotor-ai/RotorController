@@ -8,25 +8,6 @@ import '../../mocks/rotor_mocks.dart';
 
 void main() {
 
-  test("Should call scan when bt state changes to ON", () {
-    var mockFlutterBlue = MockFlutterBlue();
-    var state = DeviceListPageContentState(mockFlutterBlue);
-
-    verifyNever(mockFlutterBlue.scan());
-
-    state.initState();
-
-    verifyNever(mockFlutterBlue.scan());
-
-    state.updateBluetoothState(BluetoothState.off);
-
-    verifyNever(mockFlutterBlue.scan());
-
-    state.updateBluetoothState(BluetoothState.on);
-
-    verify(mockFlutterBlue.scan());
-  });
-
   test("Should not save devices without a name", () {
     //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();

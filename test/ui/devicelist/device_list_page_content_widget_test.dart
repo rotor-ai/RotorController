@@ -126,6 +126,49 @@ void main() {
     expect(btRadioOffFinder, findsOneWidget);
   });
 
+  testWidgets('Should start scanning when bt state changes to on', (WidgetTester tester) async {
+
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.state).thenAnswer((invocation) => _buildStreamFromBTState(BluetoothState.on));
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: deviceListPageContent,
+        )));
+    await tester.pump();
+
+    //ASSERT
+    verify(mockFlutterBlue.scan());
+
+  });
+
+  testWidgets('Should not start scanning when bt state changes to anything other than BluetoothState.on.', (WidgetTester tester) async {
+
+    for(BluetoothState bt in BluetoothState.values) {
+      if (bt != BluetoothState.on){
+        //ARRANGE
+        var mockFlutterBlue = MockFlutterBlue();
+        when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+        when(mockFlutterBlue.state).thenAnswer((invocation) => _buildStreamFromBTState(bt));
+
+        //ACT
+        var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+        await tester.pumpWidget(MaterialApp(
+            home: Scaffold(
+              body: deviceListPageContent,
+            )));
+        await tester.pump();
+
+        //ASSERT
+        verifyNever(mockFlutterBlue.scan());
+      }
+    }
+
+  });
 
 //  testWidgets('Should show real device on list', (WidgetTester tester) async {
 //    //ARRANGE

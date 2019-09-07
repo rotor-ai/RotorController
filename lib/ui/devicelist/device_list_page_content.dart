@@ -44,7 +44,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   void initState() {
     super.initState();
     _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
-    _flutterBlue.state?.listen((btState) => setState( (){ _btState = btState; }));
+    _flutterBlue.state?.listen((btState) => updateBluetoothState(btState));
   }
 
   @override
@@ -116,15 +116,6 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     });
   }
 
-  void _onBTStateChanged(updatedState) {
-    setState(() {
-      updateBluetoothState(updatedState);
-      if (_btState != BluetoothState.on) {
-        _discoveredDevices.clear();
-      }
-    });
-  }
-
   @visibleForTesting
   void onScanResultReceived(ScanResult sr) {
     setState(() {
@@ -134,11 +125,10 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
   @visibleForTesting
   void updateBluetoothState(BluetoothState updatedState) {
-    _btState = updatedState;
+    setState( (){ _btState = updatedState; });
 
-    if (_btState == BluetoothState.on) {
-      _btScanSubscription =
-          _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
+    if (updatedState == BluetoothState.on) {
+      _flutterBlue.scan();
     }
   }
 
