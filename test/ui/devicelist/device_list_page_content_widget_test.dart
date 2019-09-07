@@ -14,10 +14,18 @@ void main() {
   //finders
   final btNotAvailableFinder =
       find.widgetWithText(Notice, Strings.UI_BT_NOT_AVAILABLE);
+  final anyNoticeFinder =
+      find.byWidgetPredicate((w) => w.runtimeType == Notice);
   final btRadioOffFinder =
       find.widgetWithText(Notice, Strings.UI_BT_RADIO_IS_OFF);
   final btUnauthorizedFinder =
       find.widgetWithText(Notice, Strings.UI_BT_NOT_AUTHORIZED);
+
+  Stream<BluetoothState> _buildStreamFromBTState(BluetoothState btState){
+    var streamController = StreamController<BluetoothState>();
+    streamController.add(btState);
+    return streamController.stream;
+  }
 
   testWidgets('Should show notice when bt is not available for this device',
       (WidgetTester tester) async {
@@ -37,11 +45,12 @@ void main() {
         expect(btNotAvailableFinder, findsOneWidget);
       });
 
-  testWidgets('Should not show notice when bt is available for this device',
+  testWidgets('Should not show any notice when bt is on and available for this device',
           (WidgetTester tester) async {
         //ARRANGE
         var mockFlutterBlue = MockFlutterBlue();
         when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+        when(mockFlutterBlue.state).thenAnswer((invocation) => _buildStreamFromBTState(BluetoothState.on));
 
         //ACT
         var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
@@ -52,28 +61,26 @@ void main() {
         await tester.pump();
 
         //ASSERT
-        expect(btNotAvailableFinder, findsNothing);
+        expect(anyNoticeFinder, findsNothing);
       });
 
-//  testWidgets('Should show notice when bt is off', (WidgetTester tester) async {
-//    //ARRANGE
-//    var streamController = StreamController<BluetoothState>();
-//    streamController.add(BluetoothState.off);
-//    var mockFlutterBlue = MockFlutterBlue();
-//    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
-//    when(mockFlutterBlue.state).thenAnswer((invocation) => streamController.stream);
-//
-//    //ACT
-//    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
-//    await tester.pumpWidget(MaterialApp(
-//        home: Scaffold(
-//      body: deviceListPageContent,
-//    )));
-//    await tester.pump();
-//
-//    //ASSERT
-//    expect(btRadioOffFinder, findsOneWidget);
-//  });
+  testWidgets('Should show Notice when bt is off', (WidgetTester tester) async {
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.state).thenAnswer((invocation) => _buildStreamFromBTState(BluetoothState.off));
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+      body: deviceListPageContent,
+    )));
+    await tester.pump();
+
+    //ASSERT
+    expect(btRadioOffFinder, findsOneWidget);
+  });
 
 //  testWidgets('Should show notice when bt permissions are not authorized',
 //      (WidgetTester tester) async {

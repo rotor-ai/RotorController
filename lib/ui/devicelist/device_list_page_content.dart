@@ -44,6 +44,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   void initState() {
     super.initState();
     _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
+    _flutterBlue.state?.listen((btState) => setState( (){ _btState = btState; }));
     //TODO STU FIX THIS
 //    _flutterBlue.state?.then((v) {
 //      _onBTStateChanged(v);
@@ -102,10 +103,14 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   }
 
   Notice _buildListHeader() {
-    if (_isBluetoothAvailableForThisDevice){
+    if (!_isBluetoothAvailableForThisDevice){
+      return Notice(title: Strings.UI_BT_NOT_AVAILABLE, color: Colors.orange);
+    }
+
+    if (_btState == BluetoothState.on){
       return null;
     }
-    return Notice(title: Strings.UI_BT_NOT_AVAILABLE, color: Colors.orange);
+      return Notice(title: Strings.UI_BT_RADIO_IS_OFF, color: Colors.orange);
   }
 
   void _stopScanning() {
