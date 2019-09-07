@@ -27,7 +27,7 @@ void main() {
     return streamController.stream;
   }
 
-  testWidgets('Should show notice when bt is not available for this device',
+  testWidgets('Should show Notice when bt is not available for this device',
       (WidgetTester tester) async {
     //ARRANGE
         var mockFlutterBlue = MockFlutterBlue();
@@ -45,7 +45,7 @@ void main() {
         expect(btNotAvailableFinder, findsOneWidget);
       });
 
-  testWidgets('Should not show any notice when bt is on and available for this device',
+  testWidgets('Should not show any Notice when bt is on and available for this device',
           (WidgetTester tester) async {
         //ARRANGE
         var mockFlutterBlue = MockFlutterBlue();
@@ -82,25 +82,25 @@ void main() {
     expect(btRadioOffFinder, findsOneWidget);
   });
 
-//  testWidgets('Should show notice when bt permissions are not authorized',
-//      (WidgetTester tester) async {
-//    //ARRANGE
-//    var mockFlutterBlue = MockFlutterBlue();
-//    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
-//    when(mockFlutterBlue.state)
-//        .thenAnswer((_) => new Future.value(BluetoothState.unauthorized));
-//
-//    //ACT
-//    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
-//    await tester.pumpWidget(MaterialApp(
-//        home: Scaffold(
-//      body: deviceListPageContent,
-//    )));
-//    await tester.pump();
-//
-//    //ASSERT
-//    expect(btUnauthorizedFinder, findsOneWidget);
-//  });
+  testWidgets('Should show Notice when bt permissions are not authorized',
+      (WidgetTester tester) async {
+    //ARRANGE
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.state)
+        .thenAnswer((_) => _buildStreamFromBTState(BluetoothState.unauthorized));
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+      body: deviceListPageContent,
+    )));
+    await tester.pump();
+
+    //ASSERT
+    expect(btUnauthorizedFinder, findsOneWidget);
+  });
 
   testWidgets('Should reflect most recent BT State',
       (WidgetTester tester) async {

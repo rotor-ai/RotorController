@@ -99,11 +99,11 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     if (!_isBluetoothAvailableForThisDevice){
       return Notice(title: Strings.UI_BT_NOT_AVAILABLE, color: Colors.orange);
     }
-
-    if (_btState == BluetoothState.on){
-      return null;
+    var noticeTitle = buildTitleFromBluetoothState(_btState);
+    if (noticeTitle != null) {
+      return Notice(title: noticeTitle, color: Colors.orange);
     }
-      return Notice(title: Strings.UI_BT_RADIO_IS_OFF, color: Colors.orange);
+    return null;
   }
 
   void _stopScanning() {
