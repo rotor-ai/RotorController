@@ -116,14 +116,14 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     });
   }
 
-//  void _onBTStateChanged(updatedState) {
-//    setState(() {
-//      updateBluetoothState(updatedState);
-//      if (_btState != BluetoothState.on) {
-//        _discoveredDevices.clear();
-//      }
-//    });
-//  }
+  void _onBTStateChanged(updatedState) {
+    setState(() {
+      updateBluetoothState(updatedState);
+      if (_btState != BluetoothState.on) {
+        _discoveredDevices.clear();
+      }
+    });
+  }
 
   @visibleForTesting
   void onScanResultReceived(ScanResult sr) {
@@ -132,15 +132,15 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     });
   }
 
-//  @visibleForTesting
-//  void updateBluetoothState(BluetoothState updatedState) {
-//    _btState = updatedState;
-//
-//    if (_btState == BluetoothState.on) {
-//      _btScanSubscription =
-//          _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
-//    }
-//  }
+  @visibleForTesting
+  void updateBluetoothState(BluetoothState updatedState) {
+    _btState = updatedState;
+
+    if (_btState == BluetoothState.on) {
+      _btScanSubscription =
+          _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
+    }
+  }
 
   @visibleForTesting
   String buildTitleFromBluetoothState(BluetoothState state) {
