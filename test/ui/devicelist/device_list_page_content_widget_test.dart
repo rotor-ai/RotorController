@@ -19,31 +19,49 @@ void main() {
   final btUnauthorizedFinder =
       find.widgetWithText(Notice, Strings.UI_BT_NOT_AUTHORIZED);
 
-  testWidgets('Should show notice when bt is not available',
+  testWidgets('Should show notice when bt is not available for this device',
       (WidgetTester tester) async {
     //ARRANGE
-    var mockFlutterBlue = MockFlutterBlue();
-    when(mockFlutterBlue.isAvailable)
-        .thenAnswer((_) => new Future.value(false));
+        var mockFlutterBlue = MockFlutterBlue();
+        when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(false));
 
-    //ACT
-    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
-    await tester.pumpWidget(MaterialApp(
+        //ACT
+        var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+        await tester.pumpWidget(MaterialApp(
         home: Scaffold(
       body: deviceListPageContent,
     )));
-    await tester.pump();
+        await tester.pump();
 
-    //ASSERT
-    expect(btNotAvailableFinder, findsOneWidget);
-  });
+        //ASSERT
+        expect(btNotAvailableFinder, findsOneWidget);
+      });
+
+  testWidgets('Should not show notice when bt is available for this device',
+          (WidgetTester tester) async {
+        //ARRANGE
+        var mockFlutterBlue = MockFlutterBlue();
+        when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+
+        //ACT
+        var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+        await tester.pumpWidget(MaterialApp(
+            home: Scaffold(
+              body: deviceListPageContent,
+            )));
+        await tester.pump();
+
+        //ASSERT
+        expect(btNotAvailableFinder, findsNothing);
+      });
 
 //  testWidgets('Should show notice when bt is off', (WidgetTester tester) async {
 //    //ARRANGE
+//    var streamController = StreamController<BluetoothState>();
+//    streamController.add(BluetoothState.off);
 //    var mockFlutterBlue = MockFlutterBlue();
 //    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
-//    when(mockFlutterBlue.state)
-//        .thenAnswer((_) => new Future.value(BluetoothState.off));
+//    when(mockFlutterBlue.state).thenAnswer((invocation) => streamController.stream);
 //
 //    //ACT
 //    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
@@ -105,23 +123,6 @@ void main() {
 //    expect(btRadioOffFinder, findsOneWidget);
 //  });
 
-  testWidgets('Should not show notice when bt is available',
-      (WidgetTester tester) async {
-    //ARRANGE
-    var mockFlutterBlue = MockFlutterBlue();
-    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
-
-    //ACT
-    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
-    await tester.pumpWidget(MaterialApp(
-        home: Scaffold(
-      body: deviceListPageContent,
-    )));
-    await tester.pump();
-
-    //ASSERT
-    expect(btNotAvailableFinder, findsNothing);
-  });
 
 //  testWidgets('Should show real device on list', (WidgetTester tester) async {
 //    //ARRANGE

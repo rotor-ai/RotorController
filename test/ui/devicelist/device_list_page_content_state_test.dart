@@ -82,16 +82,4 @@ void main() {
 
   });
 
-  test("Should not return notice for null title", () {
-    //ARRANGE
-    var mockFlutterBlue = MockFlutterBlue();
-    var state = DeviceListPageContentState(mockFlutterBlue);
-
-    //ASSERT
-    expect(state.buildListHeader(BluetoothState.unknown), isNull);
-    expect(state.buildListHeader(BluetoothState.unavailable), isNotNull);
-
-  });
-
-
 }

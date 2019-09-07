@@ -1,17 +1,17 @@
-//import 'dart:async';
-//
-//import 'package:flutter/material.dart';
-//import 'package:flutter_blue/flutter_blue.dart';
-//import 'package:flutter_test/flutter_test.dart';
-//import 'package:mobileclient/data/rotor_command.dart';
-//import 'package:mobileclient/ui/vehiclemonitor/vehicle_controls_page_content.dart';
-//import 'package:mockito/mockito.dart';
-//
-//import '../../mocks/rotor_mocks.dart';
-//
-//
-//void main() {
-//
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mobileclient/data/rotor_command.dart';
+import 'package:mobileclient/ui/vehiclemonitor/vehicle_controls_page_content.dart';
+import 'package:mockito/mockito.dart';
+
+import '../../mocks/rotor_mocks.dart';
+
+
+void main() {
+
 //
 //  testWidgets("should display connection state", (WidgetTester tester) async {
 //
@@ -91,5 +91,5 @@
 //    expect(find.text(RotorCommand().toShorthand()), findsOneWidget);
 //
 //  });
-//
-//}
+
+}

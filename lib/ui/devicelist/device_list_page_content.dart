@@ -23,15 +23,13 @@ class DeviceListPageContent extends StatefulWidget {
 class DeviceListPageContentState extends State<DeviceListPageContent> {
   //Members
   List<BluetoothDevice> _discoveredDevices = [];
-  bool _isBTSupported = true;
+  bool _isBluetoothAvailableForThisDevice = true;
   FlutterBlue _flutterBlue;
   BluetoothState _btState = BluetoothState.unknown;
   StreamSubscription<ScanResult> _btScanSubscription;
 
   //GETTERS
   List<BluetoothDevice> get discoveredDevices => _discoveredDevices;
-
-  bool get bluetoothIsSupported => _isBTSupported;
 
   List<BluetoothDevice> get _compatibleDevices {
     List<BluetoothDevice> result = [];
@@ -59,14 +57,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   Widget build(BuildContext context) {
     List<Widget> widgetColumn = <Widget>[];
 
-    Notice headerNotice = buildListHeader(_btState);
-    if (!_isBTSupported) {
-      widgetColumn
-          .add(Notice(title: Strings.UI_BT_NOT_AVAILABLE, color: Colors.red));
-    } else if (headerNotice != null) {
-      widgetColumn.add(headerNotice);
-    } else if (_btState == BluetoothState.on) {
-      widgetColumn.add(LinearProgressIndicator());
+    var header = _buildListHeader();
+    if (header != null){
+      widgetColumn.add(header);
     }
     widgetColumn.add(Expanded(
         child: ListView.builder(
@@ -108,12 +101,11 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     );
   }
 
-  Notice buildListHeader(BluetoothState state) {
-    String title = buildTitleFromBluetoothState(state);
-    if (title != null) {
-      return Notice(title: title, color: Colors.orange);
+  Notice _buildListHeader() {
+    if (_isBluetoothAvailableForThisDevice){
+      return null;
     }
-    return null;
+    return Notice(title: Strings.UI_BT_NOT_AVAILABLE, color: Colors.orange);
   }
 
   void _stopScanning() {
@@ -170,10 +162,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     }
   }
 
-  @visibleForTesting
   void onIsAvailableResult(bool result) {
     setState(() {
-      _isBTSupported = result;
+      _isBluetoothAvailableForThisDevice = result;
     });
   }
 

@@ -1,14 +1,14 @@
-//import 'dart:async';
-//
-//import 'package:flutter_blue/flutter_blue.dart';
-//import 'package:mockito/mockito.dart';
-//import 'package:flutter/material.dart';
-//import 'package:flutter_test/flutter_test.dart';
-//import 'package:mobileclient/ui/commonwidgets/bt_connection_dialog.dart';
-//
-//import '../../mocks/rotor_mocks.dart';
-//
-//void main() {
+import 'dart:async';
+
+import 'package:flutter_blue/flutter_blue.dart';
+import 'package:mockito/mockito.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mobileclient/ui/commonwidgets/bt_connection_dialog.dart';
+
+import '../../mocks/rotor_mocks.dart';
+
+void main() {
 //
 //  testWidgets('Should attempt connection on build', (WidgetTester tester) async {
 //    var mockDevice = MockBluetoothDevice();
@@ -60,8 +60,8 @@
 //    verify(mockBTDeviceStateStream.listen(any));
 //
 //  });
-//
-//}
-//
-//
-//class MockNavigator extends Mock implements NavigatorObserver {}
+
+}
+
+
+class MockNavigator extends Mock implements NavigatorObserver {}
