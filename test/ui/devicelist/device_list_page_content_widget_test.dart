@@ -102,33 +102,29 @@ void main() {
 //    expect(btUnauthorizedFinder, findsOneWidget);
 //  });
 
-//  testWidgets('Should show notice when bt changes state',
-//      (WidgetTester tester) async {
-//    //ARRANGE
-//    var streamController = StreamController<BluetoothState>();
-//    var mockFlutterBlue = MockFlutterBlue();
-//    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
-//    when(mockFlutterBlue.state)
-//        .thenAnswer((_) => new Future.value(BluetoothState.on));
-//    when(mockFlutterBlue.onStateChanged())
-//        .thenAnswer((_) => streamController.stream);
-//
-//    //ACT
-//    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
-//    await tester.pumpWidget(MaterialApp(
-//        home: Scaffold(
-//      body: deviceListPageContent,
-//    )));
-//
-//    //ACT Send out a state change
-//    streamController.add(BluetoothState.off);
-//
-//    await tester.pump();
-//
-//    //ASSERT
-//    expect(streamController.hasListener, true);
-//    expect(btRadioOffFinder, findsOneWidget);
-//  });
+  testWidgets('Should reflect most recent BT State',
+      (WidgetTester tester) async {
+    //ARRANGE
+    var streamController = StreamController<BluetoothState>();
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.state)
+        .thenAnswer((_) => streamController.stream);
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+      body: deviceListPageContent,
+    )));
+    streamController.add(BluetoothState.on);
+    streamController.add(BluetoothState.off);
+    await tester.pump();
+
+    //ASSERT
+    expect(streamController.hasListener, true);
+    expect(btRadioOffFinder, findsOneWidget);
+  });
 
 
 //  testWidgets('Should show real device on list', (WidgetTester tester) async {
