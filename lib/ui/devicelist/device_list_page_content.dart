@@ -50,6 +50,10 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   Widget build(BuildContext context) {
     List<Widget> widgetColumn = <Widget>[];
 
+    if (_btState == BluetoothState.on) {
+      widgetColumn.add(LinearProgressIndicator());
+    }
+
     var header = _buildListHeader();
     if (header != null){
       widgetColumn.add(header);

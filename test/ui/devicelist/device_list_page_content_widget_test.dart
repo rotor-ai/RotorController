@@ -228,38 +228,38 @@ void main() {
 //
 //  });
 
-//  testWidgets('Should show activity spinner when scanning', (WidgetTester tester) async {
-//    //ARRANGE
-//    var stateStreamController = StreamController<BluetoothState>();
-//    stateStreamController.add(BluetoothState.off);
-//    var mockFlutterBlue = MockFlutterBlue();
-//    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
-//    when(mockFlutterBlue.state).thenAnswer((_) => stateStreamController.stream);
-//
-//    //ACT
-//    await tester.pumpWidget(MaterialApp(
-//        home: Scaffold(
-//          body: DeviceListPageContent(mockFlutterBlue),
-//        )));
-//
-//    //ASSERT
-//    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsNothing);
-//
-//    //ACT
-//    stateStreamController.add(BluetoothState.on);
-//    await tester.pump();
-//
-//    //ASSERT
-//    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsOneWidget);
-//
-//    //ACT
-//    stateStreamController.add(BluetoothState.off);
-//    await tester.pump();
-//
-//    //ASSERT
-//    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsNothing);
-//
-//  });
+  testWidgets('Should show activity spinner when scanning', (WidgetTester tester) async {
+    //ARRANGE
+    var stateStreamController = StreamController<BluetoothState>();
+    stateStreamController.add(BluetoothState.off);
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.state).thenAnswer((_) => stateStreamController.stream);
+
+    //ACT
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: DeviceListPageContent(mockFlutterBlue),
+        )));
+
+    //ASSERT
+    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsNothing);
+
+    //ACT
+    stateStreamController.add(BluetoothState.on);
+    await tester.pump();
+
+    //ASSERT
+    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsOneWidget);
+
+    //ACT
+    stateStreamController.add(BluetoothState.off);
+    await tester.pump();
+
+    //ASSERT
+    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsNothing);
+
+  });
 
 
 }
