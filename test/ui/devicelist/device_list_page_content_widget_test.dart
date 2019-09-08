@@ -230,11 +230,11 @@ void main() {
 
 //  testWidgets('Should show activity spinner when scanning', (WidgetTester tester) async {
 //    //ARRANGE
+//    var stateStreamController = StreamController<BluetoothState>();
+//    stateStreamController.add(BluetoothState.off);
 //    var mockFlutterBlue = MockFlutterBlue();
-//    var streamController = StreamController<BluetoothState>();
 //    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
-//    when(mockFlutterBlue.state).thenAnswer((_) => new Future.value(BluetoothState.off));
-//    when(mockFlutterBlue.onStateChanged()).thenAnswer((_) => streamController.stream);
+//    when(mockFlutterBlue.state).thenAnswer((_) => stateStreamController.stream);
 //
 //    //ACT
 //    await tester.pumpWidget(MaterialApp(
@@ -246,14 +246,14 @@ void main() {
 //    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsNothing);
 //
 //    //ACT
-//    streamController.add(BluetoothState.on);
+//    stateStreamController.add(BluetoothState.on);
 //    await tester.pump();
 //
 //    //ASSERT
 //    expect(find.byWidgetPredicate((w) => w is ProgressIndicator), findsOneWidget);
 //
 //    //ACT
-//    streamController.add(BluetoothState.off);
+//    stateStreamController.add(BluetoothState.off);
 //    await tester.pump();
 //
 //    //ASSERT
