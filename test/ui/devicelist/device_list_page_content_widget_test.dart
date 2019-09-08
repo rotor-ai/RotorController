@@ -170,29 +170,29 @@ void main() {
 
   });
 
-//  testWidgets('Should show real device on list', (WidgetTester tester) async {
-//    //ARRANGE
-//    var device = MockBluetoothDevice();
-//    when(device.name).thenReturn("Stus awesome car");
-//    when(device.id).thenReturn(DeviceIdentifier("12:34:56:78:90:12"));
-//
-//    var mockFlutterBlue = MockFlutterBlue();
-//    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
-//    when(mockFlutterBlue.state).thenAnswer((_) => new Future.value(BluetoothState.on));
-//    when(mockFlutterBlue.scan()).thenAnswer(
-//        (_) => Stream.fromFuture(Future.value(ScanResult(device: device))));
-//
-//    //ACT
-//    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
-//    await tester.pumpWidget(MaterialApp(
-//        home: Scaffold(
-//      body: deviceListPageContent,
-//    )));
-//    await tester.pump();
-//
-//    //ASSERT
-//    expect(find.widgetWithText(ListTile, "Stus awesome car"), findsOneWidget);
-//  });
+  testWidgets('Should show real device on list', (WidgetTester tester) async {
+    //ARRANGE
+    var device = MockBluetoothDevice();
+    when(device.name).thenReturn("someDeviceName");
+    when(device.id).thenReturn(DeviceIdentifier("12:34:56:78:90:12"));
+
+    var mockFlutterBlue = MockFlutterBlue();
+    when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
+    when(mockFlutterBlue.state).thenAnswer((invocation) => _buildStreamFromBTState(BluetoothState.on));
+    when(mockFlutterBlue.scan()).thenAnswer(
+        (_) => Stream.fromFuture(Future.value(ScanResult(device: device))));
+
+    //ACT
+    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+      body: deviceListPageContent,
+    )));
+    await tester.pump();
+
+    //ASSERT
+    expect(find.widgetWithText(ListTile, "someDeviceName"), findsOneWidget);
+  });
 
 //  testWidgets('Should clear discovered list when bt state changes to not be ON', (WidgetTester tester) async {
 //    //ARRANGE

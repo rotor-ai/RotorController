@@ -122,12 +122,11 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     });
   }
 
-  @visibleForTesting
   void updateBluetoothState(BluetoothState updatedState) {
     setState( (){ _btState = updatedState; });
 
     if (updatedState == BluetoothState.on) {
-      _flutterBlue.scan();
+      _flutterBlue.scan().listen((scanResult) => onScanResultReceived(scanResult));
     }
   }
 
