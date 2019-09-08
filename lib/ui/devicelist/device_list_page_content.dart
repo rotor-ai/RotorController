@@ -11,8 +11,7 @@ import 'package:mobileclient/ui/vehiclemonitor/vehicle_monitor_page.dart';
 
 class DeviceListPageContent extends StatefulWidget {
   final FlutterBlue _flutterBlueInstance;
-
-  DeviceListPageContent(this._flutterBlueInstance);
+  DeviceListPageContent(this._flutterBlueInstance);//Constructor
 
   @override
   State<StatefulWidget> createState() {
@@ -43,7 +42,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   @override
   void initState() {
     super.initState();
-    _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
+    _flutterBlue.isAvailable?.then((value) => _onIsAvailableResult(value));
     _flutterBlue.state?.listen((btState) => updateBluetoothState(btState));
   }
 
@@ -150,7 +149,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     }
   }
 
-  void onIsAvailableResult(bool result) {
+  void _onIsAvailableResult(bool result) {
     setState(() {
       _isBluetoothAvailableForThisDevice = result;
     });
