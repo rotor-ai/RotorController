@@ -18,7 +18,7 @@ class BTConnectionDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO STU FIX THIS
+    //TODO STU FIX THIS (OLD CODE)
 //    _device.state.then((currentDeviceState) {
 //      if (currentDeviceState != BluetoothDeviceState.connected &&
 //          currentDeviceState != BluetoothDeviceState.connecting) {
@@ -33,6 +33,13 @@ class BTConnectionDialog extends StatelessWidget {
 //      }
 //    });
 
+    _device.state.listen((deviceState) {
+      
+      if (deviceState!=BluetoothDeviceState.connected) {
+           _device.connect(timeout: Duration(seconds: 30), autoConnect: false); 
+      }
+
+    });
     return AlertDialog(
         title: Text("Connecting..."),
         content: Container(
