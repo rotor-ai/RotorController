@@ -36,15 +36,38 @@ void main() {
   verifyNever(mockDevice.connect(timeout: anyNamed('timeout'), autoConnect: anyNamed('autoConnect')));
  });
 
-//  testWidgets('Should not attempt connection on build if device is connecting', (WidgetTester tester) async {
-//    var mockDevice = MockBluetoothDevice();
-//    var mockFlutterBlue = MockFlutterBlue();
-//    when(mockDevice.state).thenAnswer((_) => Future.value(BluetoothDeviceState.connecting));
+ testWidgets('Should not attempt connection on build if device is connecting', (WidgetTester tester) async {
+  var sb = StreamController<BluetoothDeviceState>();
+  sb.add(BluetoothDeviceState.connecting);
+  when(mockDevice.state).thenAnswer((_) => sb.stream);
 
-//    await tester.pumpWidget(MaterialApp(
-//        home: Scaffold(body: BTConnectionDialog(mockDevice, mockFlutterBlue))));
+   await tester.pumpWidget(MaterialApp(
+       home: Scaffold(body: BTConnectionDialog(mockDevice, mockFlutterBlue))));
 
-//    verifyNever(mockFlutterBlue.connect(any, timeout: anyNamed('timeout'), autoConnect: anyNamed('autoConnect')));
+   verifyNever(mockDevice.connect(timeout: anyNamed('timeout'), autoConnect: anyNamed('autoConnect')));
+
+ });
+
+//TODO STU finish implementing this test
+//  testWidgets('Should pop navigation after connection is complete', (WidgetTester tester) async {
+//   var sb = StreamController<BluetoothDeviceState>();
+//   sb.add(BluetoothDeviceState.disconnected);
+//   when(mockDevice.state).thenAnswer((_) => sb.stream);
+
+//   var observer = NavigatorObserver();
+
+//   //ACT
+//   var testObj = MaterialApp(home: Scaffold(body: BTConnectionDialog(mockDevice, mockFlutterBlue)));
+//   await tester.pumpWidget(testObj);
+//   observer.navigator = testObj.nav
+
+//   //ASSERT
+//   verify(mockDevice.connect(timeout: anyNamed('timeout'), autoConnect: anyNamed('autoConnect')));
+
+//   //ACT
+//   sb.add(BluetoothDeviceState.connected);
+
+//   //ASSERT
 
 //  });
 

@@ -18,24 +18,10 @@ class BTConnectionDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO STU FIX THIS (OLD CODE)
-//    _device.state.then((currentDeviceState) {
-//      if (currentDeviceState != BluetoothDeviceState.connected &&
-//          currentDeviceState != BluetoothDeviceState.connecting) {
-//        _flutterBlue
-//            .connect(_device,
-//                timeout: Duration(seconds: 10), autoConnect: false)
-//            ?.listen((btDeviceState) {
-//          if (btDeviceState == BluetoothDeviceState.connected) {
-//            _pushToVehicleMonitor(context);
-//          }
-//        });
-//      }
-//    });
 
     _device.state.listen((deviceState) {
       
-      if (deviceState!=BluetoothDeviceState.connected) {
+      if (deviceState != BluetoothDeviceState.connected && deviceState != BluetoothDeviceState.connecting) {
            _device.connect(timeout: Duration(seconds: 30), autoConnect: false); 
       }
 
