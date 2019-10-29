@@ -12,6 +12,7 @@ import '../../mocks/rotor_mocks.dart';
 
 void main() {
 
+//TODO STU FIX
 //
 //  testWidgets("should display connection state", (WidgetTester tester) async {
 //
@@ -28,7 +29,7 @@ void main() {
 //
 //  });
 //
-//
+//TODO STU FIX
 //  testWidgets("should display connecting state", (WidgetTester tester) async {
 //
 //    var mockFlutterBlue = MockFlutterBlue();
@@ -44,7 +45,7 @@ void main() {
 //
 //  });
 //
-//
+//TODO STU FIX
 //  testWidgets("widget reflects state changes", (WidgetTester tester) async {
 //
 //    //ARRANGE
@@ -73,6 +74,7 @@ void main() {
 //    expect(find.text(BluetoothDeviceState.connected.toString()), findsOneWidget);
 //  });
 //
+//TODO STU FIX
 //  testWidgets("should run default command on startup", (WidgetTester tester) async {
 //    //ARRANGE
 //    var mockFlutterBlue = MockFlutterBlue();
