@@ -48,28 +48,25 @@ void main() {
 
  });
 
-//TODO STU finish implementing this test
-//  testWidgets('Should pop navigation after connection is complete', (WidgetTester tester) async {
-//   var sb = StreamController<BluetoothDeviceState>();
-//   sb.add(BluetoothDeviceState.disconnected);
-//   when(mockDevice.state).thenAnswer((_) => sb.stream);
+ testWidgets('Should pop navigation after connection is complete', (WidgetTester tester) async {
+  var sc = StreamController<BluetoothDeviceState>();
+  sc.add(BluetoothDeviceState.disconnected);
+  when(mockDevice.state).thenAnswer((_) => sc.stream);
+  //TODO use NavigationObserver to track push/pop
 
-//   var observer = NavigatorObserver();
+  //ACT
+  var testObj = MaterialApp(home: Scaffold(body: BTConnectionDialog(mockDevice, mockFlutterBlue)));
+  await tester.pumpWidget(testObj);
 
-//   //ACT
-//   var testObj = MaterialApp(home: Scaffold(body: BTConnectionDialog(mockDevice, mockFlutterBlue)));
-//   await tester.pumpWidget(testObj);
-//   observer.navigator = testObj.nav
+  //ASSERT
+  verify(mockDevice.connect(timeout: anyNamed('timeout'), autoConnect: anyNamed('autoConnect')));
 
-//   //ASSERT
-//   verify(mockDevice.connect(timeout: anyNamed('timeout'), autoConnect: anyNamed('autoConnect')));
+  //ACT
+  sc.add(BluetoothDeviceState.connected);
 
-//   //ACT
-//   sb.add(BluetoothDeviceState.connected);
+  //ASSERT
 
-//   //ASSERT
-
-//  });
+ }, skip: 'TODO STU come back if time allows' != null);
 
 //  testWidgets('Should use listen callback', (WidgetTester tester) async {
 //    var mockDevice = MockBluetoothDevice();

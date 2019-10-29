@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:mobileclient/strings.dart';
 import 'package:mobileclient/ui/vehiclemonitor/vehicle_monitor_page.dart';
 
 class BTConnectionDialog extends StatelessWidget {
@@ -7,14 +8,6 @@ class BTConnectionDialog extends StatelessWidget {
   FlutterBlue _flutterBlue;
 
   BTConnectionDialog(this._device, this._flutterBlue);
-
-  void _pushToVehicleMonitor(BuildContext context) {
-    Navigator.pop(context);
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (bc) => VehicleMonitorPage(_device, _flutterBlue)));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +20,7 @@ class BTConnectionDialog extends StatelessWidget {
 
     });
     return AlertDialog(
-        title: Text("Connecting..."),
+        title: Text(Strings.UI_VEHICLE_CONNECTING),
         content: Container(
             child: Row(children: <Widget>[
           CircularProgressIndicator(),
