@@ -74,7 +74,7 @@ void main() {
 //    expect(find.text(BluetoothDeviceState.connected.toString()), findsOneWidget);
 //  });
 //
-//TODO STU FIX
+//TODO STU FIX: This should be a unit test, not a widget test
 //  testWidgets("should run default command on startup", (WidgetTester tester) async {
 //    //ARRANGE
 //    var mockFlutterBlue = MockFlutterBlue();
