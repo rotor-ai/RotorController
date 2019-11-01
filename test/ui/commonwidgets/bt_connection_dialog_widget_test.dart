@@ -19,6 +19,7 @@ void main() {
   when(mockDevice.state).thenAnswer((_) => sb.stream);
 
   await tester.pumpWidget(MaterialApp(
+    routes: {'VehicleMonitor': (context) => null},
     home: Scaffold(body: BTConnectionDialog(mockDevice, mockFlutterBlue))));
 
   verify(mockDevice.connect(timeout: Duration(seconds: 30), autoConnect: false));
