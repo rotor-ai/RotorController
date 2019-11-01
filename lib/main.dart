@@ -4,6 +4,8 @@ import 'package:mobileclient/strings.dart';
 import 'package:mobileclient/ui/welcome/welcome_page.dart';
 import 'package:mobileclient/rotor_utils.dart';
 
+import 'ui/vehiclemonitor/vehicle_monitor_page.dart';
+
 void main() {
   debugPaintSizeEnabled = false;
   debugPaintBaselinesEnabled = false;
@@ -52,6 +54,9 @@ class RotorApp extends StatelessWidget {
         highlightColor: RotorUtils.ROTOR_TEAL_COLOR);
 
     return MaterialApp(
-        theme: _rotorAppTheme, home: WelcomePage(), title: Strings.APP_TITLE);
+        theme: _rotorAppTheme, 
+        home: WelcomePage(), 
+        title: Strings.APP_TITLE,
+        routes: {'VehicleMonitor': (context) => VehicleMonitorPage()});
   }
 }
