@@ -24,7 +24,6 @@ void main() {
   verify(mockDevice.connect(timeout: Duration(seconds: 30), autoConnect: false));
 
  });
-
  testWidgets('Should not attempt connection on build if device is already connected', (WidgetTester tester) async {
   var sb = StreamController<BluetoothDeviceState>();
   sb.add(BluetoothDeviceState.connected);
@@ -68,22 +67,4 @@ void main() {
 
  }, skip: 'TODO STU come back if time allows' != null);
 
-//  testWidgets('Should use listen callback', (WidgetTester tester) async {
-//    var mockDevice = MockBluetoothDevice();
-//    var mockFlutterBlue = MockFlutterBlue();
-//    var mockBTDeviceStateStream = MockBluetoothDeviceStateStream();
-//    when(mockDevice.state).thenAnswer((_) => Future.value(BluetoothDeviceState.disconnected));
-//    when(mockFlutterBlue.connect(mockDevice, timeout: anyNamed('timeout'), autoConnect: false)).thenAnswer((_) => mockBTDeviceStateStream);
-
-
-//    await tester.pumpWidget(MaterialApp(
-//      home: Scaffold(body: BTConnectionDialog(mockDevice, mockFlutterBlue))));
-
-//    verify(mockBTDeviceStateStream.listen(any));
-
-//  });
-
 }
-
-
-// class MockNavigator extends Mock implements NavigatorObserver {}
