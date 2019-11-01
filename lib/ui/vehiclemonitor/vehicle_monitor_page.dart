@@ -28,7 +28,7 @@ class VehicleMonitorPageState extends State<VehicleMonitorPage> {
 
 
   void captureArgs(ModalRoute modalRoute) {
-    VehicleConnectionInfo info = modalRoute.settings.arguments;
+    VehicleConnectionInfo info = modalRoute.settings?.arguments;
     if (info != null){
       _device = info.device;
       _flutterBlue = info.flutterBlue;

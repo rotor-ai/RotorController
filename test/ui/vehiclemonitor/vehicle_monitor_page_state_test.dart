@@ -16,7 +16,7 @@ void main() {
     MockModalRoute mockRoute;
     VehicleConnectionInfo connectionInfo;
 
-    void _beforeEveryTest() {
+    void _setup() {
       mockBluetoothDevice = MockBluetoothDevice();
       mockFlutterBlue = MockFlutterBlue();
       mockRouteSettings = MockRouteSettings();
@@ -24,8 +24,21 @@ void main() {
       connectionInfo = VehicleConnectionInfo.using(mockBluetoothDevice, mockFlutterBlue);
     }
 
-    test('Should not override state members if route does not have arguments', () {
-      _beforeEveryTest();
+    test('Should not override state members if route does not have settings', () {
+      _setup();
+      when(mockRoute.settings).thenReturn(null);
+      var prePopulatedDevice = MockBluetoothDevice();
+      var prePopulatedFlutterBlue = MockFlutterBlue();
+      var testObj = VehicleMonitorPageState.using(prePopulatedDevice, prePopulatedFlutterBlue);
+
+      testObj.captureArgs(mockRoute);
+
+      expect(testObj.device, same(prePopulatedDevice));
+      expect(testObj.flutterBlue, same(prePopulatedFlutterBlue));
+    });
+
+    test('Should not override state members if routesettings does not have arguments', () {
+      _setup();
       when(mockRoute.settings).thenReturn(mockRouteSettings);
       when(mockRouteSettings.arguments).thenReturn(null);
       var mockBluetoothDevice2 = MockBluetoothDevice();
@@ -38,7 +51,7 @@ void main() {
       expect(testObj.flutterBlue, same(mockFlutterBlue2));
     });
     test ('Should assign state members from route if available', () {
-      _beforeEveryTest();
+      _setup();
       when(mockRoute.settings).thenReturn(mockRouteSettings);
       when(mockRouteSettings.arguments).thenReturn(connectionInfo);
       var testObj = VehicleMonitorPageState();
