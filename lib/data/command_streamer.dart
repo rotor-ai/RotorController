@@ -23,4 +23,5 @@ class CommandStreamer {
   }
 
   void closeStream() {_streamController.close();}
+  //TODO this class is not yet in use in the reset of the project
 }
