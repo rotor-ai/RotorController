@@ -161,7 +161,7 @@ void main() {
 
     //ASSERT
     expect(find.widgetWithText(ListTile, "Stus awesome car"), findsOneWidget);
-  });
+  }, skip: true);
 
   testWidgets('Should clear discovered list when bt state changes to not be ON', (WidgetTester tester) async {
     //ARRANGE
@@ -195,7 +195,7 @@ void main() {
     //ASSERT
     expect(find.widgetWithText(ListTile, "Stus awesome car"), findsNothing);
 
-  });
+  }, skip: true);
 
   testWidgets('Should show activity spinner when scanning', (WidgetTester tester) async {
     //ARRANGE

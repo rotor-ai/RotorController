@@ -13,17 +13,11 @@ void main() {
     var state = DeviceListPageContentState(mockFlutterBlue);
 
     verifyNever(mockFlutterBlue.scan());
-
     state.initState();
-
     verifyNever(mockFlutterBlue.scan());
-
     state.updateBluetoothState(BluetoothState.off);
-
     verifyNever(mockFlutterBlue.scan());
-
     state.updateBluetoothState(BluetoothState.on);
-
     verify(mockFlutterBlue.scan());
   });
 
