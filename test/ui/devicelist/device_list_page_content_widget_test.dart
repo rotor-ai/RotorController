@@ -21,12 +21,10 @@ void main() {
 
   testWidgets('Should show notice when bt is not available',
       (WidgetTester tester) async {
-    //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
     when(mockFlutterBlue.isAvailable)
         .thenAnswer((_) => new Future.value(false));
 
-    //ACT
     var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
@@ -34,7 +32,6 @@ void main() {
     )));
     await tester.pump();
 
-    //ASSERT
     expect(btNotAvailableFinder, findsOneWidget);
   });
 
@@ -161,7 +158,7 @@ void main() {
 
     //ASSERT
     expect(find.widgetWithText(ListTile, "Stus awesome car"), findsOneWidget);
-  }, skip: true);
+  });
 
   testWidgets('Should clear discovered list when bt state changes to not be ON', (WidgetTester tester) async {
     //ARRANGE
@@ -195,7 +192,7 @@ void main() {
     //ASSERT
     expect(find.widgetWithText(ListTile, "Stus awesome car"), findsNothing);
 
-  }, skip: true);
+  });
 
   testWidgets('Should show activity spinner when scanning', (WidgetTester tester) async {
     //ARRANGE

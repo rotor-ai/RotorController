@@ -153,7 +153,8 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     _btState = updatedState;
 
     if (_btState == BluetoothState.on) {
-          _flutterBlue.scan();
+      _btScanSubscription =
+          _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
     }
   }
 
