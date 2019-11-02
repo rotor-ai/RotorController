@@ -9,14 +9,11 @@ class CommandStreamer {
 
   get stream => _streamController.stream;
 
-  CommandStreamer() {
-    _streamController.add(RotorCommand());
-  }
+  CommandStreamer() { _streamController.add(RotorCommand()); }
 
   void stageCommand(RotorCommand rotorCommand) {
-
     _stagedCommand = rotorCommand;
-  }
+    }
 
   void execute() {
     if (_stagedCommand != null) {
@@ -25,7 +22,5 @@ class CommandStreamer {
     }
   }
 
-  void closeStream() {
-    _streamController.close();
-  }
+  void closeStream() {_streamController.close();}
 }
