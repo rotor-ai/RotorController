@@ -36,21 +36,17 @@ void main() {
   });
 
   testWidgets('Should show notice when bt is off', (WidgetTester tester) async {
-    //ARRANGE
     var mockFlutterBlue = MockFlutterBlue();
     when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
     when(mockFlutterBlue.state)
         .thenAnswer((_) => new Future.value(BluetoothState.off));
 
-    //ACT
-    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-      body: deviceListPageContent,
+      body: DeviceListPageContent(mockFlutterBlue),
     )));
     await tester.pump();
 
-    //ASSERT
     expect(btRadioOffFinder, findsOneWidget);
   });
 
