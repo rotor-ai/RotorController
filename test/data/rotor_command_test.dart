@@ -51,7 +51,7 @@ void main() {
     expect(RotorCommand(headingDir: HeadingDirection.NEUTRAL).headingToShorthand(), 'N000');
     expect(RotorCommand(headingDir: HeadingDirection.STARBOARD).headingToShorthand(), 'R000');
 
-  });
+  }, skip: 'not for this git tag');
 
   test("Should produce correct shorthand for heading value", () {
 
@@ -60,7 +60,7 @@ void main() {
     expect(RotorCommand(headingVal: 12).headingToShorthand(), 'N012');
     expect(RotorCommand(headingVal: 100).headingToShorthand(), 'N100');
 
-  });
+  }, skip: 'not for this git tag');
 
   test("Should produce complete shorthand", () {
 
@@ -85,7 +85,7 @@ void main() {
     expect(resultA, 'F077 L055');
     expect(resultB, 'B100 R033');
 
-  });
+  }, skip: 'not for this git tag');
 
   test("Should truncate values outside of bounds", () {
 
@@ -95,6 +95,6 @@ void main() {
     expect(RotorCommand(headingVal: -20).headingVal, 0);
     expect(RotorCommand(headingVal: 222).headingVal, 100);
 
-  });
+  }, skip: 'not for this git tag');
 
 }

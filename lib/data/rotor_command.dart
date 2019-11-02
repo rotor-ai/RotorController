@@ -1,10 +1,10 @@
 import 'package:intl/intl.dart';
 
 class RotorCommand {
-  int _throttleVal = 2;
+  int _throttleVal = 0;
   get throttleVal => _throttleVal;
 
-  int _headingVal = 2;
+  int _headingVal = 0;
   get headingVal => _headingVal;
   
   final ThrottleDirection throttleDir;
@@ -37,8 +37,7 @@ class RotorCommand {
         abv = 'N';
         break;
     }
-
-    return abv +_formatInt(throttleVal);
+    return abv + _formatInt(throttleVal);
   }
 
   String headingToShorthand() {
