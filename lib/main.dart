@@ -4,6 +4,7 @@ import 'package:mobileclient/strings.dart';
 import 'package:mobileclient/ui/welcome/welcome_page.dart';
 import 'package:mobileclient/rotor_utils.dart';
 
+import 'data/vehicle_connection_info.dart';
 import 'ui/vehiclemonitor/vehicle_monitor_page.dart';
 
 void main() {
@@ -57,6 +58,11 @@ class RotorApp extends StatelessWidget {
         theme: _rotorAppTheme, 
         home: WelcomePage(), 
         title: Strings.APP_TITLE,
-        routes: {'VehicleMonitor': (context) => VehicleMonitorPage()});
+        routes: {'VehicleMonitor': (context) {
+
+          VehicleConnectionInfo info = ModalRoute.of(context) as VehicleConnectionInfo;
+
+          return VehicleMonitorPage(info.device, info.flutterBlue);
+        }});
   }
 }

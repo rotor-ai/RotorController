@@ -1,10 +1,21 @@
-
-
-
+import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobileclient/ui/vehiclemonitor/vehicle_monitor_page.dart';
+import 'package:mockito/mockito.dart';
+import '../../mocks/rotor_mocks.dart';
 
 void main() {
-  
 
+  testWidgets('Should build widget from route with arguments', (WidgetTester wt) async {
+
+    var flutterBlue = FlutterBlue.instance;
+    var mockDevice = MockBluetoothDevice();
+    var testObj = VehicleMonitorPage(mockDevice, flutterBlue);
+    await wt.pumpWidget(MaterialApp(home: Scaffold(body: testObj)));
+
+    //no assertions. just make sure we didn't throw any errors
+
+  });
 
 }

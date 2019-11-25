@@ -7,9 +7,14 @@ import 'package:mobileclient/ui/vehiclemonitor/vehicle_metrics_page_content.dart
 
 class VehicleMonitorPage extends StatefulWidget {
 
+  BluetoothDevice _bluetoothDevice;
+  FlutterBlue _flutterBlue;
+
+  VehicleMonitorPage(this._bluetoothDevice, this._flutterBlue);
+
   @override
   State<StatefulWidget> createState() {
-    return VehicleMonitorPageState();
+    return VehicleMonitorPageState.using(this._bluetoothDevice, this._flutterBlue);
   }
 }
 
