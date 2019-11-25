@@ -60,7 +60,7 @@ class RotorApp extends StatelessWidget {
         title: Strings.APP_TITLE,
         routes: {'VehicleMonitor': (context) {
 
-          VehicleConnectionInfo info = ModalRoute.of(context) as VehicleConnectionInfo;
+          VehicleConnectionInfo info = ModalRoute.of(context).settings.arguments as VehicleConnectionInfo;
 
           return VehicleMonitorPage(info.device, info.flutterBlue);
         }});
