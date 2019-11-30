@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mobileclient/rotor_utils.dart';
 import 'package:mobileclient/strings.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/ui/commonwidgets/bt_connection_dialog.dart';
 import 'package:mobileclient/ui/commonwidgets/device_row.dart';
 import 'package:mobileclient/ui/commonwidgets/notice.dart';
-import 'package:mobileclient/ui/vehiclemonitor/vehicle_monitor_page.dart';
 
 class DeviceListPageContent extends StatefulWidget {
   final FlutterBlue _flutterBlueInstance;
@@ -20,14 +18,12 @@ class DeviceListPageContent extends StatefulWidget {
 }
 
 class DeviceListPageContentState extends State<DeviceListPageContent> {
-  //Members
   List<BluetoothDevice> _discoveredDevices = [];
   bool _isBluetoothAvailableForThisDevice = true;
   FlutterBlue _flutterBlue;
   BluetoothState _btState = BluetoothState.unknown;
   StreamSubscription<ScanResult> _btScanSubscription;
 
-  //GETTERS
   List<BluetoothDevice> get discoveredDevices => _discoveredDevices;
 
   List<BluetoothDevice> get _compatibleDevices {
@@ -36,7 +32,6 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     return result;
   }
 
-  //Constructor
   DeviceListPageContentState(this._flutterBlue);
 
   @override
@@ -72,7 +67,6 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     );
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -80,7 +74,8 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   } //========== Helpers below this line ==========
 
   Widget _buildRow(BuildContext context, int index) {
-    return DeviceRow(
+    return DeviceRow(  //Constructor
+
       deviceName: _compatibleDevices[index].name,
       mac: _compatibleDevices[index].id.id,
       onTap: () {
