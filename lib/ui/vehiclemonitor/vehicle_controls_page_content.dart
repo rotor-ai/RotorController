@@ -30,18 +30,11 @@ class VehicleControlsPageContentState
   @override
   void initState() {
     super.initState();
-    //TODO STU FIX THIS
-//    widget.device.state.then((v) {
-//      setState(() {
-//        _deviceState = v;
-//      });
-//    });
-////
-//    btDeviceStateSub = widget.device.onStateChanged()?.listen((updatedState) {
-//      setState(() {
-//        _deviceState = updatedState;
-//      });
-//    });
+    btDeviceStateSub = widget.device.state.listen((updatedState) {
+      setState(() {
+        _deviceState = updatedState;
+      });
+    });
 
     widget.device.discoverServices()?.then((result) {
       rotorBTService = result.firstWhere((btService) =>

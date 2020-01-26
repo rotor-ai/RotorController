@@ -12,23 +12,27 @@ import '../../mocks/rotor_mocks.dart';
 
 void main() {
 
-//TODO STU FIX
-//
-//  testWidgets("should display connection state", (WidgetTester tester) async {
-//
-//    var mockFlutterBlue = MockFlutterBlue();
-//    var mockDevice = MockBluetoothDevice();
-//    when(mockDevice.state).thenAnswer((_) => Future.value(BluetoothDeviceState.connected));
-//    await tester.pumpWidget(MaterialApp(
-//        home: Scaffold(
-//          body: VehicleControlsPageContent(mockDevice, mockFlutterBlue),
-//        )));
-//    await tester.pump();
-//
-//    expect(find.text(BluetoothDeviceState.connected.toString()), findsOneWidget);
-//
-//  });
-//
+  Stream<BluetoothDeviceState> _buildStreamFromBTDeviceState(BluetoothDeviceState btState){
+    var streamController = StreamController<BluetoothDeviceState>();
+    streamController.add(btState);
+    return streamController.stream;
+  }
+
+ testWidgets("should display connection state", (WidgetTester tester) async {
+
+   var mockFlutterBlue = MockFlutterBlue();
+   var mockDevice = MockBluetoothDevice();
+   when(mockDevice.state).thenAnswer((_) => _buildStreamFromBTDeviceState(BluetoothDeviceState.connected));
+   await tester.pumpWidget(MaterialApp(
+       home: Scaffold(
+         body: VehicleControlsPageContent(mockDevice, mockFlutterBlue),
+       )));
+   await tester.pump();
+
+   expect(find.text(BluetoothDeviceState.connected.toString()), findsOneWidget);
+
+ });
+
 //TODO STU FIX
 //  testWidgets("should display connecting state", (WidgetTester tester) async {
 //
