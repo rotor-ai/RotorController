@@ -34,22 +34,6 @@ void main() {
  });
 
 //TODO STU FIX
-//  testWidgets("should display connecting state", (WidgetTester tester) async {
-//
-//    var mockFlutterBlue = MockFlutterBlue();
-//    var mockDevice = MockBluetoothDevice();
-//    when(mockDevice.state).thenAnswer((_) => Future.value(BluetoothDeviceState.connecting));
-//    await tester.pumpWidget(MaterialApp(
-//        home: Scaffold(
-//          body: VehicleControlsPageContent(mockDevice, mockFlutterBlue),
-//        )));
-//    await tester.pump();
-//
-//    expect(find.text(BluetoothDeviceState.connecting.toString()), findsOneWidget);
-//
-//  });
-//
-//TODO STU FIX
 //  testWidgets("widget reflects state changes", (WidgetTester tester) async {
 //
 //    //ARRANGE
