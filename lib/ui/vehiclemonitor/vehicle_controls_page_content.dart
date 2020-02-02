@@ -31,13 +31,8 @@ class VehicleControlsPageContentState
 
   VehicleControlsPageContentState(this.device, this.flutterBlue);
 
-  void _receivedServiceResults(List<BluetoothService> results) {
-  
-    if (results != null && results.length > 0) {
-      _rotorBTService = results.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID);
-    }
-       
-  }
+  void _receivedServiceResults(List<BluetoothService> results) =>  
+    _rotorBTService = results?.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID, orElse: () => null);
 
   @override
   void initState() {
