@@ -14,7 +14,7 @@ class VehicleControlsPageContent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return VehicleControlsPageContentState();
+    return VehicleControlsPageContentState(null, null);
   }
 }
 
@@ -24,29 +24,43 @@ class VehicleControlsPageContentState
   List<BluetoothService> services = [];
   StreamSubscription<BluetoothDeviceState> btDeviceStateSub;
   List<String> eventLog = [];
-  BluetoothService rotorBTService;
+  BluetoothService _rotorBTService;
   BluetoothCharacteristic rotorBTCharacteristic;
+  BluetoothDevice device;
+  FlutterBlue flutterBlue;
+
+  VehicleControlsPageContentState(this.device, this.flutterBlue);
+
+  void _receivedServiceResults(List<BluetoothService> results) {
+
+    for(var service in results) {
+      if (service.uuid.toString() == RotorUtils.GATT_SERVICE_UUID){
+        _rotorBTService = service;
+      }
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    btDeviceStateSub = widget.device.state.listen((updatedState) {
-      setState(() {
-        _deviceState = updatedState;
-      });
-    });
+    // btDeviceStateSub = widget.device.state.listen((updatedState) {
+    //   setState(() {
+    //     _deviceState = updatedState;
+    //   });
+    // });
 
-    widget.device.discoverServices()?.then((result) {
-      rotorBTService = result.firstWhere((btService) =>
-          btService.uuid.toString() == RotorUtils.GATT_SERVICE_UUID);
+    device.discoverServices().then(_receivedServiceResults);
+    // ?.then((result) {
+    //   rotorBTService = result.firstWhere((btService) =>
+    //       btService.uuid.toString() == RotorUtils.GATT_SERVICE_UUID);
 
-      if (rotorBTService != null) {
-        rotorBTCharacteristic = rotorBTService.characteristics.firstWhere(
-            (characteristic) =>
-                characteristic.uuid.toString() ==
-                RotorUtils.GATT_CHARACTERISTIC_UUID);
-      }
-    });
+    //   if (rotorBTService != null) {
+    //     rotorBTCharacteristic = rotorBTService.characteristics.firstWhere(
+    //         (characteristic) =>
+    //             characteristic.uuid.toString() ==
+    //             RotorUtils.GATT_CHARACTERISTIC_UUID);
+    //   }
+    // });
 
     eventLog.add(RotorCommand().toShorthand());
   }
@@ -136,5 +150,9 @@ class VehicleControlsPageContentState
         eventLog.add(rc.toShorthand());
       });
     }
+  }
+
+  getRotorBTDeviceService() {
+    return _rotorBTService;
   }
 }
