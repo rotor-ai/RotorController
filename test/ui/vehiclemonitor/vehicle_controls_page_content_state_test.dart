@@ -16,12 +16,22 @@ void main() {
   group("initState", () {
     
     test ("Should attempt to collect device GATT service info", () {
-      when(mockDevice.discoverServices()).thenAnswer((_) => new Future.value(new List()));
+      when(mockDevice.discoverServices()).thenAnswer((_) => new Future.value(null));
       var testObj = new VehicleControlsPageContentState(mockDevice, mockFlutterBlue);
 
       testObj.initState();
 
       verify(mockDevice.discoverServices()).called(ONCE);
+    });
+
+    test ("Should not assign Rotor GATT service if no services exist", () {
+      List<BluetoothService> services = new List();
+      when(mockDevice.discoverServices()).thenAnswer((_) => new Future.value(services));
+      var testObj = new VehicleControlsPageContentState(mockDevice, mockFlutterBlue);
+
+      testObj.initState();
+
+      expect(testObj.getRotorBTDeviceService(), isNull);
     });
 
     test ("Should save reference to Rotor GATT service", () async {

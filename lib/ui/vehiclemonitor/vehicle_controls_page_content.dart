@@ -32,12 +32,11 @@ class VehicleControlsPageContentState
   VehicleControlsPageContentState(this.device, this.flutterBlue);
 
   void _receivedServiceResults(List<BluetoothService> results) {
-
-    for(var service in results) {
-      if (service.uuid.toString() == RotorUtils.GATT_SERVICE_UUID){
-        _rotorBTService = service;
-      }
+  
+    if (results != null && results.length > 0) {
+      _rotorBTService = results.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID);
     }
+       
   }
 
   @override
@@ -50,17 +49,6 @@ class VehicleControlsPageContentState
     // });
 
     device.discoverServices().then(_receivedServiceResults);
-    // ?.then((result) {
-    //   rotorBTService = result.firstWhere((btService) =>
-    //       btService.uuid.toString() == RotorUtils.GATT_SERVICE_UUID);
-
-    //   if (rotorBTService != null) {
-    //     rotorBTCharacteristic = rotorBTService.characteristics.firstWhere(
-    //         (characteristic) =>
-    //             characteristic.uuid.toString() ==
-    //             RotorUtils.GATT_CHARACTERISTIC_UUID);
-    //   }
-    // });
 
     eventLog.add(RotorCommand().toShorthand());
   }
