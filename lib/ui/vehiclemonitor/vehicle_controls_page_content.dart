@@ -18,20 +18,17 @@ class VehicleControlsPageContent extends StatefulWidget {
   }
 }
 
-class VehicleControlsPageContentState
-    extends State<VehicleControlsPageContent> {
-  BluetoothDeviceState _deviceState = BluetoothDeviceState.disconnected;
-  List<BluetoothService> services = [];
-  StreamSubscription<BluetoothDeviceState> btDeviceStateSub;
-  List<String> eventLog = [];
-  BluetoothService _rotorBTService;
-  BluetoothCharacteristic rotorBTCharacteristic;
+class VehicleControlsPageContentState extends State<VehicleControlsPageContent> {
   BluetoothDevice device;
   FlutterBlue flutterBlue;
+  List<String> eventLog = [];
+  BluetoothService _rotorBTService;
+
+  getRotorBTDeviceService() => _rotorBTService;
 
   VehicleControlsPageContentState(this.device, this.flutterBlue);
 
-  void _receivedServiceResults(List<BluetoothService> results) =>  
+  void _receivedServiceResults(List<BluetoothService> results) =>
     _rotorBTService = results?.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID, orElse: () => null);
 
   @override
@@ -51,7 +48,6 @@ class VehicleControlsPageContentState
   @override
   void dispose() {
     super.dispose();
-    btDeviceStateSub?.cancel();
   }
 
   @override
@@ -59,7 +55,6 @@ class VehicleControlsPageContentState
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Notice(title: _deviceState.toString(), color: Colors.black),
           Expanded(
               child: Container(
                   color: Colors.black,
@@ -121,7 +116,6 @@ class VehicleControlsPageContentState
           padding: EdgeInsets.all(4));
 
   _executeCommand(RotorCommand rc) {
-    if (rotorBTCharacteristic != null) {
 
       //TODO STU FIX THIS
 //      this
@@ -129,13 +123,10 @@ class VehicleControlsPageContentState
 //          .device
 //          .writeCharacteristic(rotorBTCharacteristic, rc.toShorthand().codeUnits);
 
-      setState(() {
-        eventLog.add(rc.toShorthand());
-      });
-    }
+//      setState(() {
+//        eventLog.add(rc.toShorthand());
+//      });
+
   }
 
-  getRotorBTDeviceService() {
-    return _rotorBTService;
-  }
 }
