@@ -40,9 +40,10 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
     //   });
     // });
 
+    //TODO STU - this discoverServices() line needs to be wrapped with a device.state.listener
+    //it should only begin looking for services once the connection listener emits a "connected" value
     device.discoverServices().then(_receivedServiceResults);
 
-    eventLog.add(RotorCommand().toShorthand());
   }
 
   @override
