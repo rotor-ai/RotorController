@@ -44,7 +44,7 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
     //it should only begin looking for services once the connection listener emits a "connected" value
     this.device.state.listen((newDeviceState) {
       if (newDeviceState == BluetoothDeviceState.connected){
-        this.onDeviceConnected(null);
+        this.onDeviceConnected(this);
       }
     });
   }

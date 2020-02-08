@@ -41,7 +41,7 @@ void main() {
       var streamController = StreamController<BluetoothDeviceState>();
       streamController.add(BluetoothDeviceState.disconnected);
       when(mockDevice.state).thenAnswer((_) => streamController.stream);
-      testObj.onDeviceConnected = expectAsync1<void, VehicleControlsPageContentState>(testObj.onDeviceConnected, count:1);
+      testObj.onDeviceConnected = expectAsync1<void, VehicleControlsPageContentState>((VehicleControlsPageContentState state) => expect(testObj, same(state)), count:1);
 
       testObj.initState();
 
