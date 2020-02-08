@@ -24,12 +24,28 @@ void main() {
   });
 
   group("initState", () {
-    test ("Should attempt to collect device GATT service info", () {
-      when(mockDevice.discoverServices()).thenAnswer((_) => new Future.value(null));
+
+    test ("Should not call onDeviceConnected if device is not connected", () async {
+      var streamController = StreamController<BluetoothDeviceState>();
+      streamController.add(BluetoothDeviceState.disconnected);
+      when(mockDevice.state).thenAnswer((_) => streamController.stream);
+      testObj.onDeviceConnected = expectAsync1<void, VehicleControlsPageContentState>(testObj.onDeviceConnected, count:0);
 
       testObj.initState();
 
-      verify(mockDevice.discoverServices()).called(ONCE);
+      streamController.add(BluetoothDeviceState.connecting);
+      streamController.add(BluetoothDeviceState.disconnecting);
+    });
+
+    test("Should call onDeviceConnected when device is connected", () async {
+      var streamController = StreamController<BluetoothDeviceState>();
+      streamController.add(BluetoothDeviceState.disconnected);
+      when(mockDevice.state).thenAnswer((_) => streamController.stream);
+      testObj.onDeviceConnected = expectAsync1<void, VehicleControlsPageContentState>(testObj.onDeviceConnected, count:1);
+
+      testObj.initState();
+
+      streamController.add(BluetoothDeviceState.connected);
     });
 
     test ("Should not assign Rotor GATT service if no services exist", () {
