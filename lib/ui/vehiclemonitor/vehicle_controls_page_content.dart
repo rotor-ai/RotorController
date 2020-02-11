@@ -54,7 +54,7 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
   };
 
   Function onServicesReceived = (VehicleControlsPageContentState state, List<BluetoothService> availableServices) {
-    state.rotorBTService = availableServices.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID);
+    state.rotorBTService = availableServices?.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID, orElse: () => null);
   };
 
   @override

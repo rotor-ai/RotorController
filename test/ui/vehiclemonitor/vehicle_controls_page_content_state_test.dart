@@ -48,27 +48,6 @@ void main() {
       streamController.add(BluetoothDeviceState.connected);
     });
 
-    //TODO re-write these, by directly calling onDeviceConnected()
-    // test ("Should not assign Rotor GATT service if no services exist", () {
-    //   List<BluetoothService> services = new List();
-    //   when(mockDevice.discoverServices()).thenAnswer((_) => new Future.value(services));
-
-    //   testObj.onDeviceConnected(testObj);
-
-    //   expect(testObj.getRotorBTDeviceService(), isNull);
-    // });
-
-    // test ("Should save reference to Rotor GATT service", () async {
-    //   var dontSaveThisService = MockBluetoothService();
-    //   var saveThisService = MockBluetoothService();
-    //   when(dontSaveThisService.uuid)       .thenReturn(new Guid("00000000-0000-0000-0000-000000000000"));
-    //   when(saveThisService.uuid)           .thenReturn(new Guid(RotorUtils.GATT_SERVICE_UUID));
-    //   when(mockDevice.discoverServices()) .thenAnswer((_) => new Future.value([dontSaveThisService, saveThisService]));
-
-
-    //   expect(testObj.getRotorBTDeviceService(), rotorBTService);
-    // });
-
     test("Should call onServicesRecieved when device responds with services", () async {
       var someServices = new List<BluetoothService>();
       when(mockDevice.discoverServices()).thenAnswer((_) => new Future.value(someServices));
@@ -91,6 +70,25 @@ void main() {
       testObj.onServicesReceived(testObj, someServices);
 
       expect(testObj.rotorBTService, same(doSaveThisService));
+    });
+
+    test ("Should not assign Rotor GATT service if no matching services were received", () {
+      var dontSaveThisService       = new MockBluetoothService();
+      when(dontSaveThisService.uuid)    .thenReturn(new Guid("00000000-0000-0000-0000-000000000000"));
+      var someServices              = [dontSaveThisService];
+
+      testObj.onServicesReceived(testObj, someServices);
+
+      expect(testObj.rotorBTService, null);
+    });
+
+    test ("Should not assign Rotor GATT service if null or empty service list is received", () {
+      
+      testObj.onServicesReceived(testObj, new List<BluetoothService>());
+      expect(testObj.rotorBTService, null);
+
+      testObj.onServicesReceived(testObj, null);
+      expect(testObj.rotorBTService, null);
     });
 
   });
