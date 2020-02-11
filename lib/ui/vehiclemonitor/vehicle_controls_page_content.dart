@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/rotor_utils.dart';
 import 'package:mobileclient/data/rotor_command.dart';
-import 'package:mobileclient/ui/commonwidgets/notice.dart';
 
 class VehicleControlsPageContent extends StatefulWidget {
   final BluetoothDevice device;
@@ -31,14 +28,7 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
   @override
   void initState() {
     super.initState();
-    // btDeviceStateSub = widget.device.state.listen((updatedState) {
-    //   setState(() {
-    //     _deviceState = updatedState;
-    //   });
-    // });
 
-    //TODO STU - this discoverServices() line needs to be wrapped with a device.state.listener
-    //it should only begin looking for services once the connection listener emits a "connected" value
     this._device.state.listen((newDeviceState) {
       if (newDeviceState == BluetoothDeviceState.connected){
         this.onDeviceConnected(this);
