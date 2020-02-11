@@ -19,14 +19,15 @@ class VehicleControlsPageContent extends StatefulWidget {
 }
 
 class VehicleControlsPageContentState extends State<VehicleControlsPageContent> {
-  BluetoothDevice device;
-  FlutterBlue flutterBlue;
+  BluetoothDevice _device;
+  FlutterBlue _flutterBlue;
   List<String> eventLog = [];
   BluetoothService _rotorBTService;
 
+  BluetoothDevice get device => this._device;
   getRotorBTDeviceService() => _rotorBTService;
 
-  VehicleControlsPageContentState(this.device, this.flutterBlue);
+  VehicleControlsPageContentState(this._device, this._flutterBlue);
 
   void _receivedServiceResults(List<BluetoothService> results) =>
     _rotorBTService = results?.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID, orElse: () => null);
@@ -42,7 +43,7 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
 
     //TODO STU - this discoverServices() line needs to be wrapped with a device.state.listener
     //it should only begin looking for services once the connection listener emits a "connected" value
-    this.device.state.listen((newDeviceState) {
+    this._device.state.listen((newDeviceState) {
       if (newDeviceState == BluetoothDeviceState.connected){
         this.onDeviceConnected(this);
       }
@@ -50,6 +51,13 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
   }
 
   Function onDeviceConnected = (VehicleControlsPageContentState state) {
+    state
+      .device
+      .discoverServices()
+      .then((availableService) => state.onServicesReceived(state, availableService));
+  };
+
+  Function onServicesReceived = (VehicleControlsPageContentState state, List<BluetoothService> services) {
 
   };
 
