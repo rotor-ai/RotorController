@@ -81,6 +81,18 @@ void main() {
       testObj.onDeviceConnected(testObj);
     });
 
+    test ("Should save reference to Rotor GATT service when onServicesReceived is called", () {
+      var doSaveThisService     = new MockBluetoothService();
+      var dontSaveThisService   = new MockBluetoothService();
+      when(doSaveThisService.uuid)    .thenReturn(new Guid(RotorUtils.GATT_SERVICE_UUID));
+      when(dontSaveThisService.uuid)  .thenReturn(new Guid("00000000-0000-0000-0000-000000000000"));
+      var someServices          = [dontSaveThisService, doSaveThisService];
+      
+      testObj.onServicesReceived(testObj, someServices);
+
+      expect(testObj.rotorBTService, same(doSaveThisService));
+    });
+
   });
 
 }

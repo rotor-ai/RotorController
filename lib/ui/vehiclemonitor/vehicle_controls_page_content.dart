@@ -22,15 +22,11 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
   BluetoothDevice _device;
   FlutterBlue _flutterBlue;
   List<String> eventLog = [];
-  BluetoothService _rotorBTService;
+  BluetoothService rotorBTService;
 
   BluetoothDevice get device => this._device;
-  getRotorBTDeviceService() => _rotorBTService;
 
   VehicleControlsPageContentState(this._device, this._flutterBlue);
-
-  void _receivedServiceResults(List<BluetoothService> results) =>
-    _rotorBTService = results?.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID, orElse: () => null);
 
   @override
   void initState() {
@@ -57,8 +53,8 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
       .then((availableService) => state.onServicesReceived(state, availableService));
   };
 
-  Function onServicesReceived = (VehicleControlsPageContentState state, List<BluetoothService> services) {
-
+  Function onServicesReceived = (VehicleControlsPageContentState state, List<BluetoothService> availableServices) {
+    state.rotorBTService = availableServices.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID);
   };
 
   @override
