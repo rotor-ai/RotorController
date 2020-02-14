@@ -56,8 +56,8 @@ class RotorApp extends StatelessWidget {
 
     return MaterialApp(
         theme: _rotorAppTheme, 
-        home: WelcomePage(), 
         title: Strings.APP_TITLE,
+        home: WelcomePage(), 
         routes: {'VehicleMonitor': (context) {
 
           VehicleConnectionInfo info = ModalRoute.of(context).settings.arguments as VehicleConnectionInfo;
