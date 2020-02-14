@@ -12,13 +12,11 @@ void main() {
 
 
   MockBluetoothDevice mockDevice;
-  MockFlutterBlue mockFlutterBlue;
   VehicleControlsPageContentState testObj;
 
   setUp(() {
     mockDevice = new MockBluetoothDevice();
-    mockFlutterBlue = new MockFlutterBlue();
-    testObj = new VehicleControlsPageContentState(mockDevice, mockFlutterBlue);
+    testObj = new VehicleControlsPageContentState(mockDevice);
   });
 
   group("initState", () {

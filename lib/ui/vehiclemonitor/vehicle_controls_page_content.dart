@@ -11,19 +11,18 @@ class VehicleControlsPageContent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return VehicleControlsPageContentState(this.device, null);
+    return VehicleControlsPageContentState(this.device);
   }
 }
 
 class VehicleControlsPageContentState extends State<VehicleControlsPageContent> {
   BluetoothDevice _device;
-  FlutterBlue _flutterBlue;
   List<String> eventLog = [];
   BluetoothService rotorBTService;
 
   BluetoothDevice get device => this._device;
 
-  VehicleControlsPageContentState(this._device, this._flutterBlue);
+  VehicleControlsPageContentState(this._device);
 
   @override
   void initState() {
