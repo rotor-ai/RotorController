@@ -10,7 +10,19 @@ void main() {
     var app = RotorApp();
     await wt.pumpWidget(app);
 
-    expect(find.byWidgetPredicate((widget) => widget is MaterialApp && widget.title == Strings.APP_TITLE), findsOneWidget);
-    expect(find.byWidgetPredicate((widget) => widget is MaterialApp && widget.home is WelcomePage), findsOneWidget);
+    MaterialApp materialApp = wt.widget(find.byType(MaterialApp));
+
+    expect(materialApp.title, Strings.APP_TITLE);
+    expect(materialApp.home is WelcomePage, true);
   });
+
+  testWidgets('Should setup named routes', (WidgetTester wt) async {
+
+    var app = RotorApp();
+    await wt.pumpWidget(app);
+
+    MaterialApp materialApp = wt.widget(find.byType(MaterialApp));
+    expect(materialApp.routes.containsKey('VehicleMonitor'), true);
+  });
+
 }
