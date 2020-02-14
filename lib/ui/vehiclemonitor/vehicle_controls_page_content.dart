@@ -11,7 +11,7 @@ class VehicleControlsPageContent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return VehicleControlsPageContentState(null, null);
+    return VehicleControlsPageContentState(this.device, null);
   }
 }
 
