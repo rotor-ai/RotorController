@@ -31,14 +31,6 @@ class VehicleMonitorPageState extends State<VehicleMonitorPage> {
 
   VehicleControlsPageContent vehicleControlsPageContent;
 
-  void captureArgs(ModalRoute modalRoute) {
-    VehicleConnectionInfo info = modalRoute.settings?.arguments;
-    if (info != null){
-      _device = info.device;
-      _flutterBlue = info.flutterBlue;
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -47,8 +39,6 @@ class VehicleMonitorPageState extends State<VehicleMonitorPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    captureArgs(ModalRoute.of(context));
 
     return Scaffold(
       appBar: AppBar(
