@@ -111,4 +111,14 @@ void main() {
     expect(verify(rotorCharacteristic.write(captureAny)).captured, ["F012 L034".codeUnits]);
   });
 
+  test("Should not try to write if no matching caracteristics exist", () {
+    var randomCharacteristic = new MockBluetoothCharacteristic();
+    when(randomCharacteristic.uuid).thenReturn(new Guid("00000000-0000-0000-0000-000000000000"));
+    var rotorService = new MockBluetoothService();
+    when(rotorService.characteristics).thenReturn([randomCharacteristic]);
+    testObj.rotorBTService = rotorService;
+
+    testObj.executeCommand(new RotorCommand());
+  });
+
 }
