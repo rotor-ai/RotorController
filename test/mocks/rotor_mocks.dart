@@ -15,6 +15,8 @@ class MockBluetoothDeviceStateStream extends Mock implements Stream<BluetoothDev
 
 class MockBluetoothService extends Mock implements BluetoothService {}
 
+class MockBluetoothCharacteristic extends Mock implements BluetoothCharacteristic {}
+
 class MockBuildContext extends Mock implements BuildContext {}
 
 MockBluetoothDevice buildMockDevice(String name, String id) {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobileclient/data/rotor_command.dart';
 import 'package:mobileclient/rotor_utils.dart';
 import 'package:mobileclient/ui/vehiclemonitor/vehicle_controls_page_content.dart';
 import 'package:mockito/mockito.dart';
@@ -87,6 +88,27 @@ void main() {
       expect(testObj.rotorBTService, null);
     });
 
+  });
+
+  test("Should write command to characteristic", () {
+
+    var randomCharacteristic = new MockBluetoothCharacteristic();
+    when(randomCharacteristic.uuid).thenReturn(new Guid("00000000-0000-0000-0000-000000000000"));
+    var rotorCharacteristic = new MockBluetoothCharacteristic();
+    when(rotorCharacteristic.uuid).thenReturn(new Guid(RotorUtils.GATT_CHARACTERISTIC_UUID));
+    var rotorService = new MockBluetoothService();
+    when(rotorService.characteristics).thenReturn([randomCharacteristic, rotorCharacteristic]);
+    var someCommand = RotorCommand(
+      throttleDir: ThrottleDirection.FORWARD,
+      throttleVal: 12,
+      headingDir: HeadingDirection.PORT,
+      headingVal: 34
+    );
+    testObj.rotorBTService = rotorService;//seed a new service to our test obj
+    
+    testObj.executeCommand(someCommand);
+    
+    expect(verify(rotorCharacteristic.write(captureAny)).captured, ["F012 L034".codeUnits]);
   });
 
 }

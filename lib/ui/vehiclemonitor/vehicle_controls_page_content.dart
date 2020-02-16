@@ -79,11 +79,11 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
             _buildControlPanelButton(
                 "left",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.PORT, headingVal: 50))),
+                    executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.PORT, headingVal: 50))),
             _buildControlPanelButton(
                 "right",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.STARBOARD, headingVal: 50)))
+                    executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.STARBOARD, headingVal: 50)))
           ],
         ),
         Column(
@@ -92,12 +92,12 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
             _buildControlPanelButton(
                 "GO!",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.FORWARD, headingDir: HeadingDirection.NEUTRAL, headingVal: 0)),
+                    executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.FORWARD, headingDir: HeadingDirection.NEUTRAL, headingVal: 0)),
                 colorOverride: Colors.green),
             _buildControlPanelButton(
                 "STOP!",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 0, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.NEUTRAL, headingVal: 0)),
+                    executeCommand(RotorCommand(throttleVal: 0, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.NEUTRAL, headingVal: 0)),
                 colorOverride: Colors.red)
           ],
         )
@@ -116,13 +116,19 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
           ),
           padding: EdgeInsets.all(4));
 
-  _executeCommand(RotorCommand rc) {
+  @visibleForTesting
+  executeCommand(RotorCommand rc) {
 
       //TODO STU FIX THIS
 //      this
 //          .widget
 //          .device
 //          .writeCharacteristic(rotorBTCharacteristic, rc.toShorthand().codeUnits);
+    this
+      .rotorBTService
+      .characteristics
+      .firstWhere((c) => c.uuid.toString() == RotorUtils.GATT_CHARACTERISTIC_UUID)
+      .write(rc.toShorthand().codeUnits);
 
 //      setState(() {
 //        eventLog.add(rc.toShorthand());
