@@ -90,35 +90,51 @@ void main() {
 
   });
 
-  test("Should write command to characteristic", () {
+  group("write command characteristic", ()
+  {
 
-    var randomCharacteristic = new MockBluetoothCharacteristic();
-    when(randomCharacteristic.uuid).thenReturn(new Guid("00000000-0000-0000-0000-000000000000"));
-    var rotorCharacteristic = new MockBluetoothCharacteristic();
-    when(rotorCharacteristic.uuid).thenReturn(new Guid(RotorUtils.GATT_CHARACTERISTIC_UUID));
-    var rotorService = new MockBluetoothService();
-    when(rotorService.characteristics).thenReturn([randomCharacteristic, rotorCharacteristic]);
-    var someCommand = RotorCommand(
-      throttleDir: ThrottleDirection.FORWARD,
-      throttleVal: 12,
-      headingDir: HeadingDirection.PORT,
-      headingVal: 34
-    );
-    testObj.rotorBTService = rotorService;//seed a new service to our test obj
-    
-    testObj.executeCommand(someCommand);
-    
-    expect(verify(rotorCharacteristic.write(captureAny, withoutResponse: captureAnyNamed("withoutResponse"))).captured, ["F012 L034".codeUnits, true]);
-  });
+    BluetoothCharacteristic randomCharacteristic;
+    BluetoothCharacteristic rotorCharacteristic;
+    BluetoothService rotorService;
+    RotorCommand someCommand;
 
-  test("Should not try to write if no matching caracteristics exist", () {
-    var randomCharacteristic = new MockBluetoothCharacteristic();
-    when(randomCharacteristic.uuid).thenReturn(new Guid("00000000-0000-0000-0000-000000000000"));
-    var rotorService = new MockBluetoothService();
-    when(rotorService.characteristics).thenReturn([randomCharacteristic]);
-    testObj.rotorBTService = rotorService;
+    setUp(() {
+      randomCharacteristic = new MockBluetoothCharacteristic();
+      rotorCharacteristic = new MockBluetoothCharacteristic();
+      rotorService = new MockBluetoothService();
 
-    testObj.executeCommand(new RotorCommand());
+      when(randomCharacteristic.uuid).thenReturn(
+          new Guid("00000000-0000-0000-0000-000000000000"));
+      when(rotorCharacteristic.uuid).thenReturn(
+          new Guid(RotorUtils.GATT_CHARACTERISTIC_UUID));
+
+      someCommand = RotorCommand(
+          throttleDir: ThrottleDirection.FORWARD,
+          throttleVal: 12,
+          headingDir: HeadingDirection.PORT,
+          headingVal: 34
+      );
+    });
+
+    test("Should write command to characteristic", () {
+      when(rotorService.characteristics).thenReturn([randomCharacteristic, rotorCharacteristic]);
+      testObj.rotorBTService = rotorService; //seed a new service to our test obj
+
+      testObj.executeCommand(someCommand);
+
+      expect(verify(rotorCharacteristic.write(
+          captureAny, withoutResponse: captureAnyNamed("withoutResponse")))
+          .captured, ["F012 L034".codeUnits, true]);
+    });
+
+    test("Should not try to write if no matching caracteristics exist", () {
+
+      when(rotorService.characteristics).thenReturn([randomCharacteristic]);
+      testObj.rotorBTService = rotorService;
+
+      testObj.executeCommand(new RotorCommand());
+    });
+
   });
 
 }
