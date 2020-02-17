@@ -1,0 +1,10 @@
+container:
+  image: cirrusci/flutter:v1.12.13-hotfix.5  #optionally, you can replace text after the colon with 'latest'
+
+test_task:
+  pub_cache:
+    folder: ~/.pub-cache
+  test_script: flutter test
+
+compile_task:
+  script: flutter build apk --release
