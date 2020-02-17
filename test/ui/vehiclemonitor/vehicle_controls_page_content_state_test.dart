@@ -108,7 +108,7 @@ void main() {
     
     testObj.executeCommand(someCommand);
     
-    expect(verify(rotorCharacteristic.write(captureAny)).captured, ["F012 L034".codeUnits]);
+    expect(verify(rotorCharacteristic.write(captureAny, withoutResponse: captureAnyNamed("withoutResponse"))).captured, ["F012 L034".codeUnits, true]);
   });
 
   test("Should not try to write if no matching caracteristics exist", () {

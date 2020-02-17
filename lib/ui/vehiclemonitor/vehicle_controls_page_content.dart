@@ -123,7 +123,7 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
       .rotorBTService
       .characteristics
       .firstWhere((c) => c.uuid.toString() == RotorUtils.GATT_CHARACTERISTIC_UUID, orElse: () => null)
-      ?.write(rc.toShorthand().codeUnits);
+      ?.write(rc.toShorthand().codeUnits, withoutResponse: true);
 
 //      setState(() {
 //        eventLog.add(rc.toShorthand());
