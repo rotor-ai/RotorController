@@ -4,6 +4,9 @@ import 'package:mobileclient/strings.dart';
 import 'package:mobileclient/ui/welcome/welcome_page.dart';
 import 'package:mobileclient/rotor_utils.dart';
 
+import 'data/vehicle_connection_info.dart';
+import 'ui/vehiclemonitor/vehicle_monitor_page.dart';
+
 void main() {
   debugPaintSizeEnabled = false;
   debugPaintBaselinesEnabled = false;
@@ -52,6 +55,14 @@ class RotorApp extends StatelessWidget {
         highlightColor: RotorUtils.ROTOR_TEAL_COLOR);
 
     return MaterialApp(
-        theme: _rotorAppTheme, home: WelcomePage(), title: Strings.APP_TITLE);
+        theme: _rotorAppTheme, 
+        title: Strings.APP_TITLE,
+        home: WelcomePage(), 
+        routes: {'VehicleMonitor': (context) {
+
+          VehicleConnectionInfo info = ModalRoute.of(context).settings.arguments as VehicleConnectionInfo;
+
+          return VehicleMonitorPage(info.device, info.flutterBlue);
+        }});
   }
 }

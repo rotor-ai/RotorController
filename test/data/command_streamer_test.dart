@@ -32,14 +32,11 @@ void main() {
   });
 
   test("Should not send command without calling execute", () async {
-    //ARRANGE
     CommandStreamer commandStreamer = CommandStreamer();
     Stream<RotorCommand> cmdStream = commandStreamer.stream;
 
-    //ACT
     commandStreamer.stageCommand(_arbitraryCommandA);
 
-    //ASSERT
     commandStreamer.closeStream();
     await cmdStream.length.then((i) {
       expect(i, 1);
@@ -47,14 +44,11 @@ void main() {
   });
 
   test("Should not send command if nothing is staged", () async {
-    //ARRANGE
     CommandStreamer commandStreamer = CommandStreamer();
     Stream<RotorCommand> cmdStream = commandStreamer.stream;
 
-    //ACT
     commandStreamer.execute();
 
-    //ASSERT
     commandStreamer.closeStream();
     await cmdStream.length.then((i) {
       expect(i, 1);
@@ -63,15 +57,12 @@ void main() {
 
   test("Should send command after command is staged and execute is called",
       () async {
-    //ARRANGE
     CommandStreamer commandStreamer = CommandStreamer();
     Stream<RotorCommand> cmdStream = commandStreamer.stream;
 
-    //ACT
     commandStreamer.stageCommand(_arbitraryCommandA);
     commandStreamer.execute();
 
-    //ASSERT
     await expectLater(
         cmdStream,
         emitsInOrder([
@@ -81,32 +72,26 @@ void main() {
   });
 
   test("Should clear staged command after calling execute", () async {
-    //ARRANGE
     CommandStreamer commandStreamer = CommandStreamer();
     Stream<RotorCommand> cmdStream = commandStreamer.stream;
 
-    //ACT
     commandStreamer.stageCommand(_arbitraryCommandA);
     commandStreamer.execute();
     commandStreamer.execute();
 
-    //ASSERT
     commandStreamer.closeStream();
     await cmdStream.length.then((i) => expect(i, 2));
   });
 
   test("Should send two commands", () async {
-    //ARRANGE
     CommandStreamer commandStreamer = CommandStreamer();
     Stream<RotorCommand> cmdStream = commandStreamer.stream;
 
-    //ACT
     commandStreamer.stageCommand(_arbitraryCommandA);
     commandStreamer.execute();
     commandStreamer.stageCommand(_arbitraryCommandB);
     commandStreamer.execute();
 
-    //ASSERT
     await expectLater(
         cmdStream,
         emitsInOrder([

@@ -1,18 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mobileclient/rotor_utils.dart';
 import 'package:mobileclient/strings.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/ui/commonwidgets/bt_connection_dialog.dart';
 import 'package:mobileclient/ui/commonwidgets/device_row.dart';
 import 'package:mobileclient/ui/commonwidgets/notice.dart';
-import 'package:mobileclient/ui/vehiclemonitor/vehicle_monitor_page.dart';
 
 class DeviceListPageContent extends StatefulWidget {
   final FlutterBlue _flutterBlueInstance;
-
-  DeviceListPageContent(this._flutterBlueInstance);
+  DeviceListPageContent(this._flutterBlueInstance);//Constructor
 
   @override
   State<StatefulWidget> createState() {
@@ -21,51 +18,40 @@ class DeviceListPageContent extends StatefulWidget {
 }
 
 class DeviceListPageContentState extends State<DeviceListPageContent> {
-  //Members
   List<BluetoothDevice> _discoveredDevices = [];
-  bool _isBTSupported = true;
+  bool _isBluetoothAvailableForThisDevice = true;
   FlutterBlue _flutterBlue;
   BluetoothState _btState = BluetoothState.unknown;
   StreamSubscription<ScanResult> _btScanSubscription;
 
-  //GETTERS
   List<BluetoothDevice> get discoveredDevices => _discoveredDevices;
 
-  bool get bluetoothIsSupported => _isBTSupported;
-
   List<BluetoothDevice> get _compatibleDevices {
-    List<BluetoothDevice> result = [RotorUtils.simulatorDevice];
+    List<BluetoothDevice> result = [];
     result.addAll(_discoveredDevices);
     return result;
   }
 
-  //Constructor
   DeviceListPageContentState(this._flutterBlue);
 
   @override
   void initState() {
     super.initState();
-    _flutterBlue.isAvailable?.then((value) => onIsAvailableResult(value));
-    _flutterBlue.state?.then((v) {
-      _onBTStateChanged(v);
-    });
-    _flutterBlue.onStateChanged()?.listen((v) {
-      _onBTStateChanged(v);
-    });
+    _flutterBlue.isAvailable?.then((value) => _onIsAvailableResult(value));
+    _flutterBlue.state?.listen((btState) => updateBluetoothState(btState));
   }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetColumn = <Widget>[];
 
-    Notice headerNotice = buildListHeader(_btState);
-    if (!_isBTSupported) {
-      widgetColumn
-          .add(Notice(title: Strings.UI_BT_NOT_AVAILABLE, color: Colors.red));
-    } else if (headerNotice != null) {
-      widgetColumn.add(headerNotice);
-    } else if (_btState == BluetoothState.on) {
+    if (_btState == BluetoothState.on) {
       widgetColumn.add(LinearProgressIndicator());
+    }
+
+    var header = _buildListHeader();
+    if (header != null){
+      widgetColumn.add(header);
     }
     widgetColumn.add(Expanded(
         child: ListView.builder(
@@ -81,7 +67,6 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     );
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -89,7 +74,8 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
   } //========== Helpers below this line ==========
 
   Widget _buildRow(BuildContext context, int index) {
-    return DeviceRow(
+    return DeviceRow(  //Constructor
+
       deviceName: _compatibleDevices[index].name,
       mac: _compatibleDevices[index].id.id,
       onTap: () {
@@ -97,27 +83,23 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
 
         var deviceToConnectTo = _compatibleDevices[index];
 
-        if (deviceToConnectTo.id.id == RotorUtils.simulatorId) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (bc) =>
-                      VehicleMonitorPage(deviceToConnectTo, _flutterBlue)));
-        } else {
-          showDialog(
-              context: context,
-              barrierDismissible: true,
-              builder: (buildContext) =>
-                  BTConnectionDialog(deviceToConnectTo, _flutterBlue));
-        }
+        showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (buildContext) =>
+                BTConnectionDialog(deviceToConnectTo, _flutterBlue));
+
       },
     );
   }
 
-  Notice buildListHeader(BluetoothState state) {
-    String title = buildTitleFromBluetoothState(state);
-    if (title != null) {
-      return Notice(title: title, color: Colors.orange);
+  Notice _buildListHeader() {
+    if (!_isBluetoothAvailableForThisDevice){
+      return Notice(title: Strings.UI_BT_NOT_AVAILABLE, color: Colors.orange);
+    }
+    var noticeTitle = buildTitleFromBluetoothState(_btState);
+    if (noticeTitle != null) {
+      return Notice(title: noticeTitle, color: Colors.orange);
     }
     return null;
   }
@@ -132,15 +114,6 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     });
   }
 
-  void _onBTStateChanged(updatedState) {
-    setState(() {
-      updateBluetoothState(updatedState);
-      if (_btState != BluetoothState.on) {
-        _discoveredDevices.clear();
-      }
-    });
-  }
-
   @visibleForTesting
   void onScanResultReceived(ScanResult sr) {
     setState(() {
@@ -148,13 +121,11 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     });
   }
 
-  @visibleForTesting
   void updateBluetoothState(BluetoothState updatedState) {
-    _btState = updatedState;
+    setState( (){ _btState = updatedState; });
 
-    if (_btState == BluetoothState.on) {
-      _btScanSubscription =
-          _flutterBlue.scan()?.listen((result) => onScanResultReceived(result));
+    if (updatedState == BluetoothState.on) {
+      _flutterBlue.scan()?.listen((scanResult) => onScanResultReceived(scanResult));
     }
   }
 
@@ -176,10 +147,9 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     }
   }
 
-  @visibleForTesting
-  void onIsAvailableResult(bool result) {
+  void _onIsAvailableResult(bool result) {
     setState(() {
-      _isBTSupported = result;
+      _isBluetoothAvailableForThisDevice = result;
     });
   }
 

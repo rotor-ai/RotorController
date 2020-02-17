@@ -1,5 +1,5 @@
 container:
-  image: cirrusci/flutter:latest
+  image: cirrusci/flutter:v1.12.13-hotfix.5  #optionally, you can replace text after the colon with 'latest'
 
 test_task:
   pub_cache:

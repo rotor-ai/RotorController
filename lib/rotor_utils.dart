@@ -11,11 +11,4 @@ class RotorUtils {
   static const String GATT_SERVICE_UUID = "10101010-1234-5678-90ab-101010101010";
   static const String GATT_CHARACTERISTIC_UUID = "10101010-1234-5678-90ab-202020202020";
 
-  static final BluetoothDevice simulatorDevice = BluetoothDevice(
-      id: DeviceIdentifier(simulatorId),
-      name: Strings.UI_VEHICLE_SIMULATOR,
-      type: BluetoothDeviceType.unknown);
-
-  static final String simulatorId = "00:00:00:00:00:00";
-
 }

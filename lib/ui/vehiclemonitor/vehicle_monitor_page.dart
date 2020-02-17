@@ -1,37 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:mobileclient/data/vehicle_connection_info.dart';
 import 'package:mobileclient/ui/vehiclemonitor/vehicle_controls_page_content.dart';
 import 'package:mobileclient/ui/vehiclemonitor/vehicle_info_page_content.dart';
 import 'package:mobileclient/ui/vehiclemonitor/vehicle_metrics_page_content.dart';
 
 class VehicleMonitorPage extends StatefulWidget {
-  final BluetoothDevice _device;
-  final FlutterBlue _flutterBlue;
 
-  VehicleMonitorPage(this._device, this._flutterBlue);
+  BluetoothDevice _bluetoothDevice;
+  FlutterBlue _flutterBlue;
+
+  VehicleMonitorPage(this._bluetoothDevice, this._flutterBlue);
 
   @override
   State<StatefulWidget> createState() {
-    return VehicleMonitorPageState();
+    return VehicleMonitorPageState.using(this._bluetoothDevice, this._flutterBlue);
   }
 }
 
 class VehicleMonitorPageState extends State<VehicleMonitorPage> {
   int _currentPage = 1;
   
+  BluetoothDevice _device;
+  BluetoothDevice get device => _device;
+  FlutterBlue _flutterBlue;
+  FlutterBlue get flutterBlue => _flutterBlue;
+
+  VehicleMonitorPageState();
+  VehicleMonitorPageState.using(this._device, this._flutterBlue);
+
   VehicleControlsPageContent vehicleControlsPageContent;
 
   @override
   void initState() {
     super.initState();
-    vehicleControlsPageContent = VehicleControlsPageContent(this.widget._device, this.widget._flutterBlue);
+    vehicleControlsPageContent = VehicleControlsPageContent(this._device, this._flutterBlue);
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(this.widget._device.name),
+        title: Text(""),
       ),
       body: _buildMonitorPage(_currentPage),
       bottomNavigationBar: BottomNavigationBar(

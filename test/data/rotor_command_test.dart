@@ -14,14 +14,12 @@ void main() {
   });
 
   test("Should construct with specified values", () {
-    //ARRANGE
     var rotorCommand = RotorCommand(
         throttleVal: 10,
         headingVal: 20,
         throttleDir: ThrottleDirection.BACKWARD,
         headingDir: HeadingDirection.STARBOARD);
 
-    //ACT & ASSERT
     expect(rotorCommand.throttleVal, 10);
     expect(rotorCommand.headingVal, 20);
     expect(rotorCommand.throttleDir, ThrottleDirection.BACKWARD);
@@ -64,7 +62,6 @@ void main() {
 
   test("Should produce complete shorthand", () {
 
-    //ARRANGE
     var cmdA = RotorCommand(
       throttleDir: ThrottleDirection.FORWARD, 
       throttleVal: 77,
@@ -77,11 +74,9 @@ void main() {
       headingDir: HeadingDirection.STARBOARD,
       headingVal: 33);
     
-    //ACT
     var resultA = cmdA.toShorthand();
     var resultB = cmdB.toShorthand();
 
-    //ASSERT
     expect(resultA, 'F077 L055');
     expect(resultB, 'B100 R033');
 

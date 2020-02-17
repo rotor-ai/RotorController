@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/rotor_utils.dart';
 import 'package:mobileclient/data/rotor_command.dart';
-import 'package:mobileclient/ui/commonwidgets/notice.dart';
 
 class VehicleControlsPageContent extends StatefulWidget {
   final BluetoothDevice device;
@@ -14,53 +11,44 @@ class VehicleControlsPageContent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return VehicleControlsPageContentState();
+    return VehicleControlsPageContentState(this.device);
   }
 }
 
-class VehicleControlsPageContentState
-    extends State<VehicleControlsPageContent> {
-  BluetoothDeviceState _deviceState = BluetoothDeviceState.disconnected;
-  List<BluetoothService> services = [];
-  StreamSubscription<BluetoothDeviceState> btDeviceStateSub;
+class VehicleControlsPageContentState extends State<VehicleControlsPageContent> {
+  BluetoothDevice _device;
   List<String> eventLog = [];
   BluetoothService rotorBTService;
-  BluetoothCharacteristic rotorBTCharacteristic;
+
+  BluetoothDevice get device => this._device;
+
+  VehicleControlsPageContentState(this._device);
 
   @override
   void initState() {
     super.initState();
-    widget.device.state.then((v) {
-      setState(() {
-        _deviceState = v;
-      });
-    });
 
-    btDeviceStateSub = widget.device.onStateChanged()?.listen((updatedState) {
-      setState(() {
-        _deviceState = updatedState;
-      });
-    });
-
-    widget.device.discoverServices()?.then((result) {
-      rotorBTService = result.firstWhere((btService) =>
-          btService.uuid.toString() == RotorUtils.GATT_SERVICE_UUID);
-
-      if (rotorBTService != null) {
-        rotorBTCharacteristic = rotorBTService.characteristics.firstWhere(
-            (characteristic) =>
-                characteristic.uuid.toString() ==
-                RotorUtils.GATT_CHARACTERISTIC_UUID);
+    this._device.state.listen((newDeviceState) {
+      if (newDeviceState == BluetoothDeviceState.connected){
+        this.onDeviceConnected(this);
       }
     });
-
-    eventLog.add(RotorCommand().toShorthand());
   }
+
+  Function onDeviceConnected = (VehicleControlsPageContentState state) {
+    state
+      .device
+      .discoverServices()
+      .then((availableService) => state.onServicesReceived(state, availableService));
+  };
+
+  Function onServicesReceived = (VehicleControlsPageContentState state, List<BluetoothService> availableServices) {
+    state.rotorBTService = availableServices?.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID, orElse: () => null);
+  };
 
   @override
   void dispose() {
     super.dispose();
-    btDeviceStateSub?.cancel();
   }
 
   @override
@@ -68,7 +56,6 @@ class VehicleControlsPageContentState
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Notice(title: _deviceState.toString(), color: Colors.black),
           Expanded(
               child: Container(
                   color: Colors.black,
@@ -92,11 +79,11 @@ class VehicleControlsPageContentState
             _buildControlPanelButton(
                 "left",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.PORT, headingVal: 50))),
+                    executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.PORT, headingVal: 50))),
             _buildControlPanelButton(
                 "right",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.STARBOARD, headingVal: 50)))
+                    executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.STARBOARD, headingVal: 50)))
           ],
         ),
         Column(
@@ -105,12 +92,12 @@ class VehicleControlsPageContentState
             _buildControlPanelButton(
                 "GO!",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.FORWARD, headingDir: HeadingDirection.NEUTRAL, headingVal: 0)),
+                    executeCommand(RotorCommand(throttleVal: 20, throttleDir: ThrottleDirection.FORWARD, headingDir: HeadingDirection.NEUTRAL, headingVal: 0)),
                 colorOverride: Colors.green),
             _buildControlPanelButton(
                 "STOP!",
                 (pressingDown) =>
-                    _executeCommand(RotorCommand(throttleVal: 0, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.NEUTRAL, headingVal: 0)),
+                    executeCommand(RotorCommand(throttleVal: 0, throttleDir: ThrottleDirection.NEUTRAL, headingDir: HeadingDirection.NEUTRAL, headingVal: 0)),
                 colorOverride: Colors.red)
           ],
         )
@@ -129,17 +116,24 @@ class VehicleControlsPageContentState
           ),
           padding: EdgeInsets.all(4));
 
-  _executeCommand(RotorCommand rc) {
-    if (rotorBTCharacteristic != null) {
 
-      this
-          .widget
-          .device
-          .writeCharacteristic(rotorBTCharacteristic, rc.toShorthand().codeUnits);
+  Function changeState = (VehicleControlsPageContentState state, Function f) {
+    state.setState(() {
+      f();
+    });
+  };
 
-      setState(() {
-        eventLog.add(rc.toShorthand());
-      });
-    }
+  @visibleForTesting
+  executeCommand(RotorCommand rc) async {
+
+    await this
+      .rotorBTService
+      .characteristics
+      .firstWhere((c) => c.uuid.toString() == RotorUtils.GATT_CHARACTERISTIC_UUID, orElse: () => null)
+      ?.write(rc.toShorthand().codeUnits, withoutResponse: true);
+
+    changeState(this,() { eventLog.add(rc.toShorthand());});
+
   }
+
 }
