@@ -99,6 +99,7 @@ void main() {
     RotorCommand someCommand;
     int changeStateCalled;
     VehicleControlsPageContentState capturedState;
+    Function capturedSetStateFunction;
 
     setUp(() {
       randomCharacteristic = new MockBluetoothCharacteristic();
@@ -114,7 +115,9 @@ void main() {
       capturedState = null;
       testObj.changeState = (VehicleControlsPageContentState s, Function f) {
         capturedState = s;
+        capturedSetStateFunction = f;
         changeStateCalled++;
+        capturedSetStateFunction();
       };//changeState() is a proxy method for setState(), that can be faked for testing.
       // This allows us to test methods that would normally call setState(),
       // since flutter will throw an exception if a method under unit test calls setState().
@@ -136,6 +139,10 @@ void main() {
       expect(verify(rotorCharacteristic.write(
           captureAny, withoutResponse: captureAnyNamed("withoutResponse")))
           .captured, ["F012 L034".codeUnits, true]);
+      expect(changeStateCalled, 1);
+      expect(capturedState, testObj);
+      expect(capturedSetStateFunction, isA<Function>());
+      expect(testObj.eventLog.last, someCommand.toShorthand());
     });
 
     test("Should not try to write if no matching characteristics exist", () async {
@@ -144,6 +151,9 @@ void main() {
       testObj.rotorBTService = rotorService;
 
       await testObj.executeCommand(new RotorCommand());
+
+      //TODO: Ideally we would assert that changeState() was never called, but atm,
+      // we aren't verifying if the command was received by the vehicle or not
     });
 
   });

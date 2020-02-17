@@ -128,6 +128,8 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
       .firstWhere((c) => c.uuid.toString() == RotorUtils.GATT_CHARACTERISTIC_UUID, orElse: () => null)
       ?.write(rc.toShorthand().codeUnits, withoutResponse: true);
 
+    changeState(this,() { eventLog.add(rc.toShorthand());});
+
 //      setState(() {
 //        eventLog.add(rc.toShorthand());
 //      });
