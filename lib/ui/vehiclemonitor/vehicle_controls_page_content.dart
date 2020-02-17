@@ -117,14 +117,9 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
           padding: EdgeInsets.all(4));
 
   @visibleForTesting
-  executeCommand(RotorCommand rc) {
+  executeCommand(RotorCommand rc) async {
 
-      //TODO STU FIX THIS
-//      this
-//          .widget
-//          .device
-//          .writeCharacteristic(rotorBTCharacteristic, rc.toShorthand().codeUnits);
-    this
+    await this
       .rotorBTService
       .characteristics
       .firstWhere((c) => c.uuid.toString() == RotorUtils.GATT_CHARACTERISTIC_UUID, orElse: () => null)
