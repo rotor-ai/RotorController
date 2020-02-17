@@ -97,6 +97,8 @@ void main() {
     BluetoothCharacteristic rotorCharacteristic;
     BluetoothService rotorService;
     RotorCommand someCommand;
+    int changeStateCalled;
+    VehicleControlsPageContentState capturedState;
 
     setUp(() {
       randomCharacteristic = new MockBluetoothCharacteristic();
@@ -108,6 +110,15 @@ void main() {
       when(rotorCharacteristic.uuid).thenReturn(
           new Guid(RotorUtils.GATT_CHARACTERISTIC_UUID));
 
+      changeStateCalled = 0;
+      capturedState = null;
+      testObj.changeState = (VehicleControlsPageContentState s, Function f) {
+        capturedState = s;
+        changeStateCalled++;
+      };//changeState() is a proxy method for setState(), that can be faked for testing.
+      // This allows us to test methods that would normally call setState(),
+      // since flutter will throw an exception if a method under unit test calls setState().
+
       someCommand = RotorCommand(
           throttleDir: ThrottleDirection.FORWARD,
           throttleVal: 12,
@@ -116,23 +127,23 @@ void main() {
       );
     });
 
-    test("Should write command to characteristic", () {
+    test("Should write command to characteristic", () async {
       when(rotorService.characteristics).thenReturn([randomCharacteristic, rotorCharacteristic]);
       testObj.rotorBTService = rotorService; //seed a new service to our test obj
 
-      testObj.executeCommand(someCommand);
+      await testObj.executeCommand(someCommand);
 
       expect(verify(rotorCharacteristic.write(
           captureAny, withoutResponse: captureAnyNamed("withoutResponse")))
           .captured, ["F012 L034".codeUnits, true]);
     });
 
-    test("Should not try to write if no matching caracteristics exist", () {
+    test("Should not try to write if no matching characteristics exist", () async {
 
       when(rotorService.characteristics).thenReturn([randomCharacteristic]);
       testObj.rotorBTService = rotorService;
 
-      testObj.executeCommand(new RotorCommand());
+      await testObj.executeCommand(new RotorCommand());
     });
 
   });

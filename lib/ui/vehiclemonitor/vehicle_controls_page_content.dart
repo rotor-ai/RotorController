@@ -116,6 +116,9 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
           ),
           padding: EdgeInsets.all(4));
 
+
+  Function changeState;
+
   @visibleForTesting
   executeCommand(RotorCommand rc) async {
 
