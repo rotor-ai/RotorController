@@ -117,7 +117,11 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
           padding: EdgeInsets.all(4));
 
 
-  Function changeState;
+  Function changeState = (VehicleControlsPageContentState state, Function f) {
+    state.setState(() {
+      f();
+    });
+  };
 
   @visibleForTesting
   executeCommand(RotorCommand rc) async {
@@ -129,10 +133,6 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
       ?.write(rc.toShorthand().codeUnits, withoutResponse: true);
 
     changeState(this,() { eventLog.add(rc.toShorthand());});
-
-//      setState(() {
-//        eventLog.add(rc.toShorthand());
-//      });
 
   }
 
