@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobileclient/ui/devicelist/page_device_list.dart';
 import 'package:mobileclient/strings.dart';
 
@@ -15,13 +16,7 @@ class SubpageWelcomeState extends State<SubpageWelcome> {
     return Center(
         child: Column(
       children: <Widget>[
-        Padding(
-          child: Text(
-            Strings.APP_TITLE,
-            textScaleFactor: 3.0,
-          ),
-          padding: EdgeInsets.only(top: 0.0, bottom: 16.0),
-        ),
+        ConstrainedBox(constraints: BoxConstraints(maxHeight: 80), child: SvgPicture.asset('resources/images/logo-words-dark.svg')),
         RaisedButton(
           child: Text(Strings.UI_CONNECT_TO_VEHICLE),
           onPressed: () {

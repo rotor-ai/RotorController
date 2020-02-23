@@ -8,8 +8,8 @@ import 'data/vehicle_connection_info.dart';
 import 'ui/vehiclemonitor/page_monitor.dart';
 
 void main() {
-  debugPaintSizeEnabled = false;
-  debugPaintBaselinesEnabled = false;
+  debugPaintSizeEnabled         = false;
+  debugPaintBaselinesEnabled    = false;
   debugPaintLayerBordersEnabled = false;
 
   runApp(RotorApp());
