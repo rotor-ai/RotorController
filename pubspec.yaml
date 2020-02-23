@@ -1,5 +1,5 @@
 name: mobileclient
-description: A client app for communicating with the vehicle
+description: A remote control app for communicating with the vehicle
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
