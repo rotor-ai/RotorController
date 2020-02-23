@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/data/vehicle_connection_info.dart';
 import 'package:mobileclient/ui/vehiclemonitor/controls_subpage.dart';
-import 'package:mobileclient/ui/vehiclemonitor/vehicle_info_page_content.dart';
-import 'package:mobileclient/ui/vehiclemonitor/vehicle_metrics_page_content.dart';
+import 'package:mobileclient/ui/vehiclemonitor/info_subpage.dart';
+import 'package:mobileclient/ui/vehiclemonitor/metrics_subpage.dart';
 
 class MonitorPage extends StatefulWidget {
 
@@ -67,13 +67,13 @@ class MonitorPageState extends State<MonitorPage> {
   Widget _buildMonitorPage(int index) {
     switch(index){
       case 0:
-        return VehicleMetricsPageContent();
+        return MetricsSubpage();
         break;
       case 1:
         return vehicleControlsPageContent;
         break;
       case 2:
-        return VehicleInfoPageContent();
+        return InfoSubpage();
         break;
     }
   }

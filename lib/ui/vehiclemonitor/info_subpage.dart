@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class VehicleInfoPageContent extends StatelessWidget {
+class InfoSubpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
