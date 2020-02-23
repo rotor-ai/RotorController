@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobileclient/ui/devicelist/device_list_page.dart';
+import 'package:mobileclient/ui/devicelist/page_device_list.dart';
 import 'package:mobileclient/strings.dart';
 
 class SubpageWelcome extends StatefulWidget {
@@ -27,7 +27,7 @@ class SubpageWelcomeState extends State<SubpageWelcome> {
           onPressed: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (BuildContext c) {
-              return DeviceListPage();
+              return PageDeviceList();
             }));
           },
         ),

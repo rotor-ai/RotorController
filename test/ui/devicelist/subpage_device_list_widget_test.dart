@@ -5,7 +5,7 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobileclient/strings.dart';
 import 'package:mobileclient/ui/commonwidgets/notice.dart';
-import 'package:mobileclient/ui/devicelist/device_list_page_content.dart';
+import 'package:mobileclient/ui/devicelist/subpage_device_list.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../mocks/rotor_mocks.dart';
@@ -34,7 +34,7 @@ void main() {
         when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(false));
 
         //ACT
-        var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+        var deviceListPageContent = SubpageDeviceList(mockFlutterBlue);
         await tester.pumpWidget(MaterialApp(
         home: Scaffold(
       body: deviceListPageContent,
@@ -51,7 +51,7 @@ void main() {
         when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
         when(mockFlutterBlue.state).thenAnswer((invocation) => _buildStreamFromBTState(BluetoothState.on));
 
-        var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+        var deviceListPageContent = SubpageDeviceList(mockFlutterBlue);
         await tester.pumpWidget(MaterialApp(
             home: Scaffold(
               body: deviceListPageContent,
@@ -66,7 +66,7 @@ void main() {
     when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
     when(mockFlutterBlue.state).thenAnswer((invocation) => _buildStreamFromBTState(BluetoothState.off));
 
-    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    var deviceListPageContent = SubpageDeviceList(mockFlutterBlue);
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
       body: deviceListPageContent,
@@ -83,7 +83,7 @@ void main() {
     when(mockFlutterBlue.state)
         .thenAnswer((_) => _buildStreamFromBTState(BluetoothState.unauthorized));
 
-    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    var deviceListPageContent = SubpageDeviceList(mockFlutterBlue);
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
       body: deviceListPageContent,
@@ -101,7 +101,7 @@ void main() {
     when(mockFlutterBlue.state)
         .thenAnswer((_) => streamController.stream);
 
-    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    var deviceListPageContent = SubpageDeviceList(mockFlutterBlue);
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
       body: deviceListPageContent,
@@ -121,7 +121,7 @@ void main() {
     when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
     when(mockFlutterBlue.state).thenAnswer((invocation) => _buildStreamFromBTState(BluetoothState.on));
 
-    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    var deviceListPageContent = SubpageDeviceList(mockFlutterBlue);
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: deviceListPageContent,
@@ -139,7 +139,7 @@ void main() {
         when(mockFlutterBlue.isAvailable).thenAnswer((_) => new Future.value(true));
         when(mockFlutterBlue.state).thenAnswer((invocation) => _buildStreamFromBTState(bt));
 
-        var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+        var deviceListPageContent = SubpageDeviceList(mockFlutterBlue);
         await tester.pumpWidget(MaterialApp(
             home: Scaffold(
               body: deviceListPageContent,
@@ -162,7 +162,7 @@ void main() {
     when(mockFlutterBlue.scan()).thenAnswer(
         (_) => Stream.fromFuture(Future.value(ScanResult(device: device))));
 
-    var deviceListPageContent = DeviceListPageContent(mockFlutterBlue);
+    var deviceListPageContent = SubpageDeviceList(mockFlutterBlue);
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
       body: deviceListPageContent,
@@ -218,7 +218,7 @@ void main() {
     //ACT
     await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-          body: DeviceListPageContent(mockFlutterBlue),
+          body: SubpageDeviceList(mockFlutterBlue),
         )));
 
     //ASSERT

@@ -7,17 +7,17 @@ import 'package:mobileclient/ui/commonwidgets/bt_connection_dialog.dart';
 import 'package:mobileclient/ui/commonwidgets/device_row.dart';
 import 'package:mobileclient/ui/commonwidgets/notice.dart';
 
-class DeviceListPageContent extends StatefulWidget {
+class SubpageDeviceList extends StatefulWidget {
   final FlutterBlue _flutterBlueInstance;
-  DeviceListPageContent(this._flutterBlueInstance);//Constructor
+  SubpageDeviceList(this._flutterBlueInstance);//Constructor
 
   @override
   State<StatefulWidget> createState() {
-    return DeviceListPageContentState(_flutterBlueInstance);
+    return SubpageDeviceListState(_flutterBlueInstance);
   }
 }
 
-class DeviceListPageContentState extends State<DeviceListPageContent> {
+class SubpageDeviceListState extends State<SubpageDeviceList> {
   List<BluetoothDevice> _discoveredDevices = [];
   bool _isBluetoothAvailableForThisDevice = true;
   FlutterBlue _flutterBlue;
@@ -32,7 +32,7 @@ class DeviceListPageContentState extends State<DeviceListPageContent> {
     return result;
   }
 
-  DeviceListPageContentState(this._flutterBlue);
+  SubpageDeviceListState(this._flutterBlue);
 
   @override
   void initState() {

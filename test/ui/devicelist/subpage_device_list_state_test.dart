@@ -2,7 +2,7 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobileclient/strings.dart';
 import 'package:mockito/mockito.dart';
-import 'package:mobileclient/ui/devicelist/device_list_page_content.dart';
+import 'package:mobileclient/ui/devicelist/subpage_device_list.dart';
 
 import '../../mocks/rotor_mocks.dart';
 
@@ -13,7 +13,7 @@ void main() {
     var scanResultA = ScanResult(device: buildMockDevice("", "00:00:00:00:00:00"), advertisementData: null, rssi: 0);
     var scanResultB = ScanResult(device: buildMockDevice(null, "11:11:11:11:11:11"), advertisementData: null, rssi: 0);
 
-    var state = DeviceListPageContentState(mockFlutterBlue);
+    var state = SubpageDeviceListState(mockFlutterBlue);
     List<BluetoothDevice> initList = [];
     List<BluetoothDevice> updatedDiscoveryList = state.updatedDeviceList(initList, scanResultA);
     updatedDiscoveryList = state.updatedDeviceList(updatedDiscoveryList, scanResultB);
@@ -29,7 +29,7 @@ void main() {
     var scanResultB =
         ScanResult(device: buildMockDevice("DeviceBravo", "00:00:00:00:00:00"), advertisementData: null, rssi: 1);
 
-    var state = DeviceListPageContentState(mockFlutterBlue);
+    var state = SubpageDeviceListState(mockFlutterBlue);
     List<BluetoothDevice> initialList = [];
     List<BluetoothDevice> updatedDeviceList = state.updatedDeviceList(initialList, scanResultA);
     updatedDeviceList = state.updatedDeviceList(updatedDeviceList, scanResultB);
@@ -42,7 +42,7 @@ void main() {
 
   test("Should return appropriate title based on BT state", () {
     var mockFlutterBlue = MockFlutterBlue();
-    var state = DeviceListPageContentState(mockFlutterBlue);
+    var state = SubpageDeviceListState(mockFlutterBlue);
 
     expect(state.buildTitleFromBluetoothState(BluetoothState.unknown), isNull);
     expect(state.buildTitleFromBluetoothState(BluetoothState.unavailable), Strings.UI_BT_NOT_AVAILABLE);
