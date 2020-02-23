@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mobileclient/strings.dart';
-import 'package:mobileclient/ui/welcome/welcome_page.dart';
+import 'package:mobileclient/ui/welcome/page_welcome.dart';
 import 'package:mobileclient/rotor_utils.dart';
 
 import 'data/vehicle_connection_info.dart';

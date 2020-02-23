@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mobileclient/ui/devicelist/device_list_page.dart';
 import 'package:mobileclient/strings.dart';
 
-class WelcomePageContent extends StatefulWidget {
+class SubpageWelcome extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return WelcomePageContentState();
+    return SubpageWelcomeState();
   }
 }
 
-class WelcomePageContentState extends State<WelcomePageContent> {
+class SubpageWelcomeState extends State<SubpageWelcome> {
   @override
   Widget build(BuildContext context) {
     return Center(

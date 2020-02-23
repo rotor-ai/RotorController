@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobileclient/main.dart';
 import 'package:mobileclient/strings.dart';
-import 'package:mobileclient/ui/welcome/welcome_page.dart';
+import 'package:mobileclient/ui/welcome/page_welcome.dart';
 
 void main() {
 
