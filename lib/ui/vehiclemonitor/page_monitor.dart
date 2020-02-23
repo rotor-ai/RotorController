@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/data/vehicle_connection_info.dart';
-import 'package:mobileclient/ui/vehiclemonitor/controls_subpage.dart';
-import 'package:mobileclient/ui/vehiclemonitor/info_subpage.dart';
-import 'package:mobileclient/ui/vehiclemonitor/metrics_subpage.dart';
+import 'package:mobileclient/ui/vehiclemonitor/subpage_controls.dart';
+import 'package:mobileclient/ui/vehiclemonitor/subpage_info.dart';
+import 'package:mobileclient/ui/vehiclemonitor/subpage_metrics.dart';
 
-class MonitorPage extends StatefulWidget {
+class PageMonitor extends StatefulWidget {
 
   BluetoothDevice _bluetoothDevice;
   FlutterBlue _flutterBlue;
 
-  MonitorPage(this._bluetoothDevice, this._flutterBlue);
+  PageMonitor(this._bluetoothDevice, this._flutterBlue);
 
   @override
   State<StatefulWidget> createState() {
-    return MonitorPageState.using(this._bluetoothDevice, this._flutterBlue);
+    return PageMonitorState.using(this._bluetoothDevice, this._flutterBlue);
   }
 }
 
-class MonitorPageState extends State<MonitorPage> {
+class PageMonitorState extends State<PageMonitor> {
   int _currentPage = 1;
   
   BluetoothDevice _device;
@@ -26,15 +26,15 @@ class MonitorPageState extends State<MonitorPage> {
   FlutterBlue _flutterBlue;
   FlutterBlue get flutterBlue => _flutterBlue;
 
-  MonitorPageState();
-  MonitorPageState.using(this._device, this._flutterBlue);
+  PageMonitorState();
+  PageMonitorState.using(this._device, this._flutterBlue);
 
-  ControlsSubpage vehicleControlsPageContent;
+  SubpageControls vehicleControlsPageContent;
 
   @override
   void initState() {
     super.initState();
-    vehicleControlsPageContent = ControlsSubpage(this._device, this._flutterBlue);
+    vehicleControlsPageContent = SubpageControls(this._device, this._flutterBlue);
   }
 
   @override
@@ -67,13 +67,13 @@ class MonitorPageState extends State<MonitorPage> {
   Widget _buildMonitorPage(int index) {
     switch(index){
       case 0:
-        return MetricsSubpage();
+        return SubpageMetrics();
         break;
       case 1:
         return vehicleControlsPageContent;
         break;
       case 2:
-        return InfoSubpage();
+        return SubpageInfo();
         break;
     }
   }

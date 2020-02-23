@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class InfoSubpage extends StatelessWidget {
+class SubpageInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(

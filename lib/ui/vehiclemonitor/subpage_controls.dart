@@ -3,26 +3,26 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/rotor_utils.dart';
 import 'package:mobileclient/data/rotor_command.dart';
 
-class ControlsSubpage extends StatefulWidget {
+class SubpageControls extends StatefulWidget {
   final BluetoothDevice device;
   final FlutterBlue flutterBlue;
 
-  ControlsSubpage(this.device, this.flutterBlue);
+  SubpageControls(this.device, this.flutterBlue);
 
   @override
   State<StatefulWidget> createState() {
-    return ControlsSubpageState(this.device);
+    return SubpageControlsState(this.device);
   }
 }
 
-class ControlsSubpageState extends State<ControlsSubpage> {
+class SubpageControlsState extends State<SubpageControls> {
   BluetoothDevice _device;
   List<String> eventLog = [];
   BluetoothService rotorBTService;
 
   BluetoothDevice get device => this._device;
 
-  ControlsSubpageState(this._device);
+  SubpageControlsState(this._device);
 
   @override
   void initState() {
@@ -35,14 +35,14 @@ class ControlsSubpageState extends State<ControlsSubpage> {
     });
   }
 
-  Function onDeviceConnected = (ControlsSubpageState state) {
+  Function onDeviceConnected = (SubpageControlsState state) {
     state
       .device
       .discoverServices()
       .then((availableService) => state.onServicesReceived(state, availableService));
   };
 
-  Function onServicesReceived = (ControlsSubpageState state, List<BluetoothService> availableServices) {
+  Function onServicesReceived = (SubpageControlsState state, List<BluetoothService> availableServices) {
     state.rotorBTService = availableServices?.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID, orElse: () => null);
   };
 
@@ -117,7 +117,7 @@ class ControlsSubpageState extends State<ControlsSubpage> {
           padding: EdgeInsets.all(4));
 
 
-  Function changeState = (ControlsSubpageState state, Function f) {
+  Function changeState = (SubpageControlsState state, Function f) {
     state.setState(() {
       f();
     });
