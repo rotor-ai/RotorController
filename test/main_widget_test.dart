@@ -25,4 +25,8 @@ void main() {
     expect(materialApp.routes.containsKey('VehicleMonitor'), true);
   });
 
+  test('testing cirrusci badge', () {
+    expect(true, false);
+  });
+
 }
