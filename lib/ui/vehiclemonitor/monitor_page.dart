@@ -5,20 +5,20 @@ import 'package:mobileclient/ui/vehiclemonitor/vehicle_controls_page_content.dar
 import 'package:mobileclient/ui/vehiclemonitor/vehicle_info_page_content.dart';
 import 'package:mobileclient/ui/vehiclemonitor/vehicle_metrics_page_content.dart';
 
-class VehicleMonitorPage extends StatefulWidget {
+class MonitorPage extends StatefulWidget {
 
   BluetoothDevice _bluetoothDevice;
   FlutterBlue _flutterBlue;
 
-  VehicleMonitorPage(this._bluetoothDevice, this._flutterBlue);
+  MonitorPage(this._bluetoothDevice, this._flutterBlue);
 
   @override
   State<StatefulWidget> createState() {
-    return VehicleMonitorPageState.using(this._bluetoothDevice, this._flutterBlue);
+    return MonitorPageState.using(this._bluetoothDevice, this._flutterBlue);
   }
 }
 
-class VehicleMonitorPageState extends State<VehicleMonitorPage> {
+class MonitorPageState extends State<MonitorPage> {
   int _currentPage = 1;
   
   BluetoothDevice _device;
@@ -26,8 +26,8 @@ class VehicleMonitorPageState extends State<VehicleMonitorPage> {
   FlutterBlue _flutterBlue;
   FlutterBlue get flutterBlue => _flutterBlue;
 
-  VehicleMonitorPageState();
-  VehicleMonitorPageState.using(this._device, this._flutterBlue);
+  MonitorPageState();
+  MonitorPageState.using(this._device, this._flutterBlue);
 
   VehicleControlsPageContent vehicleControlsPageContent;
 
