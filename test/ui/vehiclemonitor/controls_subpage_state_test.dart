@@ -4,7 +4,7 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobileclient/data/rotor_command.dart';
 import 'package:mobileclient/rotor_utils.dart';
-import 'package:mobileclient/ui/vehiclemonitor/vehicle_controls_page_content.dart';
+import 'package:mobileclient/ui/vehiclemonitor/controls_subpage.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../mocks/rotor_mocks.dart';
@@ -13,11 +13,11 @@ void main() {
 
 
   MockBluetoothDevice mockDevice;
-  VehicleControlsPageContentState testObj;
+  ControlsSubpageState testObj;
 
   setUp(() {
     mockDevice = new MockBluetoothDevice();
-    testObj = new VehicleControlsPageContentState(mockDevice);
+    testObj = new ControlsSubpageState(mockDevice);
   });
 
   group("initState", () {
@@ -26,7 +26,7 @@ void main() {
       var streamController = StreamController<BluetoothDeviceState>();
       streamController.add(BluetoothDeviceState.disconnected);
       when(mockDevice.state).thenAnswer((_) => streamController.stream);
-      testObj.onDeviceConnected = expectAsync1<void, VehicleControlsPageContentState>(testObj.onDeviceConnected, count:0);
+      testObj.onDeviceConnected = expectAsync1<void, ControlsSubpageState>(testObj.onDeviceConnected, count:0);
 
       testObj.initState();
 
@@ -38,7 +38,7 @@ void main() {
       var streamController = StreamController<BluetoothDeviceState>();
       streamController.add(BluetoothDeviceState.disconnected);
       when(mockDevice.state).thenAnswer((_) => streamController.stream);
-      testObj.onDeviceConnected = expectAsync1<void, VehicleControlsPageContentState>((VehicleControlsPageContentState state) => expect(testObj, same(state)), count:1);
+      testObj.onDeviceConnected = expectAsync1<void, ControlsSubpageState>((ControlsSubpageState state) => expect(testObj, same(state)), count:1);
 
       testObj.initState();
 
@@ -48,8 +48,8 @@ void main() {
     test("Should call onServicesRecieved when device responds with services", () async {
       var someServices = new List<BluetoothService>();
       when(mockDevice.discoverServices()).thenAnswer((_) => new Future.value(someServices));
-      testObj.onServicesReceived = expectAsync2<void, VehicleControlsPageContentState, List<BluetoothService>>(
-        (VehicleControlsPageContentState capturedState, List<BluetoothService> capturedServices) {
+      testObj.onServicesReceived = expectAsync2<void, ControlsSubpageState, List<BluetoothService>>(
+        (ControlsSubpageState capturedState, List<BluetoothService> capturedServices) {
           expect(capturedState,     same(testObj));
           expect(capturedServices,  same(someServices));
         }, count:1);
@@ -98,7 +98,7 @@ void main() {
     BluetoothService rotorService;
     RotorCommand someCommand;
     int changeStateCalled;
-    VehicleControlsPageContentState capturedState;
+    ControlsSubpageState capturedState;
     Function capturedSetStateFunction;
 
     setUp(() {
@@ -113,7 +113,7 @@ void main() {
 
       changeStateCalled = 0;
       capturedState = null;
-      testObj.changeState = (VehicleControlsPageContentState s, Function f) {
+      testObj.changeState = (ControlsSubpageState s, Function f) {
         capturedState = s;
         capturedSetStateFunction = f;
         changeStateCalled++;

@@ -3,26 +3,26 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/rotor_utils.dart';
 import 'package:mobileclient/data/rotor_command.dart';
 
-class VehicleControlsPageContent extends StatefulWidget {
+class ControlsSubpage extends StatefulWidget {
   final BluetoothDevice device;
   final FlutterBlue flutterBlue;
 
-  VehicleControlsPageContent(this.device, this.flutterBlue);
+  ControlsSubpage(this.device, this.flutterBlue);
 
   @override
   State<StatefulWidget> createState() {
-    return VehicleControlsPageContentState(this.device);
+    return ControlsSubpageState(this.device);
   }
 }
 
-class VehicleControlsPageContentState extends State<VehicleControlsPageContent> {
+class ControlsSubpageState extends State<ControlsSubpage> {
   BluetoothDevice _device;
   List<String> eventLog = [];
   BluetoothService rotorBTService;
 
   BluetoothDevice get device => this._device;
 
-  VehicleControlsPageContentState(this._device);
+  ControlsSubpageState(this._device);
 
   @override
   void initState() {
@@ -35,14 +35,14 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
     });
   }
 
-  Function onDeviceConnected = (VehicleControlsPageContentState state) {
+  Function onDeviceConnected = (ControlsSubpageState state) {
     state
       .device
       .discoverServices()
       .then((availableService) => state.onServicesReceived(state, availableService));
   };
 
-  Function onServicesReceived = (VehicleControlsPageContentState state, List<BluetoothService> availableServices) {
+  Function onServicesReceived = (ControlsSubpageState state, List<BluetoothService> availableServices) {
     state.rotorBTService = availableServices?.firstWhere((item) => item.uuid.toString() == RotorUtils.GATT_SERVICE_UUID, orElse: () => null);
   };
 
@@ -117,7 +117,7 @@ class VehicleControlsPageContentState extends State<VehicleControlsPageContent> 
           padding: EdgeInsets.all(4));
 
 
-  Function changeState = (VehicleControlsPageContentState state, Function f) {
+  Function changeState = (ControlsSubpageState state, Function f) {
     state.setState(() {
       f();
     });

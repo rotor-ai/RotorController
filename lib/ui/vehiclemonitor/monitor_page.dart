@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:mobileclient/data/vehicle_connection_info.dart';
-import 'package:mobileclient/ui/vehiclemonitor/vehicle_controls_page_content.dart';
+import 'package:mobileclient/ui/vehiclemonitor/controls_subpage.dart';
 import 'package:mobileclient/ui/vehiclemonitor/vehicle_info_page_content.dart';
 import 'package:mobileclient/ui/vehiclemonitor/vehicle_metrics_page_content.dart';
 
@@ -29,12 +29,12 @@ class MonitorPageState extends State<MonitorPage> {
   MonitorPageState();
   MonitorPageState.using(this._device, this._flutterBlue);
 
-  VehicleControlsPageContent vehicleControlsPageContent;
+  ControlsSubpage vehicleControlsPageContent;
 
   @override
   void initState() {
     super.initState();
-    vehicleControlsPageContent = VehicleControlsPageContent(this._device, this._flutterBlue);
+    vehicleControlsPageContent = ControlsSubpage(this._device, this._flutterBlue);
   }
 
   @override
