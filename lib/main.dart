@@ -8,9 +8,9 @@ import 'data/vehicle_connection_info.dart';
 import 'ui/vehiclemonitor/page_monitor.dart';
 
 void main() {
-  debugPaintSizeEnabled         = false;
-  debugPaintBaselinesEnabled    = false;
-  debugPaintLayerBordersEnabled = false;
+  debugPaintSizeEnabled         = true;
+  debugPaintBaselinesEnabled    = true;
+  debugPaintLayerBordersEnabled = true;
 
   runApp(RotorApp());
 }

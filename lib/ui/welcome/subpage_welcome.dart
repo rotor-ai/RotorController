@@ -13,21 +13,25 @@ class SubpageWelcome extends StatefulWidget {
 class SubpageWelcomeState extends State<SubpageWelcome> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-      children: <Widget>[
-        ConstrainedBox(constraints: BoxConstraints(maxHeight: 80), child: SvgPicture.asset('resources/images/logo-words-dark.svg')),
-        RaisedButton(
-          child: Text(Strings.UI_CONNECT_TO_VEHICLE),
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (BuildContext c) {
-              return PageDeviceList();
-            }));
-          },
-        ),
-      ],
+    return _mainMenu();
+  }
+
+  Widget _mainMenu() {
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-    ));
+      children: <Widget>[
+      ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: 80),
+          child: SvgPicture.asset('resources/images/logo-words-dark.svg')),
+      RaisedButton(
+        child: Text(Strings.UI_CONNECT_TO_VEHICLE),
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (BuildContext c) {
+            return PageDeviceList();
+          }));
+        },
+      )
+    ]);
   }
 }
