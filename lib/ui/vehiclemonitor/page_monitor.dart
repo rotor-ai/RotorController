@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:mobileclient/data/vehicle_connection_info.dart';
 import 'package:mobileclient/ui/vehiclemonitor/subpage_controls.dart';
 import 'package:mobileclient/ui/vehiclemonitor/subpage_info.dart';
 import 'package:mobileclient/ui/vehiclemonitor/subpage_metrics.dart';
