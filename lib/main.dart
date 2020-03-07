@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mobileclient/strings.dart';
+import 'package:mobileclient/ui/about/page_about.dart';
 import 'package:mobileclient/ui/welcome/page_welcome.dart';
 import 'package:mobileclient/rotor_utils.dart';
 
@@ -8,9 +9,9 @@ import 'data/vehicle_connection_info.dart';
 import 'ui/vehiclemonitor/page_monitor.dart';
 
 void main() {
-  debugPaintSizeEnabled         = true;
-  debugPaintBaselinesEnabled    = true;
-  debugPaintLayerBordersEnabled = true;
+  debugPaintSizeEnabled         = false;
+  debugPaintBaselinesEnabled    = false;
+  debugPaintLayerBordersEnabled = false;
 
   runApp(RotorApp());
 }
@@ -58,11 +59,16 @@ class RotorApp extends StatelessWidget {
         theme: _rotorAppTheme, 
         title: Strings.APP_TITLE,
         home: WelcomePage(), 
-        routes: {'VehicleMonitor': (context) {
+        routes: {
+          'VehicleMonitor': (context) {
 
-          VehicleConnectionInfo info = ModalRoute.of(context).settings.arguments as VehicleConnectionInfo;
+            VehicleConnectionInfo info = ModalRoute.of(context).settings.arguments as VehicleConnectionInfo;
 
-          return PageMonitor(info.device, info.flutterBlue);
-        }});
+            return PageMonitor(info.device, info.flutterBlue);
+          },
+          'About': (context) {
+            return PageAbout();
+          }
+        });
   }
 }

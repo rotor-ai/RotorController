@@ -26,8 +26,7 @@ class SubpageWelcomeState extends State<SubpageWelcome> {
       RaisedButton(
         child: Text(Strings.UI_CONNECT_TO_VEHICLE),
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (BuildContext c) {
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext c) {
             return PageDeviceList();
           }));
         },

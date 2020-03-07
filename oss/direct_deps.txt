@@ -1,0 +1,17 @@
+Dart SDK 2.7.0
+Flutter SDK 1.12.13+hotfix.5
+mobileclient 0.2.0
+|-- flutter 0.0.0
+    BSD 3 clause
+|-- flutter_blue 0.6.3+1
+    BSD 3 clause
+|-- flutter_svg 0.17.1
+    MIT
+|-- flutter_test 0.0.0
+    ?
+|-- intl 0.15.7
+    BSD 3 clause
+|-- mockito 4.0.0
+    Apache 2.0
+'-- url_launcher 5.4.2
+    BSD 3 clause

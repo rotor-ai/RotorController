@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobileclient/ui/about/page_about.dart';
+import 'package:mobileclient/ui/devicelist/page_device_list.dart';
 import 'package:mobileclient/ui/welcome/subpage_welcome.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,7 +11,9 @@ class WelcomePage extends StatelessWidget {
       body: SubpageWelcome(),
       bottomSheet: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [_buildHyperLinkButton("View on GitHub", "https://github.com/rotor-ai/RotorController")])
+        children: [
+          FlatButton(child: Text("About"), onPressed: () => Navigator.pushNamed(context, 'About'))
+          ])
         );
   }
 
