@@ -1,5 +1,6 @@
 class Strings {
   static const String APP_TITLE = 'rotor.ai';
+  static const String TAG_LINE = 'Open Source Autonomous Driving Project';
   static const String UI_BT_NOT_AVAILABLE = 'Device does not support Bluetooth';
   static const String UI_BT_RADIO_IS_OFF = 'Bluetooth is currently off';
   static const String UI_BT_NOT_AUTHORIZED = 'Please enable bluetooth permissions';
