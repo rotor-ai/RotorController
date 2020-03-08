@@ -56,6 +56,16 @@
             }
         },
         {
+            "dependencyName": "package_info",
+            "dependencyVersion": "0.4.0+14",
+            "url": "https://pub.dev/packages/package_info/versions/0.4.0+14",
+            "license": {
+                "type": "BSD 3-Clause",
+                "headerText": "",
+                "licenseFile": "package_info_license.txt"
+            }
+        },
+        {
             "dependencyName": "url_launcher",
             "dependencyVersion": "5.4.2",
             "url": "https://pub.dev/packages/url_launcher/versions/5.4.2",
