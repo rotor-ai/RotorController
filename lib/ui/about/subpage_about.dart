@@ -17,9 +17,11 @@ class SubpageAboutState extends State<SubpageAbout> {
 
   SubpageAboutState(this.packageInfoPromise);
 
+  get info => this.packageInfo==null ? '' : 'version: ${this.packageInfo.version} (build ${this.packageInfo.buildNumber})';
 
   @override
   void initState() {
+    super.initState();
     packageInfoPromise.then((v) => changeState(this, () => {packageInfo = v}));
   }
 
@@ -39,7 +41,7 @@ class SubpageAboutState extends State<SubpageAbout> {
             Text(Strings.TAG_LINE),
             Padding(
                 padding: EdgeInsets.only(top: 8, bottom: 8),
-                child:Text('version:${this.packageInfo.version} (build ${this.packageInfo.buildNumber})', textAlign: TextAlign.center,)
+                child:Text(this.info, textAlign: TextAlign.center,)
             )
           ])),
       Expanded(child: DependencyListView())
